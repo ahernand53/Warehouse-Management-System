@@ -113,3 +113,13 @@ public class CreateLocationViewModel
     public bool IsReceivable { get; set; } = true;
     public int Capacity { get; set; } = 0;
 }
+
+public class EditLocationViewModel
+{
+    public int Id { get; set; }
+    public string Code { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public bool IsPickable { get; set; } = true;
+    public bool IsReceivable { get; set; } = true;
+    public int Capacity { get; set; } = 0;
+}

@@ -40,6 +40,7 @@ public class Program
         builder.Services.AddScoped<IUpdateItemUseCase, UpdateItemUseCase>();
         builder.Services.AddScoped<IGetLocationsUseCase, GetLocationsUseCase>();
         builder.Services.AddScoped<ICreateLocationUseCase, CreateLocationUseCase>();
+        builder.Services.AddScoped<IUpdateLocationUseCase, UpdateLocationUseCase>();
         builder.Services.AddScoped<IReceiveItemUseCase, ReceiveItemUseCase>();
         builder.Services.AddScoped<IPutawayUseCase, PutawayUseCase>();
         builder.Services.AddScoped<IPickOrderUseCase, PickOrderUseCase>();

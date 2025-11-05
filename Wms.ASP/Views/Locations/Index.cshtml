@@ -128,9 +128,10 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-outline-primary" title="Editar Ubicación">
+                                    <a href="/Locations/Edit/@location.Id" 
+                                       class="btn btn-outline-primary" title="Editar Ubicación">
                                         <i class="bi bi-pencil"></i>
-                                    </button>
+                                    </a>
                                     <a asp-controller="Inventory" asp-action="Index" asp-route-searchTerm="@location.Code"
                                        class="btn btn-outline-info" title="Ver Inventario">
                                         <i class="bi bi-stack"></i>
