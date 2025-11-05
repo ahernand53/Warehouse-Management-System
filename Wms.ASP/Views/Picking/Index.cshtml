@@ -1,12 +1,12 @@
 @model PickingViewModel
 @{
-    ViewData["Title"] = "Picking Operations";
+    ViewData["Title"] = "Operaciones de Picking";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">
         <i class="bi bi-box-arrow-up me-2 text-primary"></i>
-        Picking Operations
+        Operaciones de Picking
     </h2>
 </div>
 
@@ -16,7 +16,7 @@
             <div class="card-header bg-primary bg-opacity-10 border-bottom">
                 <h5 class="card-title mb-0 text-primary">
                     <i class="bi bi-box-arrow-up me-2"></i>
-                    Pick Items for Orders
+                    Seleccionar Artículos para Pedidos
                 </h5>
             </div>
             <div class="card-body">
@@ -24,31 +24,31 @@
                     <div class="row g-3">
                         <!-- Order Information -->
                         <div class="col-12">
-                            <label for="OrderNumber" class="form-label">Order Number <span class="text-danger">*</span></label>
+                            <label for="OrderNumber" class="form-label">Número de Orden <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-receipt"></i>
                                 </span>
-                                <input asp-for="OrderNumber" class="form-control" placeholder="Enter order number" required autofocus/>
+                                <input asp-for="OrderNumber" class="form-control" placeholder="Ingrese el número de orden" required autofocus/>
                             </div>
                             <span asp-validation-for="OrderNumber" class="text-danger"></span>
-                            <div class="form-text">Enter the order or reference number for this pick</div>
+                            <div class="form-text">Ingrese el número de orden o referencia para este picking</div>
                         </div>
 
                         <!-- Item Information -->
                         <div class="col-md-6">
-                            <label for="ItemSku" class="form-label">Item SKU <span class="text-danger">*</span></label>
+                            <label for="ItemSku" class="form-label">SKU del Artículo <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-upc-scan"></i>
                                 </span>
-                                <input asp-for="ItemSku" class="form-control" placeholder="Scan or enter SKU" required/>
+                                <input asp-for="ItemSku" class="form-control" placeholder="Escanee o ingrese el SKU" required/>
                             </div>
                             <span asp-validation-for="ItemSku" class="text-danger"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="Quantity" class="form-label">Quantity to Pick <span class="text-danger">*</span></label>
+                            <label for="Quantity" class="form-label">Cantidad a Despachar <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-123"></i>
@@ -59,42 +59,42 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="LocationCode" class="form-label">Pick From Location <span class="text-danger">*</span></label>
+                            <label for="LocationCode" class="form-label">Ubicación de Origen <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-geo-alt"></i>
                                 </span>
-                                <input asp-for="LocationCode" class="form-control" placeholder="Enter location code" required/>
+                                <input asp-for="LocationCode" class="form-control" placeholder="Ingrese el código de ubicación" required/>
                             </div>
                             <span asp-validation-for="LocationCode" class="text-danger"></span>
                         </div>
 
                         <!-- Optional Fields -->
                         <div class="col-md-6">
-                            <label for="LotNumber" class="form-label">Lot Number</label>
+                            <label for="LotNumber" class="form-label">Número de Lote</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-tag"></i>
                                 </span>
-                                <input asp-for="LotNumber" class="form-control" placeholder="Enter lot number (if required)"/>
+                                <input asp-for="LotNumber" class="form-control" placeholder="Ingrese el número de lote (si se requiere)"/>
                             </div>
                             <span asp-validation-for="LotNumber" class="text-danger"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="SerialNumber" class="form-label">Serial Number</label>
+                            <label for="SerialNumber" class="form-label">Número de Serie</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-qr-code"></i>
                                 </span>
-                                <input asp-for="SerialNumber" class="form-control" placeholder="Enter serial number (if required)"/>
+                                <input asp-for="SerialNumber" class="form-control" placeholder="Ingrese el número de serie (si se requiere)"/>
                             </div>
                             <span asp-validation-for="SerialNumber" class="text-danger"></span>
                         </div>
 
                         <div class="col-12">
-                            <label for="Notes" class="form-label">Notes</label>
-                            <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Enter any notes about this pick operation (optional)"></textarea>
+                            <label for="Notes" class="form-label">Notas</label>
+                            <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Ingrese cualquier nota sobre esta operación de picking (opcional)"></textarea>
                             <span asp-validation-for="Notes" class="text-danger"></span>
                         </div>
 
@@ -103,11 +103,11 @@
                             <div class="d-flex gap-2 justify-content-end">
                                 <button type="button" class="btn btn-outline-secondary" onclick="clearForm()">
                                     <i class="bi bi-arrow-clockwise me-1"></i>
-                                    Clear
+                                    Limpiar
                                 </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-check-circle me-1"></i>
-                                    Complete Pick
+                                    Completar Picking
                                 </button>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
             <div class="card-header bg-light border-bottom">
                 <h6 class="card-title mb-0">
                     <i class="bi bi-lightning me-2"></i>
-                    Quick Actions
+                    Acciones Rápidas
                 </h6>
             </div>
             <div class="card-body">
@@ -129,13 +129,13 @@
                     <div class="col-md-6">
                         <a asp-controller="Receiving" asp-action="Receive" class="btn btn-outline-success w-100">
                             <i class="bi bi-box-arrow-in-down me-2"></i>
-                            Go to Receiving
+                            Ir a Recepción
                         </a>
                     </div>
                     <div class="col-md-6">
                         <a asp-controller="Inventory" asp-action="Index" class="btn btn-outline-info w-100">
                             <i class="bi bi-stack me-2"></i>
-                            Check Inventory
+                            Verificar Inventario
                         </a>
                     </div>
                 </div>
