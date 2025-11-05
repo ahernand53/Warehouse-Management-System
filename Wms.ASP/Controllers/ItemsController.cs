@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Wms.Application.UseCases.Items;
 using Wms.ASP.Models;
 
 namespace Wms.ASP.Controllers;
 
+[Authorize]
 public class ItemsController : Controller
 {
-    private const string CurrentUserId = "WEB_USER";
+    private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.Identity?.Name ?? "UNKNOWN";
     private readonly ICreateItemUseCase _createItemUseCase;
     private readonly IGetItemsUseCase _getItemsUseCase;
     private readonly ILogger<ItemsController> _logger;

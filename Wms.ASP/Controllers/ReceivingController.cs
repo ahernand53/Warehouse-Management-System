@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Wms.Application.DTOs;
 using Wms.Application.UseCases.Receiving;
 using Wms.ASP.Models;
 
 namespace Wms.ASP.Controllers;
 
+[Authorize]
 public class ReceivingController : Controller
 {
-    private const string CurrentUserId = "WEB_USER";
+    private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.Identity?.Name ?? "UNKNOWN";
     private readonly ILogger<ReceivingController> _logger;
     private readonly IPutawayUseCase _putawayUseCase;
     private readonly IReceiveItemUseCase _receiveItemUseCase;

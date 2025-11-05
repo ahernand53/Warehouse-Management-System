@@ -8,6 +8,8 @@ public interface IUnitOfWork : IDisposable
     ILocationRepository Locations { get; }
     IStockRepository Stock { get; }
     IMovementRepository Movements { get; }
+    IUserRepository Users { get; }
+    IAppTokenRepository AppTokens { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task BeginTransactionAsync(CancellationToken cancellationToken = default);

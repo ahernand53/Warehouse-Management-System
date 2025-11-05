@@ -18,12 +18,16 @@ public class UnitOfWork : IUnitOfWork
         Locations = new LocationRepository(context);
         Stock = new StockRepository(context);
         Movements = new MovementRepository(context);
+        Users = new UserRepository(context);
+        AppTokens = new AppTokenRepository(context);
     }
 
     public IItemRepository Items { get; }
     public ILocationRepository Locations { get; }
     public IStockRepository Stock { get; }
     public IMovementRepository Movements { get; }
+    public IUserRepository Users { get; }
+    public IAppTokenRepository AppTokens { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

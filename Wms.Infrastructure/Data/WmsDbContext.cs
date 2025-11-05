@@ -18,6 +18,8 @@ public class WmsDbContext : DbContext
     public DbSet<Lot> Lots => Set<Lot>();
     public DbSet<Stock> Stock => Set<Stock>();
     public DbSet<Movement> Movements => Set<Movement>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<AppToken> AppTokens => Set<AppToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,6 +29,8 @@ public class WmsDbContext : DbContext
         modelBuilder.ApplyConfiguration(new LotConfiguration());
         modelBuilder.ApplyConfiguration(new StockConfiguration());
         modelBuilder.ApplyConfiguration(new MovementConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new AppTokenConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

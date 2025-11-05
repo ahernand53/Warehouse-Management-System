@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Wms.Application.UseCases.Picking;
 using Wms.ASP.Models;
 
 namespace Wms.ASP.Controllers;
 
+[Authorize]
 public class PickingController : Controller
 {
-    private const string CurrentUserId = "WEB_USER";
+    private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.Identity?.Name ?? "UNKNOWN";
     private readonly ILogger<PickingController> _logger;
     private readonly IPickOrderUseCase _pickOrderUseCase;
 

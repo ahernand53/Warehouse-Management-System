@@ -123,3 +123,10 @@ public class EditLocationViewModel
     public bool IsReceivable { get; set; } = true;
     public int Capacity { get; set; } = 0;
 }
+
+public class LoginViewModel
+{
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string? ReturnUrl { get; set; }
+}
