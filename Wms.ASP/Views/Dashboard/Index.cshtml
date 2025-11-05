@@ -113,7 +113,7 @@
                                 <tr>
                                     <td>
                                         <span class="badge bg-@(GetMovementTypeColor(movement.Type))">
-                                            @movement.Type
+                                            @GetMovementTypeName(movement.Type)
                                         </span>
                                     </td>
                                     <td class="fw-medium">@movement.ItemSku</td>
@@ -213,6 +213,18 @@
             "putaway" => "info",
             "adjustment" => "warning",
             _ => "secondary"
+        };
+    }
+
+    private string GetMovementTypeName(string movementType)
+    {
+        return movementType.ToLower() switch
+        {
+            "receive" or "receiving" => "Recepción",
+            "pick" or "picking" => "Picking",
+            "putaway" => "Almacenamiento",
+            "adjustment" => "Ajuste",
+            _ => movementType
         };
     }
 

@@ -65,14 +65,14 @@
                                     <i class="bi bi-rulers"></i>
                                 </span>
                                 <select asp-for="UnitOfMeasure" class="form-select">
-                                    <option value="EA">Each (EA)</option>
-                                    <option value="KG">Kilogram (KG)</option>
-                                    <option value="LB">Pound (LB)</option>
-                                    <option value="L">Liter (L)</option>
-                                    <option value="M">Meter (M)</option>
-                                    <option value="FT">Feet (FT)</option>
-                                    <option value="BOX">Box</option>
-                                    <option value="CASE">Case</option>
+                                    <option value="EA">Unidad (EA)</option>
+                                    <option value="KG">Kilogramo (KG)</option>
+                                    <option value="LB">Libra (LB)</option>
+                                    <option value="L">Litro (L)</option>
+                                    <option value="M">Metro (M)</option>
+                                    <option value="FT">Pie (FT)</option>
+                                    <option value="BOX">Caja</option>
+                                    <option value="CASE">Estuche</option>
                                     <option value="PALLET">Pallet</option>
                                 </select>
                             </div>
@@ -155,7 +155,7 @@
             <div class="card-header bg-light border-bottom">
                 <h6 class="card-title mb-0">
                     <i class="bi bi-info-circle me-2"></i>
-                    Additional Information
+                    Información Adicional
                 </h6>
             </div>
             <div class="card-body">
@@ -164,13 +164,13 @@
                         <a asp-controller="Inventory" asp-action="Index" asp-route-searchTerm="@Model.Sku"
                            class="btn btn-outline-info w-100">
                             <i class="bi bi-stack me-2"></i>
-                            View Stock Levels
+                            Ver Niveles de Stock
                         </a>
                     </div>
                     <div class="col-md-6">
                         <button type="button" class="btn btn-outline-secondary w-100" disabled>
                             <i class="bi bi-graph-up me-2"></i>
-                            Movement History
+                            Historial de Movimientos
                         </button>
                     </div>
                 </div>

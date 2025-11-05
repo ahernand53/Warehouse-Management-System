@@ -55,7 +55,7 @@ public class LocationsController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading locations");
-            TempData["ErrorMessage"] = "Error loading locations. Please try again.";
+            TempData["ErrorMessage"] = "Error al cargar las ubicaciones. Por favor, intente nuevamente.";
             return View(new LocationManagementViewModel());
         }
     }
@@ -94,13 +94,13 @@ public class LocationsController : Controller
                 return View(model);
             }
 
-            TempData["SuccessMessage"] = $"Location '{model.Name}' created successfully!";
+            TempData["SuccessMessage"] = $"¡Ubicación '{model.Name}' creada exitosamente!";
             return RedirectToAction(nameof(Index));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error creating location");
-            TempData["ErrorMessage"] = "Error creating location. Please try again.";
+            TempData["ErrorMessage"] = "Error al crear la ubicación. Por favor, intente nuevamente.";
             return View(model);
         }
     }

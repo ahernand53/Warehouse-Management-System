@@ -56,13 +56,13 @@ public class ReceivingController : Controller
                 return View(model);
             }
 
-            TempData["SuccessMessage"] = $"Item received successfully! Movement ID: {result.Value.MovementId}";
+            TempData["SuccessMessage"] = $"¡Artículo recibido exitosamente! ID de Movimiento: {result.Value.MovementId}";
             return View(new ReceivingViewModel()); // Clear form for next entry
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error receiving item");
-            TempData["ErrorMessage"] = "Error receiving item. Please try again.";
+            TempData["ErrorMessage"] = "Error al recibir el artículo. Por favor, intente nuevamente.";
             return View(model);
         }
     }
@@ -101,13 +101,13 @@ public class ReceivingController : Controller
                 return View(model);
             }
 
-            TempData["SuccessMessage"] = $"Putaway completed successfully! Movement ID: {result.Value.MovementId}";
+            TempData["SuccessMessage"] = $"¡Almacenamiento completado exitosamente! ID de Movimiento: {result.Value.MovementId}";
             return View(new PutawayViewModel()); // Clear form for next entry
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error performing putaway");
-            TempData["ErrorMessage"] = "Error performing putaway. Please try again.";
+            TempData["ErrorMessage"] = "Error al realizar el almacenamiento. Por favor, intente nuevamente.";
             return View(model);
         }
     }
