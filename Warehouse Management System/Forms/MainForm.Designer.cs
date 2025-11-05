@@ -82,7 +82,7 @@ namespace Wms.WinForms.Forms
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(670, 51);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "📦 Warehouse Management System";
+            lblTitle.Text = "📦 Sistema de Gestión de Almacén";
             // 
             // pnlNavigation
             // 
@@ -116,7 +116,7 @@ namespace Wms.WinForms.Forms
             btnReports.Name = "btnReports";
             btnReports.Size = new Size(190, 45);
             btnReports.TabIndex = 3;
-            btnReports.Text = "📈 Reports";
+            btnReports.Text = "📈 Reportes";
             btnReports.TextAlign = ContentAlignment.MiddleLeft;
             btnReports.UseVisualStyleBackColor = true;
             // 
@@ -126,7 +126,7 @@ namespace Wms.WinForms.Forms
             btnLocationManagement.Name = "btnLocationManagement";
             btnLocationManagement.Size = new Size(190, 45);
             btnLocationManagement.TabIndex = 2;
-            btnLocationManagement.Text = "📍 Locations";
+            btnLocationManagement.Text = "📍 Ubicaciones";
             btnLocationManagement.TextAlign = ContentAlignment.MiddleLeft;
             btnLocationManagement.UseVisualStyleBackColor = true;
             // 
@@ -136,7 +136,7 @@ namespace Wms.WinForms.Forms
             btnItemManagement.Name = "btnItemManagement";
             btnItemManagement.Size = new Size(190, 45);
             btnItemManagement.TabIndex = 1;
-            btnItemManagement.Text = "🏷️ Items";
+            btnItemManagement.Text = "🏷️ Artículos";
             btnItemManagement.TextAlign = ContentAlignment.MiddleLeft;
             btnItemManagement.UseVisualStyleBackColor = true;
             // 
@@ -149,7 +149,7 @@ namespace Wms.WinForms.Forms
             lblManagementTitle.Name = "lblManagementTitle";
             lblManagementTitle.Size = new Size(151, 30);
             lblManagementTitle.TabIndex = 0;
-            lblManagementTitle.Text = "Management";
+            lblManagementTitle.Text = "Gestión";
             // 
             // pnlOperations
             // 
@@ -173,7 +173,7 @@ namespace Wms.WinForms.Forms
             btnInventory.Name = "btnInventory";
             btnInventory.Size = new Size(190, 45);
             btnInventory.TabIndex = 5;
-            btnInventory.Text = "📋 Inventory";
+            btnInventory.Text = "📋 Inventario";
             btnInventory.TextAlign = ContentAlignment.MiddleLeft;
             btnInventory.UseVisualStyleBackColor = true;
             // 
@@ -193,7 +193,7 @@ namespace Wms.WinForms.Forms
             btnPutaway.Name = "btnPutaway";
             btnPutaway.Size = new Size(190, 45);
             btnPutaway.TabIndex = 3;
-            btnPutaway.Text = "📤 Putaway";
+            btnPutaway.Text = "Almacenamiento";
             btnPutaway.TextAlign = ContentAlignment.MiddleLeft;
             btnPutaway.UseVisualStyleBackColor = true;
             // 
@@ -203,7 +203,7 @@ namespace Wms.WinForms.Forms
             btnReceiving.Name = "btnReceiving";
             btnReceiving.Size = new Size(190, 45);
             btnReceiving.TabIndex = 2;
-            btnReceiving.Text = "📦 Receiving";
+            btnReceiving.Text = "📦 Recepción";
             btnReceiving.TextAlign = ContentAlignment.MiddleLeft;
             btnReceiving.UseVisualStyleBackColor = true;
             // 
@@ -213,7 +213,7 @@ namespace Wms.WinForms.Forms
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(190, 45);
             btnDashboard.TabIndex = 1;
-            btnDashboard.Text = "📊 Dashboard";
+            btnDashboard.Text = "📊 Panel de Control";
             btnDashboard.TextAlign = ContentAlignment.MiddleLeft;
             btnDashboard.UseVisualStyleBackColor = true;
             // 
@@ -226,7 +226,7 @@ namespace Wms.WinForms.Forms
             lblOperationsTitle.Name = "lblOperationsTitle";
             lblOperationsTitle.Size = new Size(128, 30);
             lblOperationsTitle.TabIndex = 0;
-            lblOperationsTitle.Text = "Operations";
+            lblOperationsTitle.Text = "Operaciones";
             // 
             // pnlContent
             // 
@@ -249,7 +249,7 @@ namespace Wms.WinForms.Forms
             // 
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(70, 17);
-            lblStatus.Text = "WMS Ready";
+            lblStatus.Text = "SGA Listo";
             // 
             // MainForm
             // 
@@ -264,7 +264,7 @@ namespace Wms.WinForms.Forms
             MinimumSize = new Size(1200, 700);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Warehouse Management System";
+            Text = "Sistema de Gestión de Almacén";
             WindowState = FormWindowState.Maximized;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();

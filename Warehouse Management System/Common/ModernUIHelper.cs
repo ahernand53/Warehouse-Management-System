@@ -256,12 +256,12 @@ public static class ModernUIHelper
 
     public static void ShowModernSuccess(string message)
     {
-        ShowModernMessageBox(message, "Success", MessageBoxIcon.Information);
+        ShowModernMessageBox(message, "Éxito", MessageBoxIcon.Information);
     }
 
     public static void ShowModernWarning(string message)
     {
-        ShowModernMessageBox(message, "Warning", MessageBoxIcon.Warning);
+        ShowModernMessageBox(message, "Advertencia", MessageBoxIcon.Warning);
     }
 
     public static void StyleResponsivePanel(Panel panel)

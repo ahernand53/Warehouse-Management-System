@@ -71,8 +71,8 @@ public partial class LocationEditDialog : Form
         chkIsReceivable.Checked = true;
         numCapacity.Value = 1000;
 
-        Text = IsEditMode ? "Edit Location" : "Add New Location";
-        lblFormTitle.Text = IsEditMode ? "Edit Location" : "Add New Location";
+        Text = IsEditMode ? "Editar Ubicación" : "Agregar Nueva Ubicación";
+        lblFormTitle.Text = IsEditMode ? "Editar Ubicación" : "Agregar Nueva Ubicación";
 
         if (!IsEditMode)
         {
@@ -98,7 +98,7 @@ public partial class LocationEditDialog : Form
             var result = await _getLocationsUseCase.GetAllAsync();
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Error loading location: {result.Error}");
+                ModernUIHelper.ShowModernError($"Error al cargar la ubicación: {result.Error}");
                 DialogResult = DialogResult.Cancel;
                 Close();
                 return;
@@ -107,7 +107,7 @@ public partial class LocationEditDialog : Form
             _originalLocation = result.Value.FirstOrDefault(l => l.Id == _locationId.Value);
             if (_originalLocation == null)
             {
-                ModernUIHelper.ShowModernError("Location not found");
+                ModernUIHelper.ShowModernError("Ubicación no encontrada");
                 DialogResult = DialogResult.Cancel;
                 Close();
                 return;
@@ -119,7 +119,7 @@ public partial class LocationEditDialog : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading location {LocationId}", _locationId);
-            ModernUIHelper.ShowModernError($"Error loading location: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al cargar la ubicación: {ex.Message}");
             DialogResult = DialogResult.Cancel;
             Close();
         }
@@ -142,7 +142,7 @@ public partial class LocationEditDialog : Form
                     .ToList();
 
                 cmbParentLocation.Items.Clear();
-                cmbParentLocation.Items.Add("(No Parent)");
+                cmbParentLocation.Items.Add("(Sin Padre)");
 
                 foreach (var location in locations)
                 {
@@ -234,7 +234,7 @@ public partial class LocationEditDialog : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error saving location");
-            ModernUIHelper.ShowModernError($"Error saving location: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al guardar la ubicación: {ex.Message}");
         }
         finally
         {
@@ -265,21 +265,21 @@ public partial class LocationEditDialog : Form
     {
         if (string.IsNullOrWhiteSpace(txtCode.Text))
         {
-            ModernUIHelper.ShowModernError("Code is required");
+            ModernUIHelper.ShowModernError("El código es requerido");
             txtCode.Focus();
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtName.Text))
         {
-            ModernUIHelper.ShowModernError("Name is required");
+            ModernUIHelper.ShowModernError("El nombre es requerido");
             txtName.Focus();
             return false;
         }
 
         if (numCapacity.Value < 0)
         {
-            ModernUIHelper.ShowModernError("Capacity cannot be negative");
+            ModernUIHelper.ShowModernError("La capacidad no puede ser negativa");
             numCapacity.Focus();
             return false;
         }

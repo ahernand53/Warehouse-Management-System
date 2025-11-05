@@ -20,6 +20,8 @@ namespace Wms.WinForms.Forms
         private TextBox txtDescription;
         private Label lblUnitOfMeasure;
         private TextBox txtUnitOfMeasure;
+        private Label lblPrice;
+        private NumericUpDown numPrice;
         private Panel pnlOptions;
         private Label lblOptionsTitle;
         private CheckBox chkRequiresLot;
@@ -65,6 +67,8 @@ namespace Wms.WinForms.Forms
             chkRequiresLot = new CheckBox();
             lblOptionsTitle = new Label();
             pnlBasicInfo = new Panel();
+            numPrice = new NumericUpDown();
+            lblPrice = new Label();
             txtUnitOfMeasure = new TextBox();
             lblUnitOfMeasure = new Label();
             txtDescription = new TextBox();
@@ -83,6 +87,7 @@ namespace Wms.WinForms.Forms
             pnlOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numShelfLifeDays).BeginInit();
             pnlBasicInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
             pnlActions.SuspendLayout();
             SuspendLayout();
             // 
@@ -106,7 +111,7 @@ namespace Wms.WinForms.Forms
             lblFormTitle.Name = "lblFormTitle";
             lblFormTitle.Size = new Size(137, 37);
             lblFormTitle.TabIndex = 0;
-            lblFormTitle.Text = "Add Item";
+            lblFormTitle.Text = "Agregar Artículo";
             // 
             // pnlMain
             // 
@@ -118,7 +123,7 @@ namespace Wms.WinForms.Forms
             pnlMain.Location = new Point(0, 70);
             pnlMain.Name = "pnlMain";
             pnlMain.Padding = new Padding(25, 20, 25, 20);
-            pnlMain.Size = new Size(730, 522);
+            pnlMain.Size = new Size(730, 562);
             pnlMain.TabIndex = 1;
             // 
             // pnlBarcodes
@@ -131,7 +136,7 @@ namespace Wms.WinForms.Forms
             pnlBarcodes.Controls.Add(lstBarcodes);
             pnlBarcodes.Controls.Add(lblBarcodesTitle);
             pnlBarcodes.Dock = DockStyle.Fill;
-            pnlBarcodes.Location = new Point(25, 350);
+            pnlBarcodes.Location = new Point(25, 390);
             pnlBarcodes.Name = "pnlBarcodes";
             pnlBarcodes.Padding = new Padding(20);
             pnlBarcodes.Size = new Size(680, 152);
@@ -144,7 +149,7 @@ namespace Wms.WinForms.Forms
             btnRemoveBarcode.Name = "btnRemoveBarcode";
             btnRemoveBarcode.Size = new Size(90, 30);
             btnRemoveBarcode.TabIndex = 5;
-            btnRemoveBarcode.Text = "Remove";
+            btnRemoveBarcode.Text = "Eliminar";
             btnRemoveBarcode.UseVisualStyleBackColor = true;
             // 
             // btnAddBarcode
@@ -154,7 +159,7 @@ namespace Wms.WinForms.Forms
             btnAddBarcode.Name = "btnAddBarcode";
             btnAddBarcode.Size = new Size(90, 30);
             btnAddBarcode.TabIndex = 4;
-            btnAddBarcode.Text = "Add";
+            btnAddBarcode.Text = "Agregar";
             btnAddBarcode.UseVisualStyleBackColor = true;
             // 
             // txtNewBarcode
@@ -162,7 +167,7 @@ namespace Wms.WinForms.Forms
             txtNewBarcode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtNewBarcode.Location = new Point(340, 78);
             txtNewBarcode.Name = "txtNewBarcode";
-            txtNewBarcode.PlaceholderText = "Enter barcode...";
+            txtNewBarcode.PlaceholderText = "Ingrese código...";
             txtNewBarcode.Size = new Size(220, 23);
             txtNewBarcode.TabIndex = 3;
             // 
@@ -175,7 +180,7 @@ namespace Wms.WinForms.Forms
             lblNewBarcode.Name = "lblNewBarcode";
             lblNewBarcode.Size = new Size(132, 25);
             lblNewBarcode.TabIndex = 2;
-            lblNewBarcode.Text = "Add Barcode:";
+            lblNewBarcode.Text = "Agregar Código:";
             // 
             // lstBarcodes
             // 
@@ -196,7 +201,7 @@ namespace Wms.WinForms.Forms
             lblBarcodesTitle.Name = "lblBarcodesTitle";
             lblBarcodesTitle.Size = new Size(108, 30);
             lblBarcodesTitle.TabIndex = 0;
-            lblBarcodesTitle.Text = "Barcodes";
+            lblBarcodesTitle.Text = "Códigos de Barras";
             // 
             // pnlOptions
             // 
@@ -207,7 +212,7 @@ namespace Wms.WinForms.Forms
             pnlOptions.Controls.Add(chkRequiresLot);
             pnlOptions.Controls.Add(lblOptionsTitle);
             pnlOptions.Dock = DockStyle.Top;
-            pnlOptions.Location = new Point(25, 220);
+            pnlOptions.Location = new Point(25, 260);
             pnlOptions.Name = "pnlOptions";
             pnlOptions.Padding = new Padding(20);
             pnlOptions.Size = new Size(680, 130);
@@ -231,7 +236,7 @@ namespace Wms.WinForms.Forms
             lblShelfLife.Name = "lblShelfLife";
             lblShelfLife.Size = new Size(159, 25);
             lblShelfLife.TabIndex = 3;
-            lblShelfLife.Text = "Shelf Life (Days):";
+            lblShelfLife.Text = "Vida Útil (Días):";
             // 
             // chkRequiresSerial
             // 
@@ -241,7 +246,7 @@ namespace Wms.WinForms.Forms
             chkRequiresSerial.Name = "chkRequiresSerial";
             chkRequiresSerial.Size = new Size(179, 24);
             chkRequiresSerial.TabIndex = 2;
-            chkRequiresSerial.Text = "Requires Serial Control";
+            chkRequiresSerial.Text = "Requiere Control de Serie";
             chkRequiresSerial.UseVisualStyleBackColor = true;
             // 
             // chkRequiresLot
@@ -252,7 +257,7 @@ namespace Wms.WinForms.Forms
             chkRequiresLot.Name = "chkRequiresLot";
             chkRequiresLot.Size = new Size(163, 24);
             chkRequiresLot.TabIndex = 1;
-            chkRequiresLot.Text = "Requires Lot Control";
+            chkRequiresLot.Text = "Requiere Control de Lote";
             chkRequiresLot.UseVisualStyleBackColor = true;
             // 
             // lblOptionsTitle
@@ -264,11 +269,13 @@ namespace Wms.WinForms.Forms
             lblOptionsTitle.Name = "lblOptionsTitle";
             lblOptionsTitle.Size = new Size(176, 30);
             lblOptionsTitle.TabIndex = 0;
-            lblOptionsTitle.Text = "Item Properties";
+            lblOptionsTitle.Text = "Propiedades del Artículo";
             // 
             // pnlBasicInfo
             // 
             pnlBasicInfo.BackColor = Color.White;
+            pnlBasicInfo.Controls.Add(numPrice);
+            pnlBasicInfo.Controls.Add(lblPrice);
             pnlBasicInfo.Controls.Add(txtUnitOfMeasure);
             pnlBasicInfo.Controls.Add(lblUnitOfMeasure);
             pnlBasicInfo.Controls.Add(txtDescription);
@@ -282,14 +289,35 @@ namespace Wms.WinForms.Forms
             pnlBasicInfo.Location = new Point(25, 20);
             pnlBasicInfo.Name = "pnlBasicInfo";
             pnlBasicInfo.Padding = new Padding(20);
-            pnlBasicInfo.Size = new Size(680, 200);
+            pnlBasicInfo.Size = new Size(680, 240);
             pnlBasicInfo.TabIndex = 0;
+            // 
+            // numPrice
+            // 
+            numPrice.DecimalPlaces = 2;
+            numPrice.Font = new Font("Segoe UI", 11F);
+            numPrice.Location = new Point(490, 190);
+            numPrice.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            numPrice.Name = "numPrice";
+            numPrice.Size = new Size(170, 27);
+            numPrice.TabIndex = 10;
+            // 
+            // lblPrice
+            // 
+            lblPrice.AutoSize = true;
+            lblPrice.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblPrice.ForeColor = Color.FromArgb(33, 37, 41);
+            lblPrice.Location = new Point(490, 165);
+            lblPrice.Name = "lblPrice";
+            lblPrice.Size = new Size(67, 25);
+            lblPrice.TabIndex = 9;
+            lblPrice.Text = "Precio:";
             // 
             // txtUnitOfMeasure
             // 
-            txtUnitOfMeasure.Location = new Point(490, 150);
+            txtUnitOfMeasure.Location = new Point(240, 190);
             txtUnitOfMeasure.Name = "txtUnitOfMeasure";
-            txtUnitOfMeasure.Size = new Size(170, 23);
+            txtUnitOfMeasure.Size = new Size(230, 23);
             txtUnitOfMeasure.TabIndex = 8;
             // 
             // lblUnitOfMeasure
@@ -297,11 +325,11 @@ namespace Wms.WinForms.Forms
             lblUnitOfMeasure.AutoSize = true;
             lblUnitOfMeasure.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lblUnitOfMeasure.ForeColor = Color.FromArgb(33, 37, 41);
-            lblUnitOfMeasure.Location = new Point(490, 125);
+            lblUnitOfMeasure.Location = new Point(240, 165);
             lblUnitOfMeasure.Name = "lblUnitOfMeasure";
-            lblUnitOfMeasure.Size = new Size(63, 25);
+            lblUnitOfMeasure.Size = new Size(98, 25);
             lblUnitOfMeasure.TabIndex = 7;
-            lblUnitOfMeasure.Text = "UOM:";
+            lblUnitOfMeasure.Text = "Unidad:";
             // 
             // txtDescription
             // 
@@ -319,7 +347,7 @@ namespace Wms.WinForms.Forms
             lblDescription.Name = "lblDescription";
             lblDescription.Size = new Size(119, 25);
             lblDescription.TabIndex = 5;
-            lblDescription.Text = "Description:";
+            lblDescription.Text = "Descripción:";
             // 
             // txtName
             // 
@@ -338,7 +366,7 @@ namespace Wms.WinForms.Forms
             lblName.Name = "lblName";
             lblName.Size = new Size(69, 25);
             lblName.TabIndex = 3;
-            lblName.Text = "Name:";
+            lblName.Text = "Nombre:";
             // 
             // txtSku
             // 
@@ -367,7 +395,7 @@ namespace Wms.WinForms.Forms
             lblBasicInfoTitle.Name = "lblBasicInfoTitle";
             lblBasicInfoTitle.Size = new Size(195, 30);
             lblBasicInfoTitle.TabIndex = 0;
-            lblBasicInfoTitle.Text = "Basic Information";
+            lblBasicInfoTitle.Text = "Información Básica";
             // 
             // pnlActions
             // 
@@ -389,7 +417,7 @@ namespace Wms.WinForms.Forms
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(100, 40);
             btnCancel.TabIndex = 1;
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = "Cancelar";
             btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnSave
@@ -400,7 +428,7 @@ namespace Wms.WinForms.Forms
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(100, 40);
             btnSave.TabIndex = 0;
-            btnSave.Text = "Save (F1)";
+            btnSave.Text = "Guardar (F1)";
             btnSave.UseVisualStyleBackColor = true;
             // 
             // ItemEditDialog
@@ -416,10 +444,10 @@ namespace Wms.WinForms.Forms
             KeyPreview = true;
             MaximizeBox = false;
             MinimizeBox = false;
-            MinimumSize = new Size(730, 600);
+            MinimumSize = new Size(730, 640);
             Name = "ItemEditDialog";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Item Details";
+            Text = "Detalles del Artículo";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlMain.ResumeLayout(false);
@@ -430,6 +458,7 @@ namespace Wms.WinForms.Forms
             ((System.ComponentModel.ISupportInitialize)numShelfLifeDays).EndInit();
             pnlBasicInfo.ResumeLayout(false);
             pnlBasicInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numPrice).EndInit();
             pnlActions.ResumeLayout(false);
             ResumeLayout(false);
         }

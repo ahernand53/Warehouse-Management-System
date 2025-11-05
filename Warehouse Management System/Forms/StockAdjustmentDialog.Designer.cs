@@ -47,7 +47,7 @@ namespace Wms.WinForms.Forms
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new Size(170, 25);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Stock Adjustment";
+            this.lblTitle.Text = "Ajuste de Inventario";
 
             // 
             // grpAdjustment
@@ -63,7 +63,7 @@ namespace Wms.WinForms.Forms
             this.grpAdjustment.Size = new Size(460, 280);
             this.grpAdjustment.TabIndex = 1;
             this.grpAdjustment.TabStop = false;
-            this.grpAdjustment.Text = "Adjustment Details";
+            this.grpAdjustment.Text = "Detalles del Ajuste";
 
             // 
             // lblItemInfo
@@ -73,7 +73,7 @@ namespace Wms.WinForms.Forms
             this.lblItemInfo.Name = "lblItemInfo";
             this.lblItemInfo.Size = new Size(430, 60);
             this.lblItemInfo.TabIndex = 0;
-            this.lblItemInfo.Text = "Item: SKU\nLocation: LOC\nCurrent Qty: 0";
+            this.lblItemInfo.Text = "Artículo: SKU\nUbicación: LOC\nCantidad Actual: 0";
 
             // 
             // lblNewQuantity
@@ -84,7 +84,7 @@ namespace Wms.WinForms.Forms
             this.lblNewQuantity.Name = "lblNewQuantity";
             this.lblNewQuantity.Size = new Size(95, 19);
             this.lblNewQuantity.TabIndex = 1;
-            this.lblNewQuantity.Text = "New Quantity:";
+            this.lblNewQuantity.Text = "Nueva Cantidad:";
 
             // 
             // txtNewQuantity
@@ -104,7 +104,7 @@ namespace Wms.WinForms.Forms
             this.lblReason.Name = "lblReason";
             this.lblReason.Size = new Size(58, 19);
             this.lblReason.TabIndex = 3;
-            this.lblReason.Text = "Reason:";
+            this.lblReason.Text = "Razón:";
 
             // 
             // txtReason
@@ -113,7 +113,7 @@ namespace Wms.WinForms.Forms
             this.txtReason.Location = new Point(15, 165);
             this.txtReason.Multiline = true;
             this.txtReason.Name = "txtReason";
-            this.txtReason.PlaceholderText = "Enter reason for adjustment (required)...";
+            this.txtReason.PlaceholderText = "Ingrese la razón del ajuste (requerido)...";
             this.txtReason.Size = new Size(430, 100);
             this.txtReason.TabIndex = 4;
 
@@ -126,7 +126,7 @@ namespace Wms.WinForms.Forms
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new Size(90, 35);
             this.btnOK.TabIndex = 5;
-            this.btnOK.Text = "OK";
+            this.btnOK.Text = "Aceptar";
             this.btnOK.UseVisualStyleBackColor = false;
 
             // 
@@ -138,7 +138,7 @@ namespace Wms.WinForms.Forms
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new Size(90, 35);
             this.btnCancel.TabIndex = 6;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = false;
 
             // 
@@ -159,7 +159,7 @@ namespace Wms.WinForms.Forms
             this.MinimizeBox = false;
             this.Name = "StockAdjustmentDialog";
             this.StartPosition = FormStartPosition.CenterParent;
-            this.Text = "Stock Adjustment";
+            this.Text = "Ajuste de Inventario";
 
             this.grpAdjustment.ResumeLayout(false);
             this.grpAdjustment.PerformLayout();

@@ -9,6 +9,7 @@ public class DashboardViewModel
     public int ActiveItems { get; set; }
     public int TotalSKUs { get; set; }
     public decimal TotalStockValue { get; set; }
+    public decimal? TotalInventoryValue { get; set; }
     public int StockLocations { get; set; }
     public List<MovementReportDto> RecentMovements { get; set; } = new();
     public List<StockDto> LowStockItems { get; set; } = new();
@@ -21,6 +22,7 @@ public class InventoryViewModel
     public List<StockSummaryDto> StockSummary { get; set; } = new();
     public string? SearchTerm { get; set; }
     public bool ShowSummary { get; set; }
+    public decimal? TotalInventoryValue { get; set; }
 }
 
 public class ItemManagementViewModel
@@ -83,6 +85,7 @@ public class CreateItemViewModel
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string? UnitOfMeasure { get; set; } = "EA";
+    public decimal? Price { get; set; }
     public bool RequiresLot { get; set; }
     public bool RequiresSerial { get; set; }
     public string? Barcode { get; set; }
@@ -95,6 +98,7 @@ public class EditItemViewModel
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string? UnitOfMeasure { get; set; } = "EA";
+    public decimal? Price { get; set; }
     public bool RequiresLot { get; set; }
     public bool RequiresSerial { get; set; }
     public string? Barcode { get; set; }

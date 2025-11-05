@@ -63,6 +63,10 @@ public partial class ItemEditDialog : Form
         ModernUIHelper.StyleModernTextBox(txtUnitOfMeasure);
         ModernUIHelper.StyleModernTextBox(txtNewBarcode);
 
+        // Set up price numeric up-down styling
+        numPrice.Font = ModernUIHelper.Fonts.Body;
+        numPrice.Height = 35;
+
         ModernUIHelper.StylePrimaryButton(btnSave);
         ModernUIHelper.StyleSecondaryButton(btnCancel);
         ModernUIHelper.StyleSuccessButton(btnAddBarcode);
@@ -74,8 +78,8 @@ public partial class ItemEditDialog : Form
 
         btnRemoveBarcode.Enabled = false;
 
-        Text = IsEditMode ? "Edit Item" : "Add New Item";
-        lblFormTitle.Text = IsEditMode ? "Edit Item" : "Add New Item";
+        Text = IsEditMode ? "Editar Artículo" : "Agregar Nuevo Artículo";
+        lblFormTitle.Text = IsEditMode ? "Editar Artículo" : "Agregar Nuevo Artículo";
 
         if (!IsEditMode)
         {
@@ -100,19 +104,19 @@ public partial class ItemEditDialog : Form
             var result = await _getItemsUseCase.GetByIdAsync(_itemId.Value);
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Error loading item: {result.Error}");
-                DialogResult = DialogResult.Cancel;
-                Close();
-                return;
-            }
-
-            _originalItem = result.Value;
-            PopulateForm(_originalItem);
+            ModernUIHelper.ShowModernError($"Error al cargar el artículo: {result.Error}");
+            DialogResult = DialogResult.Cancel;
+            Close();
+            return;
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error loading item {ItemId}", _itemId);
-            ModernUIHelper.ShowModernError($"Error loading item: {ex.Message}");
+
+        _originalItem = result.Value;
+        PopulateForm(_originalItem);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error loading item {ItemId}", _itemId);
+        ModernUIHelper.ShowModernError($"Error al cargar el artículo: {ex.Message}");
             DialogResult = DialogResult.Cancel;
             Close();
         }
@@ -128,6 +132,7 @@ public partial class ItemEditDialog : Form
         txtName.Text = item.Name;
         txtDescription.Text = item.Description;
         txtUnitOfMeasure.Text = item.UnitOfMeasure;
+        numPrice.Value = item.Price ?? 0;
         chkRequiresLot.Checked = item.RequiresLot;
         chkRequiresSerial.Checked = item.RequiresSerial;
         numShelfLifeDays.Value = item.ShelfLifeDays;
@@ -156,6 +161,7 @@ public partial class ItemEditDialog : Form
                     txtName.Text.Trim(),
                     txtDescription.Text.Trim(),
                     (int)numShelfLifeDays.Value,
+                    numPrice.Value > 0 ? (decimal?)numPrice.Value : null,
                     barcodes
                 );
 
@@ -176,6 +182,7 @@ public partial class ItemEditDialog : Form
                     chkRequiresLot.Checked,
                     chkRequiresSerial.Checked,
                     (int)numShelfLifeDays.Value,
+                    numPrice.Value > 0 ? (decimal?)numPrice.Value : null,
                     barcodes
                 );
 
@@ -193,7 +200,7 @@ public partial class ItemEditDialog : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error saving item");
-            ModernUIHelper.ShowModernError($"Error saving item: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al guardar el artículo: {ex.Message}");
         }
         finally
         {
@@ -212,21 +219,21 @@ public partial class ItemEditDialog : Form
         var barcode = txtNewBarcode.Text.Trim();
         if (string.IsNullOrWhiteSpace(barcode))
         {
-            ModernUIHelper.ShowModernError("Please enter a barcode");
+            ModernUIHelper.ShowModernError("Por favor ingrese un código de barras");
             txtNewBarcode.Focus();
             return;
         }
 
         if (barcode.Length < 3)
         {
-            ModernUIHelper.ShowModernError("Barcode must be at least 3 characters long");
+            ModernUIHelper.ShowModernError("El código de barras debe tener al menos 3 caracteres");
             txtNewBarcode.Focus();
             return;
         }
 
         if (lstBarcodes.Items.Contains(barcode))
         {
-            ModernUIHelper.ShowModernWarning("This barcode is already added");
+            ModernUIHelper.ShowModernWarning("Este código de barras ya está agregado");
             txtNewBarcode.Focus();
             return;
         }
@@ -274,21 +281,21 @@ public partial class ItemEditDialog : Form
     {
         if (string.IsNullOrWhiteSpace(txtSku.Text))
         {
-            ModernUIHelper.ShowModernError("SKU is required");
+            ModernUIHelper.ShowModernError("El SKU es requerido");
             txtSku.Focus();
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtName.Text))
         {
-            ModernUIHelper.ShowModernError("Name is required");
+            ModernUIHelper.ShowModernError("El nombre es requerido");
             txtName.Focus();
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtUnitOfMeasure.Text))
         {
-            ModernUIHelper.ShowModernError("Unit of Measure is required");
+            ModernUIHelper.ShowModernError("La unidad de medida es requerida");
             txtUnitOfMeasure.Focus();
             return false;
         }

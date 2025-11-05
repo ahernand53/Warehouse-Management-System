@@ -119,7 +119,7 @@ namespace Wms.WinForms.Forms
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(120, 40);
             btnRefresh.TabIndex = 2;
-            btnRefresh.Text = "Refresh (F5)";
+            btnRefresh.Text = "Actualizar (F5)";
             btnRefresh.UseVisualStyleBackColor = true;
             btnRefresh.Click += BtnRefresh_Click;
             // 
@@ -133,7 +133,7 @@ namespace Wms.WinForms.Forms
             lblLastRefresh.Name = "lblLastRefresh";
             lblLastRefresh.Size = new Size(117, 19);
             lblLastRefresh.TabIndex = 1;
-            lblLastRefresh.Text = "Last Refreshed: --";
+            lblLastRefresh.Text = "Última actualización: --";
             // 
             // lblTitle
             // 
@@ -144,7 +144,7 @@ namespace Wms.WinForms.Forms
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(216, 51);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "Dashboard";
+            lblTitle.Text = "Panel de Control";
             // 
             // pnlKPIs
             // 
@@ -191,7 +191,7 @@ namespace Wms.WinForms.Forms
             lblStockLocationsTitle.Name = "lblStockLocationsTitle";
             lblStockLocationsTitle.Size = new Size(156, 25);
             lblStockLocationsTitle.TabIndex = 0;
-            lblStockLocationsTitle.Text = "Active Locations";
+            lblStockLocationsTitle.Text = "Ubicaciones Activas";
             // 
             // pnlStockValue
             // 
@@ -224,7 +224,7 @@ namespace Wms.WinForms.Forms
             lblStockValueTitle.Name = "lblStockValueTitle";
             lblStockValueTitle.Size = new Size(146, 25);
             lblStockValueTitle.TabIndex = 0;
-            lblStockValueTitle.Text = "Total Stock Qty";
+            lblStockValueTitle.Text = "Valor Total";
             // 
             // pnlTotalSKUs
             // 
@@ -257,7 +257,7 @@ namespace Wms.WinForms.Forms
             lblTotalSKUsTitle.Name = "lblTotalSKUsTitle";
             lblTotalSKUsTitle.Size = new Size(155, 25);
             lblTotalSKUsTitle.TabIndex = 0;
-            lblTotalSKUsTitle.Text = "SKUs with Stock";
+            lblTotalSKUsTitle.Text = "SKUs con Stock";
             // 
             // pnlTotalItems
             // 
@@ -280,7 +280,7 @@ namespace Wms.WinForms.Forms
             lblActiveItems.Name = "lblActiveItems";
             lblActiveItems.Size = new Size(58, 19);
             lblActiveItems.TabIndex = 2;
-            lblActiveItems.Text = "0 Active";
+            lblActiveItems.Text = "0 Activos";
             // 
             // lblTotalItems
             // 
@@ -302,7 +302,7 @@ namespace Wms.WinForms.Forms
             lblTotalItemsTitle.Name = "lblTotalItemsTitle";
             lblTotalItemsTitle.Size = new Size(108, 25);
             lblTotalItemsTitle.TabIndex = 0;
-            lblTotalItemsTitle.Text = "Total Items";
+            lblTotalItemsTitle.Text = "Total de Artículos";
             // 
             // pnlContent
             // 
@@ -364,7 +364,7 @@ namespace Wms.WinForms.Forms
             lblLowStockTitle.Padding = new Padding(0, 0, 0, 15);
             lblLowStockTitle.Size = new Size(185, 45);
             lblLowStockTitle.TabIndex = 0;
-            lblLowStockTitle.Text = "Low Stock Alerts";
+            lblLowStockTitle.Text = "Alertas de Stock Bajo";
             // 
             // pnlRecentMovements
             // 
@@ -402,7 +402,7 @@ namespace Wms.WinForms.Forms
             lblRecentMovementsTitle.Padding = new Padding(0, 0, 0, 15);
             lblRecentMovementsTitle.Size = new Size(211, 45);
             lblRecentMovementsTitle.TabIndex = 0;
-            lblRecentMovementsTitle.Text = "Recent Movements";
+            lblRecentMovementsTitle.Text = "Movimientos Recientes";
             // 
             // DashboardForm
             // 
@@ -416,7 +416,7 @@ namespace Wms.WinForms.Forms
             FormBorderStyle = FormBorderStyle.None;
             KeyPreview = true;
             Name = "DashboardForm";
-            Text = "WMS - Dashboard";
+            Text = "SGA - Panel de Control";
             WindowState = FormWindowState.Maximized;
             KeyDown += DashboardForm_KeyDown;
             pnlHeader.ResumeLayout(false);

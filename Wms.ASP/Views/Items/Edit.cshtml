@@ -1,16 +1,16 @@
 @model EditItemViewModel
 @{
-    ViewData["Title"] = "Edit Item";
+    ViewData["Title"] = "Editar Artículo";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">
         <i class="bi bi-pencil-square me-2 text-primary"></i>
-        Edit Item
+        Editar Artículo
     </h2>
     <a asp-action="Index" class="btn btn-outline-secondary">
         <i class="bi bi-arrow-left me-1"></i>
-        Back to Items
+        Volver a Artículos
     </a>
 </div>
 
@@ -20,7 +20,7 @@
             <div class="card-header bg-primary bg-opacity-10 border-bottom">
                 <h5 class="card-title mb-0 text-primary">
                     <i class="bi bi-box me-2"></i>
-                    Item Information
+                    Información del Artículo
                 </h5>
             </div>
             <div class="card-body">
@@ -38,28 +38,28 @@
                                 <input asp-for="Sku" class="form-control" readonly/>
                             </div>
                             <span asp-validation-for="Sku" class="text-danger"></span>
-                            <div class="form-text">SKU cannot be changed after creation</div>
+                            <div class="form-text">El SKU no puede cambiarse después de la creación</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="Name" class="form-label">Name <span class="text-danger">*</span></label>
+                            <label for="Name" class="form-label">Nombre <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-tag"></i>
                                 </span>
-                                <input asp-for="Name" class="form-control" placeholder="Enter item name" required/>
+                                <input asp-for="Name" class="form-control" placeholder="Ingrese el nombre del artículo" required/>
                             </div>
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
 
                         <div class="col-12">
-                            <label for="Description" class="form-label">Description</label>
-                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter item description (optional)"></textarea>
+                            <label for="Description" class="form-label">Descripción</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Ingrese la descripción del artículo (opcional)"></textarea>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="UnitOfMeasure" class="form-label">Unit of Measure</label>
+                            <label for="UnitOfMeasure" class="form-label">Unidad de Medida</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-rulers"></i>
@@ -80,12 +80,24 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="Barcode" class="form-label">Barcode</label>
+                            <label for="Price" class="form-label">Precio</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-currency-dollar"></i>
+                                </span>
+                                <input asp-for="Price" type="number" step="0.01" min="0" class="form-control" placeholder="Ingrese el precio del artículo (opcional)"/>
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                            <div class="form-text">Precio por unidad</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="Barcode" class="form-label">Código de Barras</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-upc"></i>
                                 </span>
-                                <input asp-for="Barcode" class="form-control" placeholder="Enter barcode (optional)"/>
+                                <input asp-for="Barcode" class="form-control" placeholder="Ingrese el código de barras (opcional)"/>
                             </div>
                             <span asp-validation-for="Barcode" class="text-danger"></span>
                         </div>
@@ -93,10 +105,10 @@
                         <!-- Divider -->
                         <div class="col-12">
                             <hr class="my-4">
-                            <h6 class="text-muted">Tracking Requirements</h6>
+                            <h6 class="text-muted">Requisitos de Seguimiento</h6>
                             <div class="alert alert-warning">
                                 <i class="bi bi-exclamation-triangle me-2"></i>
-                                <strong>Note:</strong> Changing tracking requirements may affect existing stock records.
+                                <strong>Nota:</strong> Cambiar los requisitos de seguimiento puede afectar los registros de inventario existentes.
                             </div>
                         </div>
 
@@ -104,20 +116,20 @@
                             <div class="form-check form-switch">
                                 <input asp-for="RequiresLot" class="form-check-input" type="checkbox"/>
                                 <label class="form-check-label" for="RequiresLot">
-                                    Requires Lot Tracking
+                                    Requiere Seguimiento de Lote
                                 </label>
                             </div>
-                            <div class="form-text">Enable if this item needs lot/batch tracking</div>
+                            <div class="form-text">Habilitar si este artículo necesita seguimiento de lote/lote</div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-check form-switch">
                                 <input asp-for="RequiresSerial" class="form-check-input" type="checkbox"/>
                                 <label class="form-check-label" for="RequiresSerial">
-                                    Requires Serial Tracking
+                                    Requiere Seguimiento por Serie
                                 </label>
                             </div>
-                            <div class="form-text">Enable if this item needs serial number tracking</div>
+                            <div class="form-text">Habilitar si este artículo necesita seguimiento por número de serie</div>
                         </div>
 
                         <!-- Action Buttons -->
@@ -125,11 +137,11 @@
                             <div class="d-flex gap-2 justify-content-end">
                                 <a asp-action="Index" class="btn btn-outline-secondary">
                                     <i class="bi bi-x-circle me-1"></i>
-                                    Cancel
+                                    Cancelar
                                 </a>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-check-circle me-1"></i>
-                                    Update Item
+                                    Actualizar Artículo
                                 </button>
                             </div>
                         </div>

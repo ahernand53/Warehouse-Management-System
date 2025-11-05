@@ -80,15 +80,15 @@ public partial class LocationManagementForm : Form
         var locationName = selectedRow.Cells["Name"].Value?.ToString() ?? "";
 
         var result = MessageBox.Show(
-            $"Are you sure you want to delete location '{locationCode} - {locationName}'?\n\nThis action cannot be undone.",
-            "Confirm Delete",
+            $"¿Está seguro de que desea eliminar la ubicación '{locationCode} - {locationName}'?\n\nEsta acción no se puede deshacer.",
+            "Confirmar Eliminación",
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Warning);
 
         if (result == DialogResult.Yes)
         {
             // TODO: Implement delete functionality
-            ModernUIHelper.ShowModernWarning("Delete functionality not implemented yet.");
+            ModernUIHelper.ShowModernWarning("La funcionalidad de eliminación aún no está implementada.");
         }
     }
 
@@ -136,13 +136,13 @@ public partial class LocationManagementForm : Form
         try
         {
             SetBusy(true);
-            lblStatus.Text = "Loading locations...";
+            lblStatus.Text = "Cargando ubicaciones...";
 
             var result = await _getLocationsUseCase.ExecuteAsync();
 
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Error loading locations: {result.Error}");
+                ModernUIHelper.ShowModernError($"Error al cargar ubicaciones: {result.Error}");
                 return;
             }
 
@@ -153,13 +153,13 @@ public partial class LocationManagementForm : Form
 
             ConfigureGridColumns();
 
-            lblStatus.Text = $"Loaded {locations.Count} locations";
+            lblStatus.Text = $"Cargadas {locations.Count} ubicaciones";
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading locations");
-            ModernUIHelper.ShowModernError($"Error loading locations: {ex.Message}");
-            lblStatus.Text = "Error loading locations";
+            ModernUIHelper.ShowModernError($"Error al cargar ubicaciones: {ex.Message}");
+            lblStatus.Text = "Error al cargar ubicaciones";
         }
         finally
         {
@@ -178,13 +178,13 @@ public partial class LocationManagementForm : Form
             }
 
             SetBusy(true);
-            lblStatus.Text = "Searching locations...";
+            lblStatus.Text = "Buscando ubicaciones...";
 
             var result = await _getLocationsUseCase.ExecuteAsync(txtSearch.Text.Trim());
 
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Search error: {result.Error}");
+                ModernUIHelper.ShowModernError($"Error en la búsqueda: {result.Error}");
                 return;
             }
 
@@ -195,12 +195,12 @@ public partial class LocationManagementForm : Form
 
             ConfigureGridColumns();
 
-            lblStatus.Text = $"Found {locations.Count} matching locations";
+            lblStatus.Text = $"Se encontraron {locations.Count} ubicaciones coincidentes";
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error searching locations");
-            ModernUIHelper.ShowModernError($"Error searching: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al buscar: {ex.Message}");
         }
         finally
         {
@@ -228,7 +228,7 @@ public partial class LocationManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Code";
+                    col.HeaderText = "Código";
                     col.FillWeight = 15;
                 }
             });
@@ -237,7 +237,7 @@ public partial class LocationManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Name";
+                    col.HeaderText = "Nombre";
                     col.FillWeight = 25;
                 }
             });
@@ -246,7 +246,7 @@ public partial class LocationManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Full Path";
+                    col.HeaderText = "Ruta Completa";
                     col.FillWeight = 35;
                 }
             });
@@ -255,7 +255,7 @@ public partial class LocationManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Active";
+                    col.HeaderText = "Activo";
                     col.FillWeight = 8;
                     col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
@@ -265,7 +265,7 @@ public partial class LocationManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Pickable";
+                    col.HeaderText = "Picking";
                     col.FillWeight = 8;
                     col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
@@ -275,7 +275,7 @@ public partial class LocationManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Receivable";
+                    col.HeaderText = "Recepción";
                     col.FillWeight = 9;
                     col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
@@ -338,7 +338,7 @@ public partial class LocationManagementForm : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error showing location dialog");
-            ModernUIHelper.ShowModernError($"Error opening location dialog: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al abrir el diálogo de ubicación: {ex.Message}");
         }
     }
 

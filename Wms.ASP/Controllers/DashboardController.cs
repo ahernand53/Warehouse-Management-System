@@ -51,6 +51,7 @@ public class DashboardController : Controller
                 var summary = stockSummaryResult.Value.ToList();
                 model.TotalSKUs = summary.Count;
                 model.TotalStockValue = summary.Sum(s => s.TotalQuantity);
+                model.TotalInventoryValue = summary.Sum(s => s.TotalValue ?? 0);
             }
             else
             {
@@ -100,7 +101,7 @@ public class DashboardController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading dashboard data");
-            TempData["ErrorMessage"] = "Error loading dashboard data. Please try again.";
+            TempData["ErrorMessage"] = "Error al cargar los datos del panel. Por favor, intente nuevamente.";
             model.LastRefresh = DateTime.Now;
             return View(model);
         }

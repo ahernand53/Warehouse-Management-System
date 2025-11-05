@@ -89,7 +89,7 @@ namespace Wms.WinForms.Forms
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(167, 45);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "?? Picking";
+            lblTitle.Text = "🎯 Picking";
             // 
             // pnlMain
             // 
@@ -127,7 +127,7 @@ namespace Wms.WinForms.Forms
             txtNotes.Location = new Point(20, 115);
             txtNotes.Multiline = true;
             txtNotes.Name = "txtNotes";
-            txtNotes.PlaceholderText = "Optional notes for picking...";
+            txtNotes.PlaceholderText = "Notas opcionales para el picking...";
             txtNotes.Size = new Size(760, 125);
             txtNotes.TabIndex = 7;
             // 
@@ -140,14 +140,14 @@ namespace Wms.WinForms.Forms
             lblNotesTitle.Name = "lblNotesTitle";
             lblNotesTitle.Size = new Size(69, 25);
             lblNotesTitle.TabIndex = 6;
-            lblNotesTitle.Text = "Notes:";
+            lblNotesTitle.Text = "Notas:";
             // 
             // txtOrderNumber
             // 
             txtOrderNumber.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtOrderNumber.Location = new Point(420, 45);
             txtOrderNumber.Name = "txtOrderNumber";
-            txtOrderNumber.PlaceholderText = "Optional order number";
+            txtOrderNumber.PlaceholderText = "Número de orden opcional";
             txtOrderNumber.Size = new Size(360, 23);
             txtOrderNumber.TabIndex = 5;
             // 
@@ -160,7 +160,7 @@ namespace Wms.WinForms.Forms
             lblOrderNumberTitle.Name = "lblOrderNumberTitle";
             lblOrderNumberTitle.Size = new Size(149, 25);
             lblOrderNumberTitle.TabIndex = 4;
-            lblOrderNumberTitle.Text = "Order Number:";
+            lblOrderNumberTitle.Text = "Número de Orden:";
             // 
             // txtQuantity
             // 
@@ -178,7 +178,7 @@ namespace Wms.WinForms.Forms
             lblQuantityTitle.Name = "lblQuantityTitle";
             lblQuantityTitle.Size = new Size(94, 25);
             lblQuantityTitle.TabIndex = 2;
-            lblQuantityTitle.Text = "Quantity:";
+            lblQuantityTitle.Text = "Cantidad:";
             // 
             // txtFromLocation
             // 
@@ -196,7 +196,7 @@ namespace Wms.WinForms.Forms
             lblFromLocationTitle.Name = "lblFromLocationTitle";
             lblFromLocationTitle.Size = new Size(146, 25);
             lblFromLocationTitle.TabIndex = 0;
-            lblFromLocationTitle.Text = "From Location:";
+            lblFromLocationTitle.Text = "Ubicación de Origen:";
             // 
             // pnlItemInfo
             // 
@@ -222,7 +222,7 @@ namespace Wms.WinForms.Forms
             lblItemInfo.Padding = new Padding(15);
             lblItemInfo.Size = new Size(760, 30);
             lblItemInfo.TabIndex = 2;
-            lblItemInfo.Text = "No item selected";
+            lblItemInfo.Text = "No hay artículo seleccionado";
             lblItemInfo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // txtBarcode
@@ -231,7 +231,7 @@ namespace Wms.WinForms.Forms
             txtBarcode.Font = new Font("Segoe UI", 12F);
             txtBarcode.Location = new Point(20, 50);
             txtBarcode.Name = "txtBarcode";
-            txtBarcode.PlaceholderText = "Scan barcode here...";
+            txtBarcode.PlaceholderText = "Escanee el código de barras aquí...";
             txtBarcode.Size = new Size(760, 29);
             txtBarcode.TabIndex = 1;
             // 
@@ -244,7 +244,7 @@ namespace Wms.WinForms.Forms
             lblBarcodeTitle.Name = "lblBarcodeTitle";
             lblBarcodeTitle.Size = new Size(247, 30);
             lblBarcodeTitle.TabIndex = 0;
-            lblBarcodeTitle.Text = "Scan or Enter Barcode:";
+            lblBarcodeTitle.Text = "Escanear o Ingresar Código de Barras:";
             // 
             // pnlActions
             // 
@@ -266,7 +266,7 @@ namespace Wms.WinForms.Forms
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(100, 40);
             btnClear.TabIndex = 1;
-            btnClear.Text = "Clear (F2)";
+            btnClear.Text = "Limpiar (F2)";
             btnClear.UseVisualStyleBackColor = true;
             // 
             // btnPick
@@ -277,7 +277,7 @@ namespace Wms.WinForms.Forms
             btnPick.Name = "btnPick";
             btnPick.Size = new Size(140, 40);
             btnPick.TabIndex = 0;
-            btnPick.Text = "Pick (F1)";
+            btnPick.Text = "Picking (F1)";
             btnPick.UseVisualStyleBackColor = true;
             // 
             // statusStrip
@@ -292,7 +292,7 @@ namespace Wms.WinForms.Forms
             // 
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(110, 17);
-            lblStatus.Text = "Ready to pick items";
+            lblStatus.Text = "Listo para hacer picking de artículos";
             // 
             // PickingForm
             // 
@@ -308,7 +308,7 @@ namespace Wms.WinForms.Forms
             MinimumSize = new Size(800, 550);
             Name = "PickingForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "WMS - Picking";
+            Text = "SGA - Picking";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlMain.ResumeLayout(false);

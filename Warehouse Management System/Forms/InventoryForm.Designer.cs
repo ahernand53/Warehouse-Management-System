@@ -75,7 +75,7 @@ namespace Wms.WinForms.Forms
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(372, 45);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "Inventory Management";
+            lblTitle.Text = "Gestión de Inventario";
             // 
             // pnlSearch
             // 
@@ -97,7 +97,7 @@ namespace Wms.WinForms.Forms
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(100, 35);
             btnSearch.TabIndex = 2;
-            btnSearch.Text = "Search";
+            btnSearch.Text = "Buscar";
             btnSearch.UseVisualStyleBackColor = true;
             // 
             // txtSearch
@@ -105,7 +105,7 @@ namespace Wms.WinForms.Forms
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtSearch.Location = new Point(112, 29);
             txtSearch.Name = "txtSearch";
-            txtSearch.PlaceholderText = "Search by SKU, item name, or barcode...";
+            txtSearch.PlaceholderText = "Buscar por SKU, nombre del artículo o código de barras...";
             txtSearch.Size = new Size(948, 23);
             txtSearch.TabIndex = 1;
             // 
@@ -118,7 +118,7 @@ namespace Wms.WinForms.Forms
             lblSearch.Name = "lblSearch";
             lblSearch.Size = new Size(76, 25);
             lblSearch.TabIndex = 0;
-            lblSearch.Text = "Search:";
+            lblSearch.Text = "Buscar:";
             // 
             // pnlActions
             // 

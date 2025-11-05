@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - Warehouse Management System</title>
+    <title>@ViewData["Title"] - Sistema de Gestión de Almacén</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/Wms.ASP.styles.css" asp-append-version="true"/>
@@ -15,35 +15,35 @@
         <div class="container">
             <a class="navbar-brand fw-bold d-flex align-items-center" asp-controller="Dashboard" asp-action="Index">
                 <i class="bi bi-boxes me-2 fs-4"></i>
-                <span class="d-none d-md-inline">Warehouse Management System</span>
-                <span class="d-md-none">WMS</span>
+                <span class="d-none d-md-inline">Sistema de Gestión de Almacén</span>
+                <span class="d-md-none">SGA</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegación">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link px-3 py-2 rounded-pill mx-1" asp-controller="Dashboard" asp-action="Index">
-                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                            <i class="bi bi-speedometer2 me-1"></i>Panel de Control
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle px-3 py-2 rounded-pill mx-1" href="#" id="operationsDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-arrow-repeat me-1"></i>Operations
+                            <i class="bi bi-arrow-repeat me-1"></i>Operaciones
                         </a>
                         <ul class="dropdown-menu shadow border-0 mt-2">
                             <li>
                                 <a class="dropdown-item py-2" asp-controller="Receiving" asp-action="Receive">
-                                    <i class="bi bi-box-arrow-in-down me-2 text-success"></i>Receiving
+                                    <i class="bi bi-box-arrow-in-down me-2 text-success"></i>Recepción
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item py-2" asp-controller="Receiving" asp-action="Putaway">
-                                    <i class="bi bi-box-arrow-right me-2 text-info"></i>Putaway
+                                    <i class="bi bi-box-arrow-right me-2 text-info"></i>Almacenamiento
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
@@ -56,24 +56,24 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-3 py-2 rounded-pill mx-1" asp-controller="Inventory" asp-action="Index">
-                            <i class="bi bi-stack me-1"></i>Inventory
+                            <i class="bi bi-stack me-1"></i>Inventario
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle px-3 py-2 rounded-pill mx-1" href="#" id="managementDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-gear me-1"></i>Management
+                            <i class="bi bi-gear me-1"></i>Gestión
                         </a>
                         <ul class="dropdown-menu shadow border-0 mt-2">
                             <li>
                                 <a class="dropdown-item py-2" asp-controller="Items" asp-action="Index">
-                                    <i class="bi bi-box me-2 text-warning"></i>Items
+                                    <i class="bi bi-box me-2 text-warning"></i>Artículos
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item py-2" asp-controller="Locations" asp-action="Index">
-                                    <i class="bi bi-geo-alt me-2 text-danger"></i>Locations
+                                    <i class="bi bi-geo-alt me-2 text-danger"></i>Ubicaciones
                                 </a>
                             </li>
                         </ul>
@@ -99,11 +99,11 @@
             <div class="d-flex align-items-center">
                 <i class="bi bi-check-circle-fill me-3 fs-4 text-success"></i>
                 <div>
-                    <strong>Success!</strong>
+                    <strong>¡Éxito!</strong>
                     <div>@TempData["SuccessMessage"]</div>
                 </div>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
         </div>
     }
 
@@ -113,11 +113,11 @@
             <div class="d-flex align-items-center">
                 <i class="bi bi-exclamation-triangle-fill me-3 fs-4 text-danger"></i>
                 <div>
-                    <strong>Error!</strong>
+                    <strong>¡Error!</strong>
                     <div>@TempData["ErrorMessage"]</div>
                 </div>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
         </div>
     }
 
@@ -127,11 +127,11 @@
             <div class="d-flex align-items-center">
                 <i class="bi bi-info-circle-fill me-3 fs-4 text-info"></i>
                 <div>
-                    <strong>Information</strong>
+                    <strong>Información</strong>
                     <div>@TempData["InfoMessage"]</div>
                 </div>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
         </div>
     }
 
@@ -146,11 +146,11 @@
             <div class="col-md-6">
                 <div class="d-flex align-items-center text-white">
                     <i class="bi bi-boxes me-2"></i>
-                    <span>&copy; 2025 - Warehouse Management System</span>
+                    <span>&copy; 2025 - Sistema de Gestión de Almacén</span>
                 </div>
             </div>
             <div class="col-md-6 text-md-end">
-                <small style="color: white;">Built With <span style="color: red;">♥</span> By Ahmed Osama</small>
+                <small style="color: white;">Built With <span style="color: red;">♥</span> By RADE Studio S.A.S</small>
             </div>
         </div>
     </div>

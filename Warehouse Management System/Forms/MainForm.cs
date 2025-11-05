@@ -113,7 +113,7 @@ public partial class MainForm : Form
     private void ShowDashboard()
     {
         ShowChildFormInPanel<DashboardForm>();
-        lblStatus.Text = "Dashboard - Overview of warehouse operations";
+        lblStatus.Text = "Panel de Control - Resumen de operaciones del almacén";
     }
 
     private void MainForm_KeyDown(object? sender, KeyEventArgs e)

@@ -17,6 +17,7 @@ public record CreateItemDto(
     bool RequiresLot = false,
     bool RequiresSerial = false,
     int ShelfLifeDays = 0,
+    decimal? Price = null,
     List<string> Barcodes = null!
 );
 
@@ -25,6 +26,7 @@ public record UpdateItemDto(
     string Name,
     string Description,
     int ShelfLifeDays = 0,
+    decimal? Price = null,
     List<string> Barcodes = null!
 );
 
@@ -81,6 +83,9 @@ public class CreateItemUseCase : ICreateItemUseCase
             if (request.ShelfLifeDays > 0)
                 item.SetShelfLife(request.ShelfLifeDays);
 
+            if (request.Price.HasValue || request.Price == null)
+                item.SetPrice(request.Price);
+
             // Add barcodes
             if (request.Barcodes?.Any() == true)
             {
@@ -120,6 +125,7 @@ public class CreateItemUseCase : ICreateItemUseCase
             item.RequiresLot,
             item.RequiresSerial,
             item.ShelfLifeDays,
+            item.Price,
             item.Barcodes.Select(b => b.Value).ToList(),
             item.CreatedAt,
             item.UpdatedAt
@@ -152,6 +158,9 @@ public class UpdateItemUseCase : IUpdateItemUseCase
 
             if (request.ShelfLifeDays >= 0)
                 item.SetShelfLife(request.ShelfLifeDays);
+
+            if (request.Price.HasValue || request.Price == null)
+                item.SetPrice(request.Price);
 
             // Update barcodes (simplified - remove all and add new ones)
             var currentBarcodes = item.Barcodes.ToList();
@@ -198,6 +207,7 @@ public class UpdateItemUseCase : IUpdateItemUseCase
             item.RequiresLot,
             item.RequiresSerial,
             item.ShelfLifeDays,
+            item.Price,
             item.Barcodes.Select(b => b.Value).ToList(),
             item.CreatedAt,
             item.UpdatedAt
