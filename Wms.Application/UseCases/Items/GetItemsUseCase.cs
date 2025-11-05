@@ -112,6 +112,7 @@ public class GetItemsUseCase : IGetItemsUseCase
             item.RequiresLot,
             item.RequiresSerial,
             item.ShelfLifeDays,
+            item.Price,
             item.Barcodes.Select(b => b.Value).ToList(),
             item.CreatedAt,
             item.UpdatedAt

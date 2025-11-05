@@ -1,13 +1,19 @@
 @model InventoryViewModel
 @{
-    ViewData["Title"] = "Inventory Management";
+    ViewData["Title"] = "Gestión de Inventario";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">
         <i class="bi bi-stack me-2 text-primary"></i>
-        Inventory Management
+        Gestión de Inventario
     </h2>
+    @if (Model.TotalInventoryValue.HasValue && Model.TotalInventoryValue.Value > 0)
+    {
+        <div class="alert alert-success mb-0">
+            <strong>Valor Total del Inventario:</strong> @Model.TotalInventoryValue.Value.ToString("C2")
+        </div>
+    }
 </div>
 
 <!-- Action Bar -->
@@ -15,13 +21,13 @@
     <div class="card-body">
         <form method="get" class="row g-3 align-items-end">
             <div class="col-md-4">
-                <label for="searchTerm" class="form-label">Search Inventory</label>
+                <label for="searchTerm" class="form-label">Buscar Inventario</label>
                 <div class="input-group">
                     <span class="input-group-text">
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" class="form-control" id="searchTerm" name="searchTerm"
-                           value="@Model.SearchTerm" placeholder="Search by SKU, name, or location">
+                           value="@Model.SearchTerm" placeholder="Buscar por SKU, nombre o ubicación">
                 </div>
             </div>
             <div class="col-md-3">
@@ -29,7 +35,7 @@
                     <input class="form-check-input" type="checkbox" id="showSummary" name="showSummary"
                            value="true" @(Model.ShowSummary ? "checked" : "")>
                     <label class="form-check-label" for="showSummary">
-                        Show Summary View
+                        Mostrar Vista Resumen
                     </label>
                 </div>
             </div>
@@ -37,15 +43,15 @@
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search me-1"></i>
-                        Search
+                        Buscar
                     </button>
                     <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
                         <i class="bi bi-x-circle me-1"></i>
-                        Clear
+                        Limpiar
                     </a>
                     <button type="button" class="btn btn-outline-primary" onclick="window.location.reload()">
                         <i class="bi bi-arrow-clockwise me-1"></i>
-                        Refresh
+                        Actualizar
                     </button>
                 </div>
             </div>
@@ -60,7 +66,7 @@
         <div class="card-header bg-white border-bottom">
             <h5 class="card-title mb-0">
                 <i class="bi bi-bar-chart-line me-2 text-success"></i>
-                Stock Summary (@Model.StockSummary.Count items)
+                Resumen de Inventario (@Model.StockSummary.Count artículos)
             </h5>
         </div>
         <div class="card-body p-0">
@@ -71,11 +77,13 @@
                         <thead class="table-light">
                         <tr>
                             <th>SKU</th>
-                            <th>Item Name</th>
-                            <th class="text-end">Total Qty</th>
-                            <th class="text-end">Reserved</th>
-                            <th class="text-end">Available</th>
-                            <th class="text-center">Locations</th>
+                            <th>Nombre del Artículo</th>
+                            <th class="text-end">Cantidad Total</th>
+                            <th class="text-end">Reservado</th>
+                            <th class="text-end">Disponible</th>
+                            <th class="text-end">Precio</th>
+                            <th class="text-end">Valor Total</th>
+                            <th class="text-center">Ubicaciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -91,6 +99,26 @@
                                         @item.TotalAvailable.ToString("N2")
                                     </span>
                                 </td>
+                                <td class="text-end">
+                                    @if (item.ItemPrice.HasValue)
+                                    {
+                                        <span>@item.ItemPrice.Value.ToString("C2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    @if (item.TotalValue.HasValue)
+                                    {
+                                        <span class="fw-bold text-success">@item.TotalValue.Value.ToString("C2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
                                 <td class="text-center">
                                     <span class="badge bg-info">@item.LocationCount</span>
                                 </td>
@@ -104,7 +132,7 @@
             {
                 <div class="text-center py-5 text-muted">
                     <i class="bi bi-inbox fs-1 mb-3"></i>
-                    <p class="mb-0">No stock summary data available</p>
+                    <p class="mb-0">No hay datos de resumen de inventario disponibles</p>
                 </div>
             }
         </div>
@@ -117,7 +145,7 @@ else
         <div class="card-header bg-white border-bottom">
             <h5 class="card-title mb-0">
                 <i class="bi bi-list-ul me-2 text-primary"></i>
-                Stock Details (@Model.StockItems.Count items)
+                Detalles de Inventario (@Model.StockItems.Count artículos)
             </h5>
         </div>
         <div class="card-body p-0">
@@ -128,12 +156,14 @@ else
                         <thead class="table-light">
                         <tr>
                             <th>SKU</th>
-                            <th>Item Name</th>
-                            <th>Location</th>
-                            <th class="text-end">Available</th>
-                            <th class="text-end">Reserved</th>
-                            <th class="text-end">Net Available</th>
-                            <th class="text-center">Actions</th>
+                            <th>Nombre del Artículo</th>
+                            <th>Ubicación</th>
+                            <th class="text-end">Disponible</th>
+                            <th class="text-end">Reservado</th>
+                            <th class="text-end">Disponible Neto</th>
+                            <th class="text-end">Precio</th>
+                            <th class="text-end">Valor Total</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -153,13 +183,33 @@ else
                                         @item.AvailableQuantity.ToString("N2")
                                     </span>
                                 </td>
+                                <td class="text-end">
+                                    @if (item.ItemPrice.HasValue)
+                                    {
+                                        <span>@item.ItemPrice.Value.ToString("C2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    @if (item.TotalValue.HasValue)
+                                    {
+                                        <span class="fw-bold text-success">@item.TotalValue.Value.ToString("C2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
                                 <td class="text-center">
                                     <a asp-action="Adjust"
                                        asp-route-itemSku="@item.ItemSku"
                                        asp-route-locationCode="@item.LocationCode"
                                        asp-route-currentQuantity="@item.QuantityAvailable"
                                        class="btn btn-sm btn-outline-warning"
-                                       title="Adjust Stock">
+                                       title="Ajustar Inventario">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 </td>
@@ -173,10 +223,10 @@ else
             {
                 <div class="text-center py-5 text-muted">
                     <i class="bi bi-inbox fs-1 mb-3"></i>
-                    <p class="mb-0">No stock items found</p>
+                    <p class="mb-0">No se encontraron artículos de inventario</p>
                     @if (!string.IsNullOrWhiteSpace(Model.SearchTerm))
                     {
-                        <p>Try adjusting your search criteria</p>
+                        <p>Intente ajustar sus criterios de búsqueda</p>
                     }
                 </div>
             }

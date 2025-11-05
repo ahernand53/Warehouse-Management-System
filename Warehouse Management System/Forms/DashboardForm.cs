@@ -48,7 +48,7 @@ public partial class DashboardForm : Form
     {
         try
         {
-            lblLastRefresh.Text = $"Last Refreshed: {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
+                lblLastRefresh.Text = $"Última actualización: {DateTime.Now:dd/MM/yyyy HH:mm:ss}";
 
             // Load KPI data
             await LoadKpiDataAsync();
@@ -86,8 +86,11 @@ public partial class DashboardForm : Form
             {
                 var summary = stockResult.Value.ToList();
                 lblTotalSKUs.Text = summary.Count.ToString("N0");
-                var totalValue = summary.Sum(s => s.TotalQuantity);
-                lblTotalStockValue.Text = totalValue.ToString("N0");
+                var totalQuantity = summary.Sum(s => s.TotalQuantity);
+                var totalInventoryValue = summary.Sum(s => s.TotalValue ?? 0);
+                lblTotalStockValue.Text = totalInventoryValue > 0 
+                    ? totalInventoryValue.ToString("C2") 
+                    : totalQuantity.ToString("N0");
             }
 
             // Stock Locations

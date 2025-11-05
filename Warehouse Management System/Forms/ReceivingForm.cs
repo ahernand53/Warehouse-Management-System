@@ -106,7 +106,7 @@ public partial class ReceivingForm : Form
             if (string.IsNullOrWhiteSpace(txtBarcode.Text))
             {
                 PlayErrorSound();
-                ModernUIHelper.ShowModernError("Please scan or enter a barcode");
+                ModernUIHelper.ShowModernError("Por favor escanee o ingrese un código de barras");
                 return;
             }
 
@@ -117,14 +117,14 @@ public partial class ReceivingForm : Form
             if (result.IsFailure)
             {
                 PlayErrorSound();
-                ModernUIHelper.ShowModernError($"Item not found: {result.Error}");
+                ModernUIHelper.ShowModernError($"Artículo no encontrado: {result.Error}");
                 txtBarcode.SelectAll();
                 return;
             }
 
             // Populate item information
             var item = result.Value;
-            lblItemInfo.Text = $"SKU: {item.Sku}\nName: {item.Name}\nUOM: {item.UnitOfMeasure}";
+            lblItemInfo.Text = $"SKU: {item.Sku}\nNombre: {item.Name}\nUOM: {item.UnitOfMeasure}";
             lblItemInfo.ForeColor = ModernUIHelper.Colors.Success;
 
             // Set focus to quantity
@@ -153,7 +153,7 @@ public partial class ReceivingForm : Form
         {
             _logger.LogError(ex, "Error processing barcode {Barcode}", txtBarcode.Text);
             PlayErrorSound();
-            ModernUIHelper.ShowModernError($"Error processing barcode: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al procesar el código de barras: {ex.Message}");
         }
         finally
         {
@@ -191,7 +191,7 @@ public partial class ReceivingForm : Form
             }
 
             PlaySuccessSound();
-            ModernUIHelper.ShowModernSuccess($"Item received successfully!\nMovement ID: {result.Value.MovementId}");
+            ModernUIHelper.ShowModernSuccess($"¡Artículo recibido exitosamente!\nID de Movimiento: {result.Value.MovementId}");
 
             ClearForm();
             txtBarcode.Focus();
@@ -200,7 +200,7 @@ public partial class ReceivingForm : Form
         {
             _logger.LogError(ex, "Error receiving item");
             PlayErrorSound();
-            ModernUIHelper.ShowModernError($"Error receiving item: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al recibir el artículo: {ex.Message}");
         }
         finally
         {
@@ -233,9 +233,9 @@ public partial class ReceivingForm : Form
 
     private bool ValidateInput()
     {
-        if (string.IsNullOrWhiteSpace(lblItemInfo.Text) || lblItemInfo.Text == "No item selected")
+        if (string.IsNullOrWhiteSpace(lblItemInfo.Text) || lblItemInfo.Text == "No hay artículo seleccionado")
         {
-            ModernUIHelper.ShowModernError("Please scan a valid barcode first");
+            ModernUIHelper.ShowModernError("Por favor escanee un código de barras válido primero");
             txtBarcode.Focus();
             return false;
         }
@@ -243,21 +243,21 @@ public partial class ReceivingForm : Form
         if (string.IsNullOrWhiteSpace(txtQuantity.Text) || !decimal.TryParse(txtQuantity.Text, out var quantity) ||
             quantity <= 0)
         {
-            ModernUIHelper.ShowModernError("Please enter a valid quantity");
+            ModernUIHelper.ShowModernError("Por favor ingrese una cantidad válida");
             txtQuantity.Focus();
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtLocationCode.Text))
         {
-            ModernUIHelper.ShowModernError("Please enter a location code");
+            ModernUIHelper.ShowModernError("Por favor ingrese un código de ubicación");
             txtLocationCode.Focus();
             return false;
         }
 
         if (txtLotNumber.Visible && string.IsNullOrWhiteSpace(txtLotNumber.Text))
         {
-            ModernUIHelper.ShowModernError("Lot number is required for this item");
+            ModernUIHelper.ShowModernError("El número de lote es requerido para este artículo");
             txtLotNumber.Focus();
             return false;
         }
@@ -284,7 +284,7 @@ public partial class ReceivingForm : Form
         txtLotNumber.Clear();
         txtReferenceNumber.Clear();
         txtNotes.Clear();
-        lblItemInfo.Text = "No item selected";
+        lblItemInfo.Text = "No hay artículo seleccionado";
         lblItemInfo.ForeColor = ModernUIHelper.Colors.TextMuted;
         lblLotNumber.Visible = false;
         txtLotNumber.Visible = false;

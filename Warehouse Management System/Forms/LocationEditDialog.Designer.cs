@@ -87,7 +87,7 @@ namespace Wms.WinForms.Forms
             lblFormTitle.Name = "lblFormTitle";
             lblFormTitle.Size = new Size(188, 37);
             lblFormTitle.TabIndex = 0;
-            lblFormTitle.Text = "Add Location";
+            lblFormTitle.Text = "Agregar Ubicación";
             // 
             // pnlMain
             // 
@@ -135,7 +135,7 @@ namespace Wms.WinForms.Forms
             lblCapacity.Name = "lblCapacity";
             lblCapacity.Size = new Size(92, 25);
             lblCapacity.TabIndex = 3;
-            lblCapacity.Text = "Capacity:";
+            lblCapacity.Text = "Capacidad:";
             // 
             // chkIsReceivable
             // 
@@ -145,7 +145,7 @@ namespace Wms.WinForms.Forms
             chkIsReceivable.Name = "chkIsReceivable";
             chkIsReceivable.Size = new Size(161, 24);
             chkIsReceivable.TabIndex = 2;
-            chkIsReceivable.Text = "Receivable Location";
+            chkIsReceivable.Text = "Ubicación de Recepción";
             chkIsReceivable.UseVisualStyleBackColor = true;
             // 
             // chkIsPickable
@@ -156,7 +156,7 @@ namespace Wms.WinForms.Forms
             chkIsPickable.Name = "chkIsPickable";
             chkIsPickable.Size = new Size(144, 24);
             chkIsPickable.TabIndex = 1;
-            chkIsPickable.Text = "Pickable Location";
+            chkIsPickable.Text = "Ubicación de Picking";
             chkIsPickable.UseVisualStyleBackColor = true;
             // 
             // lblPropertiesTitle
@@ -168,7 +168,7 @@ namespace Wms.WinForms.Forms
             lblPropertiesTitle.Name = "lblPropertiesTitle";
             lblPropertiesTitle.Size = new Size(216, 30);
             lblPropertiesTitle.TabIndex = 0;
-            lblPropertiesTitle.Text = "Location Properties";
+            lblPropertiesTitle.Text = "Propiedades de la Ubicación";
             // 
             // pnlBasicInfo
             // 
@@ -206,7 +206,7 @@ namespace Wms.WinForms.Forms
             lblParentLocation.Name = "lblParentLocation";
             lblParentLocation.Size = new Size(158, 25);
             lblParentLocation.TabIndex = 5;
-            lblParentLocation.Text = "Parent Location:";
+            lblParentLocation.Text = "Ubicación Padre:";
             // 
             // txtName
             // 
@@ -225,7 +225,7 @@ namespace Wms.WinForms.Forms
             lblName.Name = "lblName";
             lblName.Size = new Size(69, 25);
             lblName.TabIndex = 3;
-            lblName.Text = "Name:";
+            lblName.Text = "Nombre:";
             // 
             // txtCode
             // 
@@ -243,7 +243,7 @@ namespace Wms.WinForms.Forms
             lblCode.Name = "lblCode";
             lblCode.Size = new Size(63, 25);
             lblCode.TabIndex = 1;
-            lblCode.Text = "Code:";
+            lblCode.Text = "Código:";
             // 
             // lblBasicInfoTitle
             // 
@@ -254,7 +254,7 @@ namespace Wms.WinForms.Forms
             lblBasicInfoTitle.Name = "lblBasicInfoTitle";
             lblBasicInfoTitle.Size = new Size(195, 30);
             lblBasicInfoTitle.TabIndex = 0;
-            lblBasicInfoTitle.Text = "Basic Information";
+            lblBasicInfoTitle.Text = "Información Básica";
             // 
             // pnlActions
             // 
@@ -276,7 +276,7 @@ namespace Wms.WinForms.Forms
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(100, 40);
             btnCancel.TabIndex = 1;
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = "Cancelar";
             btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnSave
@@ -287,7 +287,7 @@ namespace Wms.WinForms.Forms
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(100, 40);
             btnSave.TabIndex = 0;
-            btnSave.Text = "Save (F1)";
+            btnSave.Text = "Guardar (F1)";
             btnSave.UseVisualStyleBackColor = true;
             // 
             // LocationEditDialog
@@ -306,7 +306,7 @@ namespace Wms.WinForms.Forms
             MinimumSize = new Size(650, 500);
             Name = "LocationEditDialog";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Location Details";
+            Text = "Detalles de Ubicación";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlMain.ResumeLayout(false);

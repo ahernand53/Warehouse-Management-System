@@ -45,7 +45,7 @@ public partial class StockAdjustmentDialog : Form
         ModernUIHelper.StyleSecondaryButton(btnCancel);
 
         // Populate initial values
-        lblItemInfo.Text = $"Item: {_itemSku}\nLocation: {_locationCode}\nCurrent Quantity: {_currentQuantity:N2}";
+        lblItemInfo.Text = $"Artículo: {_itemSku}\nUbicación: {_locationCode}\nCantidad Actual: {_currentQuantity:N2}";
         txtNewQuantity.Text = _currentQuantity.ToString("N2");
 
         txtNewQuantity.Focus();
@@ -109,21 +109,21 @@ public partial class StockAdjustmentDialog : Form
     {
         if (string.IsNullOrWhiteSpace(txtNewQuantity.Text) || !decimal.TryParse(txtNewQuantity.Text, out var quantity))
         {
-            ModernUIHelper.ShowModernError("Please enter a valid quantity");
+            ModernUIHelper.ShowModernError("Por favor ingrese una cantidad válida");
             txtNewQuantity.Focus();
             return false;
         }
 
         if (quantity < 0)
         {
-            ModernUIHelper.ShowModernError("Quantity cannot be negative");
+            ModernUIHelper.ShowModernError("La cantidad no puede ser negativa");
             txtNewQuantity.Focus();
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtReason.Text))
         {
-            ModernUIHelper.ShowModernError("Please enter a reason for the adjustment");
+            ModernUIHelper.ShowModernError("Por favor ingrese una razón para el ajuste");
             txtReason.Focus();
             return false;
         }

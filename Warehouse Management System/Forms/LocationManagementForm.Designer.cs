@@ -77,7 +77,7 @@ namespace Wms.WinForms.Forms
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(355, 45);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "Location Management";
+            lblTitle.Text = "Gestión de Ubicaciones";
             // 
             // pnlSearch
             // 
@@ -99,7 +99,7 @@ namespace Wms.WinForms.Forms
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(100, 35);
             btnSearch.TabIndex = 2;
-            btnSearch.Text = "Search";
+            btnSearch.Text = "Buscar";
             btnSearch.UseVisualStyleBackColor = true;
             // 
             // txtSearch
@@ -107,7 +107,7 @@ namespace Wms.WinForms.Forms
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtSearch.Location = new Point(112, 27);
             txtSearch.Name = "txtSearch";
-            txtSearch.PlaceholderText = "Search by code, name, or warehouse...";
+            txtSearch.PlaceholderText = "Buscar por código, nombre o almacén...";
             txtSearch.Size = new Size(948, 23);
             txtSearch.TabIndex = 1;
             // 
@@ -120,7 +120,7 @@ namespace Wms.WinForms.Forms
             lblSearch.Name = "lblSearch";
             lblSearch.Size = new Size(76, 25);
             lblSearch.TabIndex = 0;
-            lblSearch.Text = "Search:";
+            lblSearch.Text = "Buscar:";
             // 
             // pnlActions
             // 
@@ -142,7 +142,7 @@ namespace Wms.WinForms.Forms
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(120, 40);
             btnRefresh.TabIndex = 3;
-            btnRefresh.Text = "Refresh (F5)";
+            btnRefresh.Text = "Actualizar (F5)";
             btnRefresh.UseVisualStyleBackColor = true;
             // 
             // btnDelete
@@ -152,7 +152,7 @@ namespace Wms.WinForms.Forms
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(100, 40);
             btnDelete.TabIndex = 2;
-            btnDelete.Text = "Delete (Del)";
+            btnDelete.Text = "Eliminar (Del)";
             btnDelete.UseVisualStyleBackColor = true;
             // 
             // btnEdit
@@ -162,7 +162,7 @@ namespace Wms.WinForms.Forms
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(100, 40);
             btnEdit.TabIndex = 1;
-            btnEdit.Text = "Edit (F2)";
+            btnEdit.Text = "Editar (F2)";
             btnEdit.UseVisualStyleBackColor = true;
             // 
             // btnAdd
@@ -171,7 +171,7 @@ namespace Wms.WinForms.Forms
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(100, 40);
             btnAdd.TabIndex = 0;
-            btnAdd.Text = "Add (F1)";
+            btnAdd.Text = "Agregar (F1)";
             btnAdd.UseVisualStyleBackColor = true;
             // 
             // pnlMain
@@ -212,7 +212,7 @@ namespace Wms.WinForms.Forms
             // 
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(39, 17);
-            lblStatus.Text = "Ready";
+            lblStatus.Text = "Listo";
             // 
             // LocationManagementForm
             // 
@@ -228,7 +228,7 @@ namespace Wms.WinForms.Forms
             FormBorderStyle = FormBorderStyle.None;
             KeyPreview = true;
             Name = "LocationManagementForm";
-            Text = "WMS - Location Management";
+            Text = "SGA - Gestión de Ubicaciones";
             WindowState = FormWindowState.Maximized;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();

@@ -141,10 +141,77 @@ internal static class Program
         using var scope = _host!.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
 
-        await context.Database.EnsureCreatedAsync();
+        try
+        {
+            // Try to apply migrations first
+            await context.Database.MigrateAsync();
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Error applying migrations, attempting to ensure database exists");
+            
+            // If migrations fail, ensure database exists and check for Price column
+            await context.Database.EnsureCreatedAsync();
+            
+            // Check if Price column exists, if not, add it manually
+            await EnsurePriceColumnExistsAsync(context);
+        }
 
         // Seed initial data
         await SeedDataAsync(context);
+    }
+
+    private static async Task EnsurePriceColumnExistsAsync(WmsDbContext context)
+    {
+        var connection = context.Database.GetDbConnection();
+        var wasOpen = connection.State == System.Data.ConnectionState.Open;
+        
+        try
+        {
+            if (!wasOpen)
+            {
+                await connection.OpenAsync();
+            }
+            
+            // Check if Price column exists in Items table
+            using var command = connection.CreateCommand();
+            command.CommandText = "PRAGMA table_info(Items)";
+            using var reader = await command.ExecuteReaderAsync();
+            
+            bool priceColumnExists = false;
+            while (await reader.ReadAsync())
+            {
+                var columnName = reader.GetString(1);
+                if (columnName.Equals("Price", StringComparison.OrdinalIgnoreCase))
+                {
+                    priceColumnExists = true;
+                    break;
+                }
+            }
+            
+            await reader.CloseAsync();
+            
+            if (!priceColumnExists)
+            {
+                Log.Information("Adding Price column to Items table");
+                using var alterCommand = connection.CreateCommand();
+                alterCommand.CommandText = "ALTER TABLE Items ADD COLUMN Price REAL";
+                await alterCommand.ExecuteNonQueryAsync();
+                Log.Information("Price column added successfully");
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error checking/adding Price column");
+            // Don't throw - allow application to continue
+        }
+        finally
+        {
+            if (!wasOpen && connection.State == System.Data.ConnectionState.Open)
+            {
+                await connection.CloseAsync();
+            }
+        }
     }
 
     private static async Task SeedDataAsync(WmsDbContext context)

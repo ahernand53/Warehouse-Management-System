@@ -37,11 +37,11 @@ public partial class ReportsForm : Form
         dtpToDate.Value = DateTime.Today;
 
         // Setup movement type combo
-        cmbMovementType.Items.Add("All Types");
-        cmbMovementType.Items.Add("Receipt");
-        cmbMovementType.Items.Add("Putaway");
-        cmbMovementType.Items.Add("Pick");
-        cmbMovementType.Items.Add("Adjustment");
+        cmbMovementType.Items.Add("Todos los Tipos");
+        cmbMovementType.Items.Add("Recepción");
+        cmbMovementType.Items.Add("Almacenamiento");
+        cmbMovementType.Items.Add("Picking");
+        cmbMovementType.Items.Add("Ajuste");
         cmbMovementType.SelectedIndex = 0;
 
         KeyPreview = true;
@@ -61,7 +61,7 @@ public partial class ReportsForm : Form
         try
         {
             SetBusy(true);
-            lblStatus.Text = "Generating report...";
+            lblStatus.Text = "Generando reporte...";
 
             var request = new MovementReportRequest(
                 dtpFromDate.Value.Date,
@@ -74,8 +74,8 @@ public partial class ReportsForm : Form
 
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Error generating report: {result.Error}");
-                lblStatus.Text = "Error generating report";
+                ModernUIHelper.ShowModernError($"Error al generar el reporte: {result.Error}");
+                lblStatus.Text = "Error al generar el reporte";
                 return;
             }
 
@@ -86,24 +86,24 @@ public partial class ReportsForm : Form
 
             ConfigureGridColumns();
 
-            lblStatus.Text = $"Report generated: {reportData.Count} movements found";
+            lblStatus.Text = $"Reporte generado: {reportData.Count} movimientos encontrados";
             btnExport.Enabled = reportData.Count > 0;
 
             if (reportData.Count > 0)
             {
                 ModernUIHelper.ShowModernSuccess(
-                    $"Report generated successfully!\nFound {reportData.Count} movement records.");
+                    $"¡Reporte generado exitosamente!\nSe encontraron {reportData.Count} registros de movimientos.");
             }
             else
             {
-                ModernUIHelper.ShowModernWarning("No movement records found for the selected criteria.");
+                ModernUIHelper.ShowModernWarning("No se encontraron registros de movimientos para los criterios seleccionados.");
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error generating movement report");
-            ModernUIHelper.ShowModernError($"Error generating report: {ex.Message}");
-            lblStatus.Text = "Error generating report";
+            ModernUIHelper.ShowModernError($"Error al generar el reporte: {ex.Message}");
+            lblStatus.Text = "Error al generar el reporte";
         }
         finally
         {
@@ -117,7 +117,7 @@ public partial class ReportsForm : Form
         {
             if (dgvMovements.DataSource == null)
             {
-                ModernUIHelper.ShowModernError("No data to export. Please generate a report first.");
+                ModernUIHelper.ShowModernError("No hay datos para exportar. Por favor genere un reporte primero.");
                 return;
             }
 
@@ -125,16 +125,16 @@ public partial class ReportsForm : Form
             {
                 Filter = "CSV files (*.csv)|*.csv|Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*",
                 FileName = $"Movement_Report_{DateTime.Now:yyyyMMdd_HHmmss}.csv",
-                Title = "Export Movement Report"
+                Title = "Exportar Reporte de Movimientos"
             };
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
                 ExportToCsv(saveDialog.FileName);
-                ModernUIHelper.ShowModernSuccess($"Report exported successfully to:\n{saveDialog.FileName}");
+                ModernUIHelper.ShowModernSuccess($"¡Reporte exportado exitosamente a:\n{saveDialog.FileName}");
 
                 // Ask if user wants to open the file
-                var result = MessageBox.Show("Would you like to open the exported file?", "Export Complete",
+                var result = MessageBox.Show("¿Desea abrir el archivo exportado?", "Exportación Completada",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
@@ -150,7 +150,7 @@ public partial class ReportsForm : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error exporting report");
-            ModernUIHelper.ShowModernError($"Error exporting report: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al exportar el reporte: {ex.Message}");
         }
     }
 
@@ -162,7 +162,7 @@ public partial class ReportsForm : Form
         dtpFromDate.Value = DateTime.Today.AddDays(-30);
         dtpToDate.Value = DateTime.Today;
         btnExport.Enabled = false;
-        lblStatus.Text = "Ready";
+        lblStatus.Text = "Listo";
     }
 
     private void ReportsForm_KeyDown(object? sender, KeyEventArgs e)
@@ -207,32 +207,32 @@ public partial class ReportsForm : Form
             });
             SetColumnPropertySafely("Type", col =>
             {
-                col.HeaderText = "Type";
+                col.HeaderText = "Tipo";
                 col.Width = 80;
             });
             SetColumnPropertySafely("ItemSku", col =>
             {
-                col.HeaderText = "Item SKU";
+                col.HeaderText = "SKU del Artículo";
                 col.Width = 100;
             });
             SetColumnPropertySafely("ItemName", col =>
             {
-                col.HeaderText = "Item Name";
+                col.HeaderText = "Nombre del Artículo";
                 col.Width = 150;
             });
             SetColumnPropertySafely("FromLocationCode", col =>
             {
-                col.HeaderText = "From";
+                col.HeaderText = "Desde";
                 col.Width = 80;
             });
             SetColumnPropertySafely("ToLocationCode", col =>
             {
-                col.HeaderText = "To";
+                col.HeaderText = "Hasta";
                 col.Width = 80;
             });
             SetColumnPropertySafely("Quantity", col =>
             {
-                col.HeaderText = "Quantity";
+                col.HeaderText = "Cantidad";
                 col.Width = 80;
                 col.DefaultCellStyle.Format = "N2";
                 col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -240,32 +240,32 @@ public partial class ReportsForm : Form
             });
             SetColumnPropertySafely("LotNumber", col =>
             {
-                col.HeaderText = "Lot";
+                col.HeaderText = "Lote";
                 col.Width = 80;
             });
             SetColumnPropertySafely("SerialNumber", col =>
             {
-                col.HeaderText = "Serial";
+                col.HeaderText = "Serie";
                 col.Width = 100;
             });
             SetColumnPropertySafely("UserId", col =>
             {
-                col.HeaderText = "User";
+                col.HeaderText = "Usuario";
                 col.Width = 80;
             });
             SetColumnPropertySafely("ReferenceNumber", col =>
             {
-                col.HeaderText = "Reference";
+                col.HeaderText = "Referencia";
                 col.Width = 100;
             });
             SetColumnPropertySafely("Notes", col =>
             {
-                col.HeaderText = "Notes";
+                col.HeaderText = "Notas";
                 col.Width = 150;
             });
             SetColumnPropertySafely("Timestamp", col =>
             {
-                col.HeaderText = "Date/Time";
+                col.HeaderText = "Fecha/Hora";
                 col.Width = 130;
                 col.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm";
                 col.DefaultCellStyle.ForeColor = ModernUIHelper.Colors.TextSecondary;

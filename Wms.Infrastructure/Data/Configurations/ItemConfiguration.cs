@@ -29,6 +29,9 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
             .IsRequired()
             .HasMaxLength(20);
 
+        builder.Property(e => e.Price)
+            .HasColumnType("decimal(18,2)");
+
         builder.Property(e => e.CreatedAt)
             .IsRequired();
 

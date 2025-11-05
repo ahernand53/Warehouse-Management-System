@@ -1,16 +1,16 @@
 @model ItemManagementViewModel
 @{
-    ViewData["Title"] = "Item Management";
+    ViewData["Title"] = "Gestión de Artículos";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">
         <i class="bi bi-box me-2 text-primary"></i>
-        Item Management
+        Gestión de Artículos
     </h2>
     <a asp-action="Create" class="btn btn-primary">
         <i class="bi bi-plus-circle me-1"></i>
-        Add New Item
+        Agregar Nuevo Artículo
     </a>
 </div>
 
@@ -19,24 +19,24 @@
     <div class="card-body">
         <form method="get" class="row g-3 align-items-end">
             <div class="col-md-6">
-                <label for="searchTerm" class="form-label">Search Items</label>
+                <label for="searchTerm" class="form-label">Buscar Artículos</label>
                 <div class="input-group">
                     <span class="input-group-text">
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" class="form-control" id="searchTerm" name="searchTerm"
-                           value="@Model.SearchTerm" placeholder="Search by SKU, name, or description">
+                           value="@Model.SearchTerm" placeholder="Buscar por SKU, nombre o descripción">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search me-1"></i>
-                        Search
+                        Buscar
                     </button>
                     <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
                         <i class="bi bi-x-circle me-1"></i>
-                        Clear
+                        Limpiar
                     </a>
                 </div>
             </div>
@@ -47,28 +47,29 @@
 <!-- Items Table -->
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom">
-        <h5 class="card-title mb-0">
-            <i class="bi bi-list-ul me-2 text-primary"></i>
-            Items (@Model.Items.Count)
-        </h5>
-    </div>
-    <div class="card-body p-0">
-        @if (Model.Items.Any())
-        {
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                    <tr>
-                        <th>SKU</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>UOM</th>
-                        <th class="text-center">Lot Tracking</th>
-                        <th class="text-center">Serial Tracking</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">Actions</th>
-                    </tr>
-                    </thead>
+            <h5 class="card-title mb-0">
+                <i class="bi bi-list-ul me-2 text-primary"></i>
+                Artículos (@Model.Items.Count)
+            </h5>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Items.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th>SKU</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>UOM</th>
+                            <th class="text-end">Precio</th>
+                            <th class="text-center">Seguimiento Lote</th>
+                            <th class="text-center">Seguimiento Serie</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                        </thead>
                     <tbody>
                     @foreach (var item in Model.Items)
                     {
@@ -84,10 +85,20 @@
                                 }
                             </td>
                             <td>
-                                <span class="text-muted">@(string.IsNullOrEmpty(item.Description) ? "No description" : item.Description)</span>
+                                <span class="text-muted">@(string.IsNullOrEmpty(item.Description) ? "Sin descripción" : item.Description)</span>
                             </td>
                             <td>
                                 <span class="badge bg-info">@item.UnitOfMeasure</span>
+                            </td>
+                            <td class="text-end">
+                                @if (item.Price.HasValue)
+                                {
+                                    <span class="fw-medium">@item.Price.Value.ToString("C2")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
                             </td>
                             <td class="text-center">
                                 @if (item.RequiresLot)
@@ -112,21 +123,21 @@
                             <td class="text-center">
                                 @if (item.IsActive)
                                 {
-                                    <span class="badge bg-success">Active</span>
+                                    <span class="badge bg-success">Activo</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-secondary">Inactive</span>
+                                    <span class="badge bg-secondary">Inactivo</span>
                                 }
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm" role="group">
                                     <a asp-action="Edit" asp-route-id="@item.Id"
-                                       class="btn btn-outline-primary" title="Edit Item">
+                                       class="btn btn-outline-primary" title="Editar Artículo">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <a asp-controller="Inventory" asp-action="Index" asp-route-searchTerm="@item.Sku"
-                                       class="btn btn-outline-info" title="View Stock">
+                                       class="btn btn-outline-info" title="Ver Inventario">
                                         <i class="bi bi-stack"></i>
                                     </a>
                                 </div>
@@ -141,17 +152,17 @@
         {
             <div class="text-center py-5 text-muted">
                 <i class="bi bi-inbox fs-1 mb-3"></i>
-                <p class="mb-0">No items found</p>
+                <p class="mb-0">No se encontraron artículos</p>
                 @if (!string.IsNullOrWhiteSpace(Model.SearchTerm))
                 {
-                    <p>Try adjusting your search criteria</p>
+                    <p>Intente ajustar sus criterios de búsqueda</p>
                 }
                 else
                 {
-                    <p>Get started by adding your first item</p>
+                    <p>Comience agregando su primer artículo</p>
                     <a asp-action="Create" class="btn btn-primary mt-2">
                         <i class="bi bi-plus-circle me-1"></i>
-                        Add New Item
+                        Agregar Nuevo Artículo
                     </a>
                 }
             </div>

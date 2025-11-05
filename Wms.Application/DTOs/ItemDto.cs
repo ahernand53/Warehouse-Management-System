@@ -12,6 +12,7 @@ public record ItemDto(
     bool RequiresLot,
     bool RequiresSerial,
     int ShelfLifeDays,
+    decimal? Price,
     List<string> Barcodes,
     DateTime CreatedAt,
     DateTime? UpdatedAt
@@ -25,6 +26,7 @@ public record CreateItemDto(
     bool RequiresLot = false,
     bool RequiresSerial = false,
     int ShelfLifeDays = 0,
+    decimal? Price = null,
     List<string> Barcodes = null!
 )
 {
@@ -34,5 +36,6 @@ public record CreateItemDto(
 public record UpdateItemDto(
     string Name,
     string Description,
-    int ShelfLifeDays = 0
+    int ShelfLifeDays = 0,
+    decimal? Price = null
 );

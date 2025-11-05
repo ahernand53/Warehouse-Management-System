@@ -80,15 +80,15 @@ public partial class ItemManagementForm : Form
         var itemName = selectedRow.Cells["Name"].Value?.ToString() ?? "";
 
         var result = MessageBox.Show(
-            $"Are you sure you want to delete item '{itemSku} - {itemName}'?\n\nThis action cannot be undone.",
-            "Confirm Delete",
+            $"¿Está seguro de que desea eliminar el artículo '{itemSku} - {itemName}'?\n\nEsta acción no se puede deshacer.",
+            "Confirmar Eliminación",
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Warning);
 
         if (result == DialogResult.Yes)
         {
             // TODO: Implement delete functionality
-            ModernUIHelper.ShowModernWarning("Delete functionality not implemented yet.");
+            ModernUIHelper.ShowModernWarning("La funcionalidad de eliminación aún no está implementada.");
         }
     }
 
@@ -136,13 +136,13 @@ public partial class ItemManagementForm : Form
         try
         {
             SetBusy(true);
-            lblStatus.Text = "Loading items...";
+            lblStatus.Text = "Cargando artículos...";
 
             var result = await _getItemsUseCase.ExecuteAsync();
 
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Error loading items: {result.Error}");
+                ModernUIHelper.ShowModernError($"Error al cargar artículos: {result.Error}");
                 return;
             }
 
@@ -153,13 +153,13 @@ public partial class ItemManagementForm : Form
 
             ConfigureGridColumns();
 
-            lblStatus.Text = $"Loaded {items.Count} items";
+            lblStatus.Text = $"Cargados {items.Count} artículos";
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading items");
-            ModernUIHelper.ShowModernError($"Error loading items: {ex.Message}");
-            lblStatus.Text = "Error loading items";
+            ModernUIHelper.ShowModernError($"Error al cargar artículos: {ex.Message}");
+            lblStatus.Text = "Error al cargar artículos";
         }
         finally
         {
@@ -178,13 +178,13 @@ public partial class ItemManagementForm : Form
             }
 
             SetBusy(true);
-            lblStatus.Text = "Searching items...";
+            lblStatus.Text = "Buscando artículos...";
 
             var result = await _getItemsUseCase.ExecuteAsync(txtSearch.Text.Trim());
 
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Search error: {result.Error}");
+                ModernUIHelper.ShowModernError($"Error en la búsqueda: {result.Error}");
                 return;
             }
 
@@ -195,12 +195,12 @@ public partial class ItemManagementForm : Form
 
             ConfigureGridColumns();
 
-            lblStatus.Text = $"Found {items.Count} matching items";
+            lblStatus.Text = $"Se encontraron {items.Count} artículos";
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error searching items");
-            ModernUIHelper.ShowModernError($"Error searching: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al buscar: {ex.Message}");
         }
         finally
         {
@@ -227,7 +227,7 @@ public partial class ItemManagementForm : Form
                 if (col.Visible)
                 {
                     col.HeaderText = "SKU";
-                    col.FillWeight = 15;
+                    col.FillWeight = 12;
                 }
             });
 
@@ -235,8 +235,8 @@ public partial class ItemManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Name";
-                    col.FillWeight = 30;
+                    col.HeaderText = "Nombre";
+                    col.FillWeight = 25;
                 }
             });
 
@@ -244,8 +244,19 @@ public partial class ItemManagementForm : Form
             {
                 if (col.Visible)
                 {
-                    col.HeaderText = "Description";
-                    col.FillWeight = 35;
+                    col.HeaderText = "Descripción";
+                    col.FillWeight = 30;
+                }
+            });
+
+            SetColumnPropertySafely("Price", col =>
+            {
+                if (col.Visible)
+                {
+                    col.HeaderText = "Precio";
+                    col.FillWeight = 12;
+                    col.DefaultCellStyle.Format = "C2";
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 }
             });
 
@@ -335,7 +346,7 @@ public partial class ItemManagementForm : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error showing item dialog");
-            ModernUIHelper.ShowModernError($"Error opening item dialog: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al abrir el diálogo de artículo: {ex.Message}");
         }
     }
 

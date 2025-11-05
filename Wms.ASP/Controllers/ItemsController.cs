@@ -49,7 +49,7 @@ public class ItemsController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading items");
-            TempData["ErrorMessage"] = "Error loading items. Please try again.";
+            TempData["ErrorMessage"] = "Error al cargar los artículos. Por favor, intente nuevamente.";
             return View(new ItemManagementViewModel());
         }
     }
@@ -82,6 +82,7 @@ public class ItemsController : Controller
                 model.RequiresLot,
                 model.RequiresSerial,
                 0, // ShelfLifeDays
+                model.Price,
                 barcodes
             );
 
@@ -93,13 +94,13 @@ public class ItemsController : Controller
                 return View(model);
             }
 
-            TempData["SuccessMessage"] = $"Item '{model.Name}' created successfully!";
+            TempData["SuccessMessage"] = $"¡Artículo '{model.Name}' creado exitosamente!";
             return RedirectToAction(nameof(Index));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error creating item");
-            TempData["ErrorMessage"] = "Error creating item. Please try again.";
+            TempData["ErrorMessage"] = "Error al crear el artículo. Por favor, intente nuevamente.";
             return View(model);
         }
     }
@@ -120,7 +121,7 @@ public class ItemsController : Controller
             var item = result.Value.FirstOrDefault(i => i.Id == id);
             if (item == null)
             {
-                TempData["ErrorMessage"] = "Item not found.";
+                TempData["ErrorMessage"] = "Artículo no encontrado.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -131,6 +132,7 @@ public class ItemsController : Controller
                 Name = item.Name,
                 Description = item.Description,
                 UnitOfMeasure = item.UnitOfMeasure,
+                Price = item.Price,
                 RequiresLot = item.RequiresLot,
                 RequiresSerial = item.RequiresSerial,
                 Barcode = item.Barcodes.FirstOrDefault()
@@ -141,7 +143,7 @@ public class ItemsController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading item for edit");
-            TempData["ErrorMessage"] = "Error loading item. Please try again.";
+            TempData["ErrorMessage"] = "Error al cargar el artículo. Por favor, intente nuevamente.";
             return RedirectToAction(nameof(Index));
         }
     }
@@ -165,6 +167,7 @@ public class ItemsController : Controller
                 model.Name,
                 model.Description ?? string.Empty,
                 0, // ShelfLifeDays - not implemented in the view model yet
+                model.Price,
                 barcodes
             );
 
@@ -176,13 +179,13 @@ public class ItemsController : Controller
                 return View(model);
             }
 
-            TempData["SuccessMessage"] = $"Item '{model.Name}' updated successfully!";
+            TempData["SuccessMessage"] = $"¡Artículo '{model.Name}' actualizado exitosamente!";
             return RedirectToAction(nameof(Index));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating item");
-            TempData["ErrorMessage"] = "Error updating item. Please try again.";
+            TempData["ErrorMessage"] = "Error al actualizar el artículo. Por favor, intente nuevamente.";
             return View(model);
         }
     }

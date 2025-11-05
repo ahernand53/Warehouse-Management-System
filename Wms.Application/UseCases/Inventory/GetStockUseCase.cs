@@ -85,13 +85,15 @@ public class GetStockUseCase : IGetStockUseCase
             var stockItems = await _unitOfWork.Stock.GetAllAsync(cancellationToken);
 
             var summaries = stockItems
-                .GroupBy(s => new { s.Item.Sku, s.Item.Name })
+                .GroupBy(s => new { s.Item.Sku, s.Item.Name, s.Item.Price })
                 .Select(g => new StockSummaryDto(
                     g.Key.Sku,
                     g.Key.Name,
                     g.Sum(s => s.QuantityAvailable.Value),
                     g.Sum(s => s.QuantityReserved.Value),
                     g.Sum(s => s.GetAvailableQuantity().Value),
+                    g.Key.Price,
+                    g.Key.Price.HasValue ? g.Sum(s => s.GetAvailableQuantity().Value) * g.Key.Price.Value : null,
                     g.Select(s => s.LocationId).Distinct().Count()
                 ));
 
@@ -106,6 +108,11 @@ public class GetStockUseCase : IGetStockUseCase
 
     private static StockDto MapToDto(Stock stock)
     {
+        var itemPrice = stock.Item.Price;
+        decimal? totalValue = itemPrice.HasValue 
+            ? stock.GetAvailableQuantity().Value * itemPrice.Value 
+            : null;
+
         return new StockDto(
             stock.Id,
             stock.ItemId,
@@ -120,6 +127,8 @@ public class GetStockUseCase : IGetStockUseCase
             stock.QuantityAvailable.Value,
             stock.QuantityReserved.Value,
             stock.GetAvailableQuantity().Value,
+            itemPrice,
+            totalValue,
             stock.CreatedAt,
             stock.UpdatedAt
         );

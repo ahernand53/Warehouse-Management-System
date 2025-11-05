@@ -16,6 +16,8 @@ public record StockDto(
     decimal QuantityAvailable,
     decimal QuantityReserved,
     decimal AvailableQuantity,
+    decimal? ItemPrice,
+    decimal? TotalValue,
     DateTime CreatedAt,
     DateTime? UpdatedAt
 );
@@ -26,5 +28,7 @@ public record StockSummaryDto(
     decimal TotalQuantity,
     decimal TotalReserved,
     decimal TotalAvailable,
+    decimal? ItemPrice,
+    decimal? TotalValue,
     int LocationCount
 );

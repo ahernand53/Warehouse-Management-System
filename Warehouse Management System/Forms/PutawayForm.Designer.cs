@@ -89,7 +89,7 @@ namespace Wms.WinForms.Forms
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(185, 45);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "?? Putaway";
+            lblTitle.Text = "📤 Almacenamiento";
             // 
             // pnlMain
             // 
@@ -127,7 +127,7 @@ namespace Wms.WinForms.Forms
             txtNotes.Location = new Point(20, 115);
             txtNotes.Multiline = true;
             txtNotes.Name = "txtNotes";
-            txtNotes.PlaceholderText = "Optional notes for putaway...";
+            txtNotes.PlaceholderText = "Notas opcionales para almacenamiento...";
             txtNotes.Size = new Size(760, 125);
             txtNotes.TabIndex = 7;
             // 
@@ -140,7 +140,7 @@ namespace Wms.WinForms.Forms
             lblNotesTitle.Name = "lblNotesTitle";
             lblNotesTitle.Size = new Size(69, 25);
             lblNotesTitle.TabIndex = 6;
-            lblNotesTitle.Text = "Notes:";
+            lblNotesTitle.Text = "Notas:";
             // 
             // txtQuantity
             // 
@@ -158,7 +158,7 @@ namespace Wms.WinForms.Forms
             lblQuantityTitle.Name = "lblQuantityTitle";
             lblQuantityTitle.Size = new Size(94, 25);
             lblQuantityTitle.TabIndex = 4;
-            lblQuantityTitle.Text = "Quantity:";
+            lblQuantityTitle.Text = "Cantidad:";
             // 
             // txtToLocation
             // 
@@ -176,7 +176,7 @@ namespace Wms.WinForms.Forms
             lblToLocationTitle.Name = "lblToLocationTitle";
             lblToLocationTitle.Size = new Size(120, 25);
             lblToLocationTitle.TabIndex = 2;
-            lblToLocationTitle.Text = "To Location:";
+            lblToLocationTitle.Text = "Ubicación Destino:";
             // 
             // txtFromLocation
             // 
@@ -194,7 +194,7 @@ namespace Wms.WinForms.Forms
             lblFromLocationTitle.Name = "lblFromLocationTitle";
             lblFromLocationTitle.Size = new Size(146, 25);
             lblFromLocationTitle.TabIndex = 0;
-            lblFromLocationTitle.Text = "From Location:";
+            lblFromLocationTitle.Text = "Ubicación Origen:";
             // 
             // pnlItemInfo
             // 
@@ -220,7 +220,7 @@ namespace Wms.WinForms.Forms
             lblItemInfo.Padding = new Padding(15);
             lblItemInfo.Size = new Size(760, 30);
             lblItemInfo.TabIndex = 2;
-            lblItemInfo.Text = "No item selected";
+            lblItemInfo.Text = "No hay artículo seleccionado";
             lblItemInfo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // txtBarcode
@@ -229,7 +229,7 @@ namespace Wms.WinForms.Forms
             txtBarcode.Font = new Font("Segoe UI", 12F);
             txtBarcode.Location = new Point(20, 50);
             txtBarcode.Name = "txtBarcode";
-            txtBarcode.PlaceholderText = "Scan barcode here...";
+            txtBarcode.PlaceholderText = "Escanee el código de barras aquí...";
             txtBarcode.Size = new Size(760, 29);
             txtBarcode.TabIndex = 1;
             // 
@@ -242,7 +242,7 @@ namespace Wms.WinForms.Forms
             lblBarcodeTitle.Name = "lblBarcodeTitle";
             lblBarcodeTitle.Size = new Size(247, 30);
             lblBarcodeTitle.TabIndex = 0;
-            lblBarcodeTitle.Text = "Scan or Enter Barcode:";
+            lblBarcodeTitle.Text = "Escanear o Ingresar Código de Barras:";
             // 
             // pnlActions
             // 
@@ -264,7 +264,7 @@ namespace Wms.WinForms.Forms
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(100, 40);
             btnClear.TabIndex = 1;
-            btnClear.Text = "Clear (F2)";
+            btnClear.Text = "Limpiar (F2)";
             btnClear.UseVisualStyleBackColor = true;
             // 
             // btnPutaway
@@ -275,7 +275,7 @@ namespace Wms.WinForms.Forms
             btnPutaway.Name = "btnPutaway";
             btnPutaway.Size = new Size(150, 40);
             btnPutaway.TabIndex = 0;
-            btnPutaway.Text = "Putaway (F1)";
+            btnPutaway.Text = "Almacenar (F1)";
             btnPutaway.UseVisualStyleBackColor = true;
             // 
             // statusStrip
@@ -290,7 +290,7 @@ namespace Wms.WinForms.Forms
             // 
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(112, 17);
-            lblStatus.Text = "Ready to scan items";
+            lblStatus.Text = "Listo para escanear artículos";
             // 
             // PutawayForm
             // 
@@ -306,7 +306,7 @@ namespace Wms.WinForms.Forms
             MinimumSize = new Size(800, 550);
             Name = "PutawayForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "WMS - Putaway";
+            Text = "SGA - Almacenamiento";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlMain.ResumeLayout(false);

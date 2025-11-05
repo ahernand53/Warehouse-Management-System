@@ -97,7 +97,7 @@ namespace Wms.WinForms.Forms
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(200, 45);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "?? Receiving";
+            lblTitle.Text = "📦 Recepción";
             // 
             // pnlMain
             // 
@@ -139,7 +139,7 @@ namespace Wms.WinForms.Forms
             txtNotes.Location = new Point(413, 48);
             txtNotes.Multiline = true;
             txtNotes.Name = "txtNotes";
-            txtNotes.PlaceholderText = "Optional notes...";
+            txtNotes.PlaceholderText = "Notas opcionales...";
             txtNotes.Size = new Size(364, 160);
             txtNotes.TabIndex = 11;
             // 
@@ -152,13 +152,13 @@ namespace Wms.WinForms.Forms
             lblNotesTitle.Name = "lblNotesTitle";
             lblNotesTitle.Size = new Size(69, 25);
             lblNotesTitle.TabIndex = 10;
-            lblNotesTitle.Text = "Notes:";
+            lblNotesTitle.Text = "Notas:";
             // 
             // txtReferenceNumber
             // 
             txtReferenceNumber.Location = new Point(20, 185);
             txtReferenceNumber.Name = "txtReferenceNumber";
-            txtReferenceNumber.PlaceholderText = "PO, Receipt, etc.";
+            txtReferenceNumber.PlaceholderText = "OC, Recibo, etc.";
             txtReferenceNumber.Size = new Size(200, 23);
             txtReferenceNumber.TabIndex = 9;
             // 
@@ -171,7 +171,7 @@ namespace Wms.WinForms.Forms
             lblReferenceTitle.Name = "lblReferenceTitle";
             lblReferenceTitle.Size = new Size(185, 25);
             lblReferenceTitle.TabIndex = 8;
-            lblReferenceTitle.Text = "Reference Number:";
+            lblReferenceTitle.Text = "Número de Referencia:";
             // 
             // dtpExpiryDate
             // 
@@ -191,7 +191,7 @@ namespace Wms.WinForms.Forms
             lblExpiryDate.Name = "lblExpiryDate";
             lblExpiryDate.Size = new Size(120, 25);
             lblExpiryDate.TabIndex = 6;
-            lblExpiryDate.Text = "Expiry Date:";
+            lblExpiryDate.Text = "Fecha de Vencimiento:";
             lblExpiryDate.Visible = false;
             // 
             // txtLotNumber
@@ -211,7 +211,7 @@ namespace Wms.WinForms.Forms
             lblLotNumber.Name = "lblLotNumber";
             lblLotNumber.Size = new Size(126, 25);
             lblLotNumber.TabIndex = 4;
-            lblLotNumber.Text = "Lot Number:";
+            lblLotNumber.Text = "Número de Lote:";
             lblLotNumber.Visible = false;
             // 
             // txtQuantity
@@ -230,7 +230,7 @@ namespace Wms.WinForms.Forms
             lblQuantityTitle.Name = "lblQuantityTitle";
             lblQuantityTitle.Size = new Size(94, 25);
             lblQuantityTitle.TabIndex = 2;
-            lblQuantityTitle.Text = "Quantity:";
+            lblQuantityTitle.Text = "Cantidad:";
             // 
             // txtLocationCode
             // 
@@ -248,7 +248,7 @@ namespace Wms.WinForms.Forms
             lblLocationTitle.Name = "lblLocationTitle";
             lblLocationTitle.Size = new Size(145, 25);
             lblLocationTitle.TabIndex = 0;
-            lblLocationTitle.Text = "Location Code:";
+            lblLocationTitle.Text = "Código de Ubicación:";
             // 
             // pnlItemInfo
             // 
@@ -274,7 +274,7 @@ namespace Wms.WinForms.Forms
             lblItemInfo.Padding = new Padding(15);
             lblItemInfo.Size = new Size(757, 30);
             lblItemInfo.TabIndex = 2;
-            lblItemInfo.Text = "No item selected";
+            lblItemInfo.Text = "No hay artículo seleccionado";
             lblItemInfo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // txtBarcode
@@ -283,7 +283,7 @@ namespace Wms.WinForms.Forms
             txtBarcode.Font = new Font("Segoe UI", 12F);
             txtBarcode.Location = new Point(20, 50);
             txtBarcode.Name = "txtBarcode";
-            txtBarcode.PlaceholderText = "Scan barcode here...";
+            txtBarcode.PlaceholderText = "Escanee el código de barras aquí...";
             txtBarcode.Size = new Size(757, 29);
             txtBarcode.TabIndex = 1;
             // 
@@ -296,7 +296,7 @@ namespace Wms.WinForms.Forms
             lblBarcodeTitle.Name = "lblBarcodeTitle";
             lblBarcodeTitle.Size = new Size(247, 30);
             lblBarcodeTitle.TabIndex = 0;
-            lblBarcodeTitle.Text = "Scan or Enter Barcode:";
+            lblBarcodeTitle.Text = "Escanear o Ingresar Código de Barras:";
             // 
             // pnlActions
             // 
@@ -318,7 +318,7 @@ namespace Wms.WinForms.Forms
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(100, 40);
             btnClear.TabIndex = 1;
-            btnClear.Text = "Clear (F2)";
+            btnClear.Text = "Limpiar (F2)";
             btnClear.UseVisualStyleBackColor = true;
             // 
             // btnReceive
@@ -329,7 +329,7 @@ namespace Wms.WinForms.Forms
             btnReceive.Name = "btnReceive";
             btnReceive.Size = new Size(150, 40);
             btnReceive.TabIndex = 0;
-            btnReceive.Text = "Receive (F1)";
+            btnReceive.Text = "Recibir (F1)";
             btnReceive.UseVisualStyleBackColor = true;
             // 
             // statusStrip
@@ -344,7 +344,7 @@ namespace Wms.WinForms.Forms
             // 
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(112, 17);
-            lblStatus.Text = "Ready to scan items";
+            lblStatus.Text = "Listo para escanear artículos";
             // 
             // ReceivingForm
             // 
@@ -360,7 +360,7 @@ namespace Wms.WinForms.Forms
             MinimumSize = new Size(800, 550);
             Name = "ReceivingForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "WMS - Receiving";
+            Text = "SGA - Recepción";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlMain.ResumeLayout(false);

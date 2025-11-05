@@ -87,7 +87,7 @@ namespace Wms.WinForms.Forms
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new Size(195, 32);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "📊 Movement Reports";
+            this.lblTitle.Text = "📊 Reportes de Movimientos";
 
             // 
             // pnlFilters - Filters card with fixed height
@@ -118,7 +118,7 @@ namespace Wms.WinForms.Forms
             this.lblFiltersTitle.Name = "lblFiltersTitle";
             this.lblFiltersTitle.Size = new Size(106, 21);
             this.lblFiltersTitle.TabIndex = 0;
-            this.lblFiltersTitle.Text = "Report Filters";
+            this.lblFiltersTitle.Text = "Filtros del Reporte";
 
             // 
             // lblFromDate
@@ -130,7 +130,7 @@ namespace Wms.WinForms.Forms
             this.lblFromDate.Name = "lblFromDate";
             this.lblFromDate.Size = new Size(83, 19);
             this.lblFromDate.TabIndex = 1;
-            this.lblFromDate.Text = "From Date:";
+            this.lblFromDate.Text = "Fecha Desde:";
 
             // 
             // dtpFromDate
@@ -151,7 +151,7 @@ namespace Wms.WinForms.Forms
             this.lblToDate.Name = "lblToDate";
             this.lblToDate.Size = new Size(66, 19);
             this.lblToDate.TabIndex = 3;
-            this.lblToDate.Text = "To Date:";
+            this.lblToDate.Text = "Fecha Hasta:";
 
             // 
             // dtpToDate
@@ -172,14 +172,14 @@ namespace Wms.WinForms.Forms
             this.lblItemSku.Name = "lblItemSku";
             this.lblItemSku.Size = new Size(72, 19);
             this.lblItemSku.TabIndex = 5;
-            this.lblItemSku.Text = "Item SKU:";
+            this.lblItemSku.Text = "SKU del Artículo:";
 
             // 
             // txtItemSku
             // 
             this.txtItemSku.Location = new Point(360, 70);
             this.txtItemSku.Name = "txtItemSku";
-            this.txtItemSku.PlaceholderText = "Optional filter by SKU";
+            this.txtItemSku.PlaceholderText = "Filtro opcional por SKU";
             this.txtItemSku.Size = new Size(200, 27);
             this.txtItemSku.TabIndex = 6;
 
@@ -193,7 +193,7 @@ namespace Wms.WinForms.Forms
             this.lblMovementType.Name = "lblMovementType";
             this.lblMovementType.Size = new Size(124, 19);
             this.lblMovementType.TabIndex = 7;
-            this.lblMovementType.Text = "Movement Type:";
+            this.lblMovementType.Text = "Tipo de Movimiento:";
 
             // 
             // cmbMovementType
@@ -224,7 +224,7 @@ namespace Wms.WinForms.Forms
             this.btnGenerateReport.Name = "btnGenerateReport";
             this.btnGenerateReport.Size = new Size(150, 40);
             this.btnGenerateReport.TabIndex = 0;
-            this.btnGenerateReport.Text = "Generate (F1)";
+            this.btnGenerateReport.Text = "Generar (F1)";
             this.btnGenerateReport.UseVisualStyleBackColor = true;
 
             // 
@@ -235,7 +235,7 @@ namespace Wms.WinForms.Forms
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new Size(120, 40);
             this.btnExport.TabIndex = 1;
-            this.btnExport.Text = "Export (F2)";
+            this.btnExport.Text = "Exportar (F2)";
             this.btnExport.UseVisualStyleBackColor = true;
 
             // 
@@ -275,7 +275,7 @@ namespace Wms.WinForms.Forms
             // 
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new Size(139, 17);
-            this.lblStatus.Text = "Ready to generate report";
+            this.lblStatus.Text = "Listo para generar reporte";
 
             // 
             // ReportsForm
@@ -293,7 +293,7 @@ namespace Wms.WinForms.Forms
             this.MinimumSize = new Size(800, 600);
             this.Name = "ReportsForm";
             this.StartPosition = FormStartPosition.CenterParent;
-            this.Text = "WMS - Movement Reports";
+            this.Text = "SGA - Reportes de Movimientos";
 
             this.pnlHeader.ResumeLayout(false);
             this.pnlHeader.PerformLayout();

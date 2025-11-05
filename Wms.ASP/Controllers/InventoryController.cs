@@ -36,7 +36,9 @@ public class InventoryController : Controller
                 var summaryResult = await _getStockUseCase.GetStockSummaryAsync();
                 if (summaryResult.IsSuccess)
                 {
-                    model.StockSummary = summaryResult.Value.OrderBy(s => s.ItemSku).ToList();
+                    var summaries = summaryResult.Value.OrderBy(s => s.ItemSku).ToList();
+                    model.StockSummary = summaries;
+                    model.TotalInventoryValue = summaries.Sum(s => s.TotalValue ?? 0);
                 }
             }
             else
@@ -54,7 +56,9 @@ public class InventoryController : Controller
                             s.LocationCode.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
                     }
 
-                    model.StockItems = stockItems.ToList();
+                    var stockList = stockItems.ToList();
+                    model.StockItems = stockList;
+                    model.TotalInventoryValue = stockList.Sum(s => s.TotalValue ?? 0);
                 }
             }
 
@@ -63,7 +67,7 @@ public class InventoryController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading inventory data");
-            TempData["ErrorMessage"] = "Error loading inventory data. Please try again.";
+            TempData["ErrorMessage"] = "Error al cargar los datos de inventario. Por favor, intente nuevamente.";
             return View(new InventoryViewModel());
         }
     }
@@ -106,13 +110,13 @@ public class InventoryController : Controller
                 return View(model);
             }
 
-            TempData["SuccessMessage"] = $"Stock adjusted successfully! Movement ID: {result.Value.MovementId}";
+            TempData["SuccessMessage"] = $"¡Inventario ajustado exitosamente! ID de Movimiento: {result.Value.MovementId}";
             return RedirectToAction(nameof(Index));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error adjusting stock");
-            TempData["ErrorMessage"] = "Error adjusting stock. Please try again.";
+            TempData["ErrorMessage"] = "Error al ajustar el inventario. Por favor, intente nuevamente.";
             return View(model);
         }
     }

@@ -111,7 +111,7 @@ public partial class PutawayForm : Form
         {
             if (string.IsNullOrWhiteSpace(txtBarcode.Text))
             {
-                ModernUIHelper.ShowModernError("Please scan or enter a barcode");
+                ModernUIHelper.ShowModernError("Por favor escanee o ingrese un código de barras");
                 return;
             }
 
@@ -121,14 +121,14 @@ public partial class PutawayForm : Form
 
             if (result.IsFailure)
             {
-                ModernUIHelper.ShowModernError($"Item not found: {result.Error}");
+                ModernUIHelper.ShowModernError($"Artículo no encontrado: {result.Error}");
                 txtBarcode.SelectAll();
                 return;
             }
 
             // Populate item information
             var item = result.Value;
-            lblItemInfo.Text = $"SKU: {item.Sku}\nName: {item.Name}\nUOM: {item.UnitOfMeasure}";
+            lblItemInfo.Text = $"SKU: {item.Sku}\nNombre: {item.Name}\nUOM: {item.UnitOfMeasure}";
             lblItemInfo.ForeColor = ModernUIHelper.Colors.Success;
 
             // Set focus to quantity
@@ -138,7 +138,7 @@ public partial class PutawayForm : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error processing barcode {Barcode}", txtBarcode.Text);
-            ModernUIHelper.ShowModernError($"Error processing barcode: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al procesar el código de barras: {ex.Message}");
         }
         finally
         {
@@ -171,7 +171,7 @@ public partial class PutawayForm : Form
                 return;
             }
 
-            ModernUIHelper.ShowModernSuccess($"Item put away successfully!\nMovement ID: {result.Value.MovementId}");
+            ModernUIHelper.ShowModernSuccess($"¡Artículo almacenado exitosamente!\nID de Movimiento: {result.Value.MovementId}");
 
             ClearForm();
             txtBarcode.Focus();
@@ -179,7 +179,7 @@ public partial class PutawayForm : Form
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error putting away item");
-            ModernUIHelper.ShowModernError($"Error putting away item: {ex.Message}");
+            ModernUIHelper.ShowModernError($"Error al almacenar el artículo: {ex.Message}");
         }
         finally
         {
@@ -212,9 +212,9 @@ public partial class PutawayForm : Form
 
     private bool ValidateInput()
     {
-        if (string.IsNullOrWhiteSpace(lblItemInfo.Text) || lblItemInfo.Text == "No item selected")
+        if (string.IsNullOrWhiteSpace(lblItemInfo.Text) || lblItemInfo.Text == "No hay artículo seleccionado")
         {
-            ModernUIHelper.ShowModernError("Please scan a valid barcode first");
+            ModernUIHelper.ShowModernError("Por favor escanee un código de barras válido primero");
             txtBarcode.Focus();
             return false;
         }
@@ -222,28 +222,28 @@ public partial class PutawayForm : Form
         if (string.IsNullOrWhiteSpace(txtQuantity.Text) || !decimal.TryParse(txtQuantity.Text, out var quantity) ||
             quantity <= 0)
         {
-            ModernUIHelper.ShowModernError("Please enter a valid quantity");
+            ModernUIHelper.ShowModernError("Por favor ingrese una cantidad válida");
             txtQuantity.Focus();
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtFromLocation.Text))
         {
-            ModernUIHelper.ShowModernError("Please enter a from location code");
+            ModernUIHelper.ShowModernError("Por favor ingrese un código de ubicación de origen");
             txtFromLocation.Focus();
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtToLocation.Text))
         {
-            ModernUIHelper.ShowModernError("Please enter a to location code");
+            ModernUIHelper.ShowModernError("Por favor ingrese un código de ubicación de destino");
             txtToLocation.Focus();
             return false;
         }
 
         if (txtFromLocation.Text.Trim().Equals(txtToLocation.Text.Trim(), StringComparison.OrdinalIgnoreCase))
         {
-            ModernUIHelper.ShowModernError("From and To locations cannot be the same");
+            ModernUIHelper.ShowModernError("Las ubicaciones de origen y destino no pueden ser las mismas");
             txtToLocation.Focus();
             return false;
         }
@@ -269,7 +269,7 @@ public partial class PutawayForm : Form
         txtQuantity.Clear();
         txtToLocation.Clear();
         txtNotes.Clear();
-        lblItemInfo.Text = "No item selected";
+        lblItemInfo.Text = "No hay artículo seleccionado";
         lblItemInfo.ForeColor = ModernUIHelper.Colors.TextMuted;
         // Keep the from location as it's typically the same
     }

@@ -40,6 +40,7 @@ public class Item : Entity
     public bool RequiresLot { get; private set; }
     public bool RequiresSerial { get; private set; }
     public int ShelfLifeDays { get; private set; }
+    public decimal? Price { get; private set; }
     public IReadOnlyList<Barcode> Barcodes => _barcodes.AsReadOnly();
 
     public void AddBarcode(Barcode barcode)
@@ -88,6 +89,15 @@ public class Item : Entity
     public void Activate()
     {
         IsActive = true;
+        SetUpdatedAt();
+    }
+
+    public void SetPrice(decimal? price)
+    {
+        if (price.HasValue && price.Value < 0)
+            throw new ArgumentException("Price cannot be negative", nameof(price));
+
+        Price = price;
         SetUpdatedAt();
     }
 }
