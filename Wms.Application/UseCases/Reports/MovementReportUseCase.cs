@@ -71,38 +71,56 @@ public class MovementReportUseCase : IMovementReportUseCase
     private async Task<IEnumerable<Movement>> GetFilteredMovementsAsync(
         MovementReportRequest request, CancellationToken cancellationToken)
     {
-        // Start with date range if provided
-        if (request.FromDate.HasValue && request.ToDate.HasValue)
-        {
-            return await _unitOfWork.Movements.GetByDateRangeAsync(
-                request.FromDate.Value, request.ToDate.Value, cancellationToken);
-        }
+        // Get all movements with includes, then apply filters
+        var allMovements = await _unitOfWork.Movements.GetAllAsync(cancellationToken);
+        
+        // Apply date range filter (default to last 30 days if not specified)
+        var fromDate = request.FromDate ?? DateTime.Today.AddDays(-30);
+        var toDate = request.ToDate ?? DateTime.Today.AddDays(1);
+        
+        var filtered = allMovements
+            .Where(m => m.Timestamp >= fromDate && m.Timestamp <= toDate);
 
-        // Filter by movement type if provided
+        // Apply movement type filter if provided
         if (request.MovementType.HasValue)
         {
-            return await _unitOfWork.Movements.GetByTypeAsync(request.MovementType.Value, cancellationToken);
+            filtered = filtered.Where(m => m.Type == request.MovementType.Value);
         }
 
-        // Filter by user if provided
+        // Apply item filter if provided
+        if (!string.IsNullOrWhiteSpace(request.ItemSku))
+        {
+            filtered = filtered.Where(m => m.Item != null && m.Item.Sku.Contains(request.ItemSku, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // Apply location filter if provided
+        if (!string.IsNullOrWhiteSpace(request.LocationCode))
+        {
+            filtered = filtered.Where(m => 
+                (m.FromLocation != null && m.FromLocation.Code.Contains(request.LocationCode, StringComparison.OrdinalIgnoreCase)) ||
+                (m.ToLocation != null && m.ToLocation.Code.Contains(request.LocationCode, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        // Apply user filter if provided
         if (!string.IsNullOrWhiteSpace(request.UserId))
         {
-            return await _unitOfWork.Movements.GetByUserIdAsync(request.UserId, cancellationToken);
+            filtered = filtered.Where(m => m.UserId.Contains(request.UserId, StringComparison.OrdinalIgnoreCase));
         }
 
-        // Default to last 30 days
-        var defaultFromDate = DateTime.Today.AddDays(-30);
-        var defaultToDate = DateTime.Today.AddDays(1);
-        return await _unitOfWork.Movements.GetByDateRangeAsync(defaultFromDate, defaultToDate, cancellationToken);
+        return filtered.OrderByDescending(m => m.Timestamp);
     }
 
     private static MovementReportDto MapToDto(Movement movement)
     {
+        // Handle null references gracefully
+        var itemSku = movement.Item?.Sku ?? "N/A";
+        var itemName = movement.Item?.Name ?? "Artículo desconocido";
+        
         return new MovementReportDto(
             movement.Id,
             movement.Type.ToString(),
-            movement.Item.Sku,
-            movement.Item.Name,
+            itemSku,
+            itemName,
             movement.FromLocation?.Code,
             movement.ToLocation?.Code,
             movement.Quantity.Value,

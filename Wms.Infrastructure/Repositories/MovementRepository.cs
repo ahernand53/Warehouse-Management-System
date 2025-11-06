@@ -14,6 +14,17 @@ public class MovementRepository : Repository<Movement>, IMovementRepository
     {
     }
 
+    public override async Task<IEnumerable<Movement>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Include(m => m.Item)
+            .Include(m => m.FromLocation)
+            .Include(m => m.ToLocation)
+            .Include(m => m.Lot)
+            .OrderByDescending(m => m.Timestamp)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<Movement>> GetByItemIdAsync(int itemId, CancellationToken cancellationToken = default)
     {
         return await _dbSet

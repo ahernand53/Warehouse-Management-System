@@ -113,3 +113,39 @@ public class CreateLocationViewModel
     public bool IsReceivable { get; set; } = true;
     public int Capacity { get; set; } = 0;
 }
+
+public class EditLocationViewModel
+{
+    public int Id { get; set; }
+    public string Code { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public bool IsPickable { get; set; } = true;
+    public bool IsReceivable { get; set; } = true;
+    public int Capacity { get; set; } = 0;
+}
+
+public class LoginViewModel
+{
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string? ReturnUrl { get; set; }
+}
+
+public class MovementsViewModel
+{
+    public List<MovementReportDto> Movements { get; set; } = new();
+    public string? ItemSku { get; set; }
+    public string? LocationCode { get; set; }
+    public string? MovementType { get; set; }
+    public DateTime FromDate { get; set; }
+    public DateTime ToDate { get; set; }
+    public List<LocationDto> Locations { get; set; } = new();
+    public List<ItemDto> Items { get; set; } = new();
+    public List<MovementTypeOption> MovementTypes { get; set; } = new();
+}
+
+public class MovementTypeOption
+{
+    public string Value { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+}
