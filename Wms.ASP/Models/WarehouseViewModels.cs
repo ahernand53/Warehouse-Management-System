@@ -130,3 +130,22 @@ public class LoginViewModel
     public string Password { get; set; } = string.Empty;
     public string? ReturnUrl { get; set; }
 }
+
+public class MovementsViewModel
+{
+    public List<MovementReportDto> Movements { get; set; } = new();
+    public string? ItemSku { get; set; }
+    public string? LocationCode { get; set; }
+    public string? MovementType { get; set; }
+    public DateTime FromDate { get; set; }
+    public DateTime ToDate { get; set; }
+    public List<LocationDto> Locations { get; set; } = new();
+    public List<ItemDto> Items { get; set; } = new();
+    public List<MovementTypeOption> MovementTypes { get; set; } = new();
+}
+
+public class MovementTypeOption
+{
+    public string Value { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+}

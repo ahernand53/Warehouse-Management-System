@@ -78,16 +78,26 @@ public class DashboardController : Controller
                 _logger.LogWarning("Failed to load stock data: {Error}", allStockResult.Error);
             }
 
-            // Recent movements
+            // Recent movements - last 7 days
+            var fromDate = DateTime.Today.AddDays(-7);
+            var toDate = DateTime.Now.AddDays(1); // Include today
+            
             var request = new MovementReportRequest(
-                DateTime.Today.AddDays(-7),
-                DateTime.Now
+                fromDate,
+                toDate,
+                null, // No item filter
+                null, // No location filter
+                null, // No type filter
+                null  // No user filter
             );
 
             var movementsResult = await _movementReportUseCase.ExecuteAsync(request);
             if (movementsResult.IsSuccess)
             {
-                model.RecentMovements = movementsResult.Value
+                var movements = movementsResult.Value.ToList();
+                _logger.LogInformation("Loaded {Count} movements for dashboard", movements.Count);
+                
+                model.RecentMovements = movements
                     .OrderByDescending(m => m.Timestamp)
                     .Take(10)
                     .ToList();
@@ -95,6 +105,7 @@ public class DashboardController : Controller
             else
             {
                 _logger.LogWarning("Failed to load recent movements: {Error}", movementsResult.Error);
+                model.RecentMovements = new List<MovementReportDto>();
             }
 
             model.LastRefresh = DateTime.Now;

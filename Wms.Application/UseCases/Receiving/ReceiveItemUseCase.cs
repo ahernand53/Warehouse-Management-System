@@ -61,6 +61,9 @@ public class ReceiveItemUseCase : IReceiveItemUseCase
                 var existingLot = await GetOrCreateLotAsync(item.Id, request.LotNumber,
                     request.ExpiryDate, request.ManufacturedDate, cancellationToken);
                 lotId = existingLot.Id;
+                
+                // Save the lot first to ensure it has an ID before creating the movement
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
             else if (item.RequiresLot)
             {
@@ -98,12 +101,27 @@ public class ReceiveItemUseCase : IReceiveItemUseCase
         }
     }
 
-    private Task<Lot> GetOrCreateLotAsync(int itemId, string lotNumber,
+    private async Task<Lot> GetOrCreateLotAsync(int itemId, string lotNumber,
         DateTime? expiryDate, DateTime? manufacturedDate, CancellationToken cancellationToken)
     {
-        // For now, create a simple lot lookup - in full implementation this would be a proper repository method
+        // Check if lot already exists
+        var existingLot = await _unitOfWork.Lots.GetByNumberAndItemAsync(lotNumber, itemId, cancellationToken);
+        
+        if (existingLot != null)
+        {
+            // Update dates if provided and different
+            if (expiryDate.HasValue || manufacturedDate.HasValue)
+            {
+                existingLot.UpdateDates(expiryDate, manufacturedDate);
+                await _unitOfWork.Lots.UpdateAsync(existingLot, cancellationToken);
+            }
+            return existingLot;
+        }
+
+        // Create new lot
         var lot = new Lot(lotNumber, itemId, expiryDate, manufacturedDate);
-        // This would typically check if lot exists first, but keeping simple for MVP
-        return Task.FromResult(lot);
+        await _unitOfWork.Lots.AddAsync(lot, cancellationToken);
+        
+        return lot;
     }
 }

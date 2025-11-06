@@ -8,6 +8,7 @@ public interface IUnitOfWork : IDisposable
     ILocationRepository Locations { get; }
     IStockRepository Stock { get; }
     IMovementRepository Movements { get; }
+    ILotRepository Lots { get; }
     IUserRepository Users { get; }
     IAppTokenRepository AppTokens { get; }
 

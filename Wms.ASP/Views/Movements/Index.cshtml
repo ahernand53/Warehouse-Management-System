@@ -1,0 +1,222 @@
+@model MovementsViewModel
+@{
+    ViewData["Title"] = "Movimientos de Stock";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">
+        <i class="bi bi-arrow-left-right me-2 text-primary"></i>
+        Movimientos de Stock
+    </h2>
+    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>
+        Volver al Panel
+    </a>
+</div>
+
+<!-- Filters Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white border-bottom">
+        <h5 class="card-title mb-0">
+            <i class="bi bi-funnel me-2 text-primary"></i>
+            Filtros de Búsqueda
+        </h5>
+    </div>
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <label for="itemSku" class="form-label">Artículo (SKU)</label>
+                <select class="form-select" id="itemSku" name="itemSku">
+                    <option value="">Todos los artículos</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.Sku" selected="@(Model.ItemSku == item.Sku)">@item.Sku - @item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label for="locationCode" class="form-label">Ubicación</label>
+                <select class="form-select" id="locationCode" name="locationCode">
+                    <option value="">Todas las ubicaciones</option>
+                    @foreach (var location in Model.Locations)
+                    {
+                        <option value="@location.Code" selected="@(Model.LocationCode == location.Code)">@location.Code - @location.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label for="movementType" class="form-label">Tipo de Movimiento</label>
+                <select class="form-select" id="movementType" name="movementType">
+                    <option value="">Todos los tipos</option>
+                    @foreach (var type in Model.MovementTypes)
+                    {
+                        <option value="@type.Value" selected="@(Model.MovementType == type.Value)">@type.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label for="fromDate" class="form-label">Fecha Desde</label>
+                <input type="date" class="form-control" id="fromDate" name="fromDate" value="@Model.FromDate.ToString("yyyy-MM-dd")"/>
+            </div>
+
+            <div class="col-md-2">
+                <label for="toDate" class="form-label">Fecha Hasta</label>
+                <input type="date" class="form-control" id="toDate" name="toDate" value="@Model.ToDate.ToString("yyyy-MM-dd")"/>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search me-1"></i>
+                    Buscar
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle me-1"></i>
+                    Limpiar Filtros
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Movements Table -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">
+            <i class="bi bi-list-ul me-2 text-primary"></i>
+            Resultados (@Model.Movements.Count movimientos)
+        </h5>
+    </div>
+    <div class="card-body p-0">
+        @if (Model.Movements.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo</th>
+                        <th>Artículo</th>
+                        <th>Desde</th>
+                        <th>Hacia</th>
+                        <th class="text-end">Cantidad</th>
+                        <th>Lote</th>
+                        <th>Serial</th>
+                        <th>Usuario</th>
+                        <th>Fecha/Hora</th>
+                        <th>Referencia</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var movement in Model.Movements)
+                    {
+                        <tr>
+                            <td class="text-muted">#@movement.Id</td>
+                            <td>
+                                <span class="badge bg-@GetMovementTypeColor(movement.Type)">
+                                    @GetMovementTypeName(movement.Type)
+                                </span>
+                            </td>
+                            <td>
+                                <div class="fw-medium">@movement.ItemSku</div>
+                                <small class="text-muted">@movement.ItemName</small>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(movement.FromLocationCode))
+                                {
+                                    <span class="badge bg-secondary">@movement.FromLocationCode</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(movement.ToLocationCode))
+                                {
+                                    <span class="badge bg-success">@movement.ToLocationCode</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td class="text-end fw-medium">@movement.Quantity.ToString("N2")</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(movement.LotNumber))
+                                {
+                                    <span class="badge bg-info">@movement.LotNumber</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(movement.SerialNumber))
+                                {
+                                    <code>@movement.SerialNumber</code>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td class="text-muted small">@movement.UserId</td>
+                            <td class="text-muted small">
+                                @movement.Timestamp.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(movement.ReferenceNumber))
+                                {
+                                    <span class="badge bg-primary">@movement.ReferenceNumber</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-inbox fs-1 mb-3"></i>
+                <p class="mb-0">No se encontraron movimientos con los filtros seleccionados</p>
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    private string GetMovementTypeColor(string movementType)
+    {
+        return movementType.ToLower() switch
+        {
+            "receipt" or "receiving" => "success",
+            "pick" or "picking" => "primary",
+            "putaway" => "info",
+            "adjustment" => "warning",
+            _ => "secondary"
+        };
+    }
+
+    private string GetMovementTypeName(string movementType)
+    {
+        return movementType.ToLower() switch
+        {
+            "receipt" or "receiving" => "Recepción",
+            "pick" or "picking" => "Picking",
+            "putaway" => "Almacenamiento",
+            "adjustment" => "Ajuste",
+            _ => movementType
+        };
+    }
+}
+
