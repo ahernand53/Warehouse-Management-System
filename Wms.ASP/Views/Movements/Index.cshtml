@@ -107,6 +107,7 @@
                         <th>Usuario</th>
                         <th>Fecha/Hora</th>
                         <th>Referencia</th>
+                        <th>Notas</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -178,6 +179,24 @@
                                     <span class="text-muted">-</span>
                                 }
                             </td>
+                            <td class="text-center">
+                                @if (!string.IsNullOrEmpty(movement.Notes))
+                                {
+                                    <button type="button" 
+                                            class="btn btn-sm btn-outline-info" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#notesModal"
+                                            data-notes="@System.Net.WebUtility.HtmlEncode(movement.Notes)"
+                                            data-movement-id="@movement.Id"
+                                            title="Ver notas">
+                                        <i class="bi bi-file-text"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
                         </tr>
                     }
                     </tbody>
@@ -193,6 +212,66 @@
         }
     </div>
 </div>
+
+<!-- Modal para mostrar notas -->
+<div class="modal fade" id="notesModal" tabindex="-1" aria-labelledby="notesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="notesModalLabel">
+                    <i class="bi bi-file-text me-2"></i>Notas del Movimiento #<span id="modalMovementId"></span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Notas:</label>
+                    <div class="border rounded p-3 bg-light" style="min-height: 100px; white-space: pre-wrap; word-wrap: break-word;" id="modalNotesContent">
+                        <!-- El contenido se llenará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notesModal = document.getElementById('notesModal');
+            if (notesModal) {
+                notesModal.addEventListener('show.bs.modal', function(event) {
+                    // Botón que activó el modal
+                    const button = event.relatedTarget;
+                    
+                    // Obtener los datos de los atributos data
+                    const notes = button.getAttribute('data-notes');
+                    const movementId = button.getAttribute('data-movement-id');
+                    
+                    // Actualizar el contenido del modal
+                    const modalNotesContent = notesModal.querySelector('#modalNotesContent');
+                    const modalMovementId = notesModal.querySelector('#modalMovementId');
+                    
+                    if (modalNotesContent) {
+                        // Decodificar HTML entities y mostrar el texto
+                        const textarea = document.createElement('textarea');
+                        textarea.innerHTML = notes || 'Sin notas';
+                        modalNotesContent.textContent = textarea.value;
+                    }
+                    
+                    if (modalMovementId) {
+                        modalMovementId.textContent = movementId || '';
+                    }
+                });
+            }
+        });
+    </script>
+}
 
 @functions {
     private string GetMovementTypeColor(string movementType)
