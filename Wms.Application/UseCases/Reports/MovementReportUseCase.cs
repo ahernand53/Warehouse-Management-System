@@ -64,7 +64,7 @@ public class MovementReportUseCase : IMovementReportUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error generating movement report");
-            return Result.Failure<IEnumerable<MovementReportDto>>($"Error generating report: {ex.Message}");
+            return Result.Failure<IEnumerable<MovementReportDto>>($"Error al generar el reporte: {ex.Message}");
         }
     }
 

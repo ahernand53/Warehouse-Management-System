@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/Wms.ASP.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container">
@@ -133,65 +133,72 @@
     </nav>
 </header>
 
-<div class="container py-4">
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-check-circle-fill me-3 fs-4 text-success"></i>
-                <div>
-                    <strong>¡Éxito!</strong>
-                    <div>@TempData["SuccessMessage"]</div>
+<div class="flex-grow-1">
+    <div class="container py-4">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-3 fs-4 text-success"></i>
+                    <div>
+                        <strong>¡Éxito!</strong>
+                        <div>@TempData["SuccessMessage"]</div>
+                    </div>
                 </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-    }
+        }
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-exclamation-triangle-fill me-3 fs-4 text-danger"></i>
-                <div>
-                    <strong>¡Error!</strong>
-                    <div>@TempData["ErrorMessage"]</div>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-exclamation-triangle-fill me-3 fs-4 text-danger"></i>
+                    <div>
+                        <strong>¡Error!</strong>
+                        <div>@TempData["ErrorMessage"]</div>
+                    </div>
                 </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-    }
+        }
 
-    @if (TempData["InfoMessage"] != null)
-    {
-        <div class="alert alert-info alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-info-circle-fill me-3 fs-4 text-info"></i>
-                <div>
-                    <strong>Información</strong>
-                    <div>@TempData["InfoMessage"]</div>
+        @if (TempData["InfoMessage"] != null)
+        {
+            <div class="alert alert-info alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-info-circle-fill me-3 fs-4 text-info"></i>
+                    <div>
+                        <strong>Información</strong>
+                        <div>@TempData["InfoMessage"]</div>
+                    </div>
                 </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-    }
+        }
 
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 </div>
 
-<footer class="bg-primary border-top py-4 mt-5">
-    <div class="container">
+<footer class="bg-primary border-top mt-auto">
+    <div class="container py-4">
         <div class="row align-items-center">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3 mb-md-0">
                 <div class="d-flex align-items-center text-white">
-                    <i class="bi bi-boxes me-2"></i>
-                    <span>&copy; 2025 - Sistema de Gestión de Almacén</span>
+                    <i class="bi bi-boxes me-2 fs-5"></i>
+                    <span class="fw-medium">&copy; 2025 - Sistema de Gestión de Almacén</span>
                 </div>
             </div>
             <div class="col-md-6 text-md-end">
-                <small style="color: white;">Desarrollado con <span style="color: red;">♥</span> Por RADE Studio S.A.S</small>
+                <small class="text-white-50 d-flex align-items-center justify-content-md-end">
+                    <span>Desarrollado con</span>
+                    <i class="bi bi-heart-fill text-danger mx-1"></i>
+                    <span>por</span>
+                    <span class="fw-semibold ms-1">RADE Studio S.A.S</span>
+                </small>
             </div>
         </div>
     </div>
