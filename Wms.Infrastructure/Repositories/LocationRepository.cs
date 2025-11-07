@@ -44,12 +44,13 @@ public class LocationRepository : Repository<Location>, ILocationRepository
     public async Task<IEnumerable<Location>> SearchAsync(string searchTerm,
         CancellationToken cancellationToken = default)
     {
+        var term = searchTerm.Trim().ToUpperInvariant();
         return await _dbSet
             .Include(l => l.Warehouse)
             .Include(l => l.ParentLocation)
-            .Where(l => l.Code.Contains(searchTerm) ||
-                        l.Name.Contains(searchTerm) ||
-                        l.Warehouse.Name.Contains(searchTerm))
+            .Where(l => l.Code.ToUpper().Contains(term) ||
+                        l.Name.ToUpper().Contains(term) ||
+                        l.Warehouse.Name.ToUpper().Contains(term))
             .OrderBy(l => l.Code)
             .ToListAsync(cancellationToken);
     }

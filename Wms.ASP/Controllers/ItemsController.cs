@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Wms.Application.DTOs;
 using Wms.Application.UseCases.Items;
 using Wms.ASP.Models;
+using CreateItemDto = Wms.Application.UseCases.Items.CreateItemDto;
 
 namespace Wms.ASP.Controllers;
 
@@ -171,6 +173,8 @@ public class ItemsController : Controller
                 model.Description ?? string.Empty,
                 0, // ShelfLifeDays - not implemented in the view model yet
                 model.Price,
+                model.RequiresLot,
+                model.RequiresSerial,
                 barcodes
             );
 

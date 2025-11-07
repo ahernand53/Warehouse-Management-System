@@ -1,9 +1,12 @@
 // Wms.WinForms/Forms/PickingForm.cs
 
 using Microsoft.Extensions.Logging;
+using Wms.Application.DTOs;
 using Wms.Application.UseCases.Items;
+using Wms.Application.UseCases.Locations;
 using Wms.Application.UseCases.Picking;
 using Wms.WinForms.Common;
+using Wms.WinForms.Controls;
 
 namespace Wms.WinForms.Forms;
 
@@ -11,14 +14,16 @@ public partial class PickingForm : Form
 {
     private const string CurrentUserId = "SYSTEM";
     private readonly IGetItemsUseCase _getItemsUseCase;
+    private readonly IGetLocationsUseCase _getLocationsUseCase;
     private readonly ILogger<PickingForm> _logger;
     private readonly IPickOrderUseCase _pickOrderUseCase;
 
     public PickingForm(IPickOrderUseCase pickOrderUseCase, IGetItemsUseCase getItemsUseCase,
-        ILogger<PickingForm> logger)
+        IGetLocationsUseCase getLocationsUseCase, ILogger<PickingForm> logger)
     {
         _pickOrderUseCase = pickOrderUseCase;
         _getItemsUseCase = getItemsUseCase;
+        _getLocationsUseCase = getLocationsUseCase;
         _logger = logger;
         InitializeComponent();
         SetupEventHandlers();
@@ -51,6 +56,88 @@ public partial class PickingForm : Form
         ModernUIHelper.StyleSecondaryButton(btnClear);
 
         txtBarcode.Focus();
+
+        // Setup autocomplete
+        SetupAutocomplete();
+    }
+
+    private void SetupAutocomplete()
+    {
+        // Autocomplete para barcode (productos)
+        SetupItemAutocomplete(txtBarcode);
+
+        // Autocomplete para fromLocation (ubicaciones pickables)
+        SetupLocationAutocomplete(txtFromLocation);
+    }
+
+    private void SetupItemAutocomplete(AutoCompleteTextBox textBox)
+    {
+        textBox.SearchFunction = async (searchTerm, ct) =>
+        {
+            var result = await _getItemsUseCase.ExecuteAsync(searchTerm, ct);
+            return result.IsSuccess ? result.Value : Enumerable.Empty<ItemDto>();
+        };
+
+        textBox.DisplayMember = (item) =>
+        {
+            if (item is ItemDto dto)
+                return $"{dto.Sku} - {dto.Name}";
+            return item.ToString() ?? string.Empty;
+        };
+
+        textBox.ValueMember = (item) =>
+        {
+            if (item is ItemDto dto)
+                return dto.Sku;
+            return item.ToString() ?? string.Empty;
+        };
+
+        textBox.ItemSelected += (sender, e) =>
+        {
+            // Cuando se selecciona un item, buscar por barcode para obtener toda la info
+            _ = Task.Run(async () =>
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(async () => await ProcessBarcodeAsync());
+                }
+                else
+                {
+                    await ProcessBarcodeAsync();
+                }
+            });
+        };
+    }
+
+    private void SetupLocationAutocomplete(AutoCompleteTextBox textBox)
+    {
+        textBox.SearchFunction = async (searchTerm, ct) =>
+        {
+            var result = await _getLocationsUseCase.GetPickableLocationsAsync(ct);
+            if (result.IsSuccess)
+            {
+                // Filtrar localmente por el término de búsqueda
+                var locations = result.Value.Where(l =>
+                    l.Code.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    l.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+                return locations;
+            }
+            return Enumerable.Empty<LocationDto>();
+        };
+
+        textBox.DisplayMember = (item) =>
+        {
+            if (item is LocationDto dto)
+                return $"{dto.Code} - {dto.Name}";
+            return item.ToString() ?? string.Empty;
+        };
+
+        textBox.ValueMember = (item) =>
+        {
+            if (item is LocationDto dto)
+                return dto.Code;
+            return item.ToString() ?? string.Empty;
+        };
     }
 
     private async void TxtBarcode_KeyPress(object? sender, KeyPressEventArgs e)

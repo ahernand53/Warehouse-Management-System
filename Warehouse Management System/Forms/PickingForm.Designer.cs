@@ -1,6 +1,7 @@
 // Wms.WinForms/Forms/PickingForm.Designer.cs
 
 using Wms.WinForms.Common;
+using Wms.WinForms.Controls;
 
 namespace Wms.WinForms.Forms
 {
@@ -12,11 +13,11 @@ namespace Wms.WinForms.Forms
         private Panel pnlMain;
         private Panel pnlItemInfo;
         private Label lblBarcodeTitle;
-        private TextBox txtBarcode;
+        private AutoCompleteTextBox txtBarcode;
         private Label lblItemInfo;
         private Panel pnlPickingDetails;
         private Label lblFromLocationTitle;
-        private TextBox txtFromLocation;
+        private AutoCompleteTextBox txtFromLocation;
         private Label lblQuantityTitle;
         private TextBox txtQuantity;
         private Label lblOrderNumberTitle;
@@ -50,11 +51,11 @@ namespace Wms.WinForms.Forms
             lblOrderNumberTitle = new Label();
             txtQuantity = new TextBox();
             lblQuantityTitle = new Label();
-            txtFromLocation = new TextBox();
+            txtFromLocation = new AutoCompleteTextBox();
             lblFromLocationTitle = new Label();
             pnlItemInfo = new Panel();
             lblItemInfo = new Label();
-            txtBarcode = new TextBox();
+            txtBarcode = new AutoCompleteTextBox();
             lblBarcodeTitle = new Label();
             pnlActions = new Panel();
             btnClear = new Button();

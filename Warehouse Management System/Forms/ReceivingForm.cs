@@ -4,8 +4,11 @@ using System.Media;
 using Microsoft.Extensions.Logging;
 using Wms.Application.DTOs;
 using Wms.Application.UseCases.Items;
+using Wms.Application.UseCases.Locations;
+using Wms.Application.UseCases.Lots;
 using Wms.Application.UseCases.Receiving;
 using Wms.WinForms.Common;
+using Wms.WinForms.Controls;
 
 namespace Wms.WinForms.Forms;
 
@@ -13,14 +16,20 @@ public partial class ReceivingForm : Form
 {
     private const string CurrentUserId = "SYSTEM"; // TODO: Implement proper user management
     private readonly IGetItemsUseCase _getItemsUseCase;
+    private readonly IGetLocationsUseCase _getLocationsUseCase;
+    private readonly IGetLotsUseCase _getLotsUseCase;
     private readonly ILogger<ReceivingForm> _logger;
     private readonly IReceiveItemUseCase _receiveItemUseCase;
+    private int? _currentItemId;
 
     public ReceivingForm(IReceiveItemUseCase receiveItemUseCase, IGetItemsUseCase getItemsUseCase,
+        IGetLocationsUseCase getLocationsUseCase, IGetLotsUseCase getLotsUseCase,
         ILogger<ReceivingForm> logger)
     {
         _receiveItemUseCase = receiveItemUseCase;
         _getItemsUseCase = getItemsUseCase;
+        _getLocationsUseCase = getLocationsUseCase;
+        _getLotsUseCase = getLotsUseCase;
         _logger = logger;
         InitializeComponent();
         SetupEventHandlers();
@@ -56,6 +65,122 @@ public partial class ReceivingForm : Form
 
         ModernUIHelper.StyleSuccessButton(btnReceive);
         ModernUIHelper.StyleSecondaryButton(btnClear);
+
+        // Setup autocomplete
+        SetupAutocomplete();
+    }
+
+    private void SetupAutocomplete()
+    {
+        // Autocomplete para barcode (productos)
+        SetupItemAutocomplete(txtBarcode);
+
+        // Autocomplete para location code
+        SetupLocationAutocomplete(txtLocationCode);
+
+        // Autocomplete para lot number (se configurará cuando haya un item seleccionado)
+        SetupLotAutocomplete(txtLotNumber);
+    }
+
+    private void SetupItemAutocomplete(AutoCompleteTextBox textBox)
+    {
+        textBox.SearchFunction = async (searchTerm, ct) =>
+        {
+            var result = await _getItemsUseCase.ExecuteAsync(searchTerm, ct);
+            return result.IsSuccess ? result.Value : Enumerable.Empty<ItemDto>();
+        };
+
+        textBox.DisplayMember = (item) =>
+        {
+            if (item is ItemDto dto)
+                return $"{dto.Sku} - {dto.Name}";
+            return item.ToString() ?? string.Empty;
+        };
+
+        textBox.ValueMember = (item) =>
+        {
+            if (item is ItemDto dto)
+                return dto.Sku;
+            return item.ToString() ?? string.Empty;
+        };
+
+        textBox.ItemSelected += (sender, e) =>
+        {
+            // Cuando se selecciona un item, buscar por barcode para obtener toda la info
+            _ = Task.Run(async () =>
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(async () => await ProcessBarcodeAsync());
+                }
+                else
+                {
+                    await ProcessBarcodeAsync();
+                }
+            });
+        };
+    }
+
+    private void SetupLocationAutocomplete(AutoCompleteTextBox textBox)
+    {
+        textBox.SearchFunction = async (searchTerm, ct) =>
+        {
+            var result = await _getLocationsUseCase.GetReceivableLocationsAsync(ct);
+            if (result.IsSuccess)
+            {
+                // Filtrar localmente por el término de búsqueda
+                var locations = result.Value.Where(l =>
+                    l.Code.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    l.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+                return locations;
+            }
+            return Enumerable.Empty<LocationDto>();
+        };
+
+        textBox.DisplayMember = (item) =>
+        {
+            if (item is LocationDto dto)
+                return $"{dto.Code} - {dto.Name}";
+            return item.ToString() ?? string.Empty;
+        };
+
+        textBox.ValueMember = (item) =>
+        {
+            if (item is LocationDto dto)
+                return dto.Code;
+            return item.ToString() ?? string.Empty;
+        };
+    }
+
+    private void SetupLotAutocomplete(AutoCompleteTextBox textBox)
+    {
+        textBox.SearchFunction = async (searchTerm, ct) =>
+        {
+            if (!_currentItemId.HasValue)
+                return Enumerable.Empty<LotDto>();
+
+            var result = await _getLotsUseCase.SearchAsync(searchTerm, _currentItemId.Value, ct);
+            return result.IsSuccess ? result.Value : Enumerable.Empty<LotDto>();
+        };
+
+        textBox.DisplayMember = (item) =>
+        {
+            if (item is LotDto dto)
+            {
+                var expiryInfo = dto.ExpiryDate.HasValue
+                    ? $" (Vence: {dto.ExpiryDate.Value:dd/MM/yyyy})"
+                    : string.Empty;
+                return $"{dto.Number}{expiryInfo}";
+            }
+            return item.ToString() ?? string.Empty;
+        };
+
+        textBox.ValueMember = (item) =>
+        {
+            if (item is LotDto dto)
+                return dto.Number;
+            return item.ToString() ?? string.Empty;
+        };
     }
 
     private async void TxtBarcode_KeyPress(object? sender, KeyPressEventArgs e)
@@ -124,6 +249,7 @@ public partial class ReceivingForm : Form
 
             // Populate item information
             var item = result.Value;
+            _currentItemId = item.Id; // Guardar el ID del item para búsqueda de lotes
             lblItemInfo.Text = $"SKU: {item.Sku}\nNombre: {item.Name}\nUOM: {item.UnitOfMeasure}";
             lblItemInfo.ForeColor = ModernUIHelper.Colors.Success;
 
@@ -145,6 +271,7 @@ public partial class ReceivingForm : Form
                 txtLotNumber.Visible = false;
                 lblExpiryDate.Visible = false;
                 dtpExpiryDate.Visible = false;
+                _currentItemId = null;
             }
 
             PlaySuccessSound();
@@ -291,6 +418,7 @@ public partial class ReceivingForm : Form
         lblExpiryDate.Visible = false;
         dtpExpiryDate.Visible = false;
         dtpExpiryDate.Value = DateTime.Today.AddDays(30); // Default 30 days from today
+        _currentItemId = null;
     }
 
     private void SetBusy(bool isBusy)

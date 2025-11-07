@@ -34,8 +34,15 @@ public record CreateItemDto(
 }
 
 public record UpdateItemDto(
+    int Id,
     string Name,
     string Description,
     int ShelfLifeDays = 0,
-    decimal? Price = null
-);
+    decimal? Price = null,
+    bool RequiresLot = false,
+    bool RequiresSerial = false,
+    List<string>? Barcodes = null
+)
+{
+    public List<string> Barcodes { get; init; } = Barcodes ?? new List<string>();
+}

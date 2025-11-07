@@ -68,16 +68,24 @@
                             <span asp-validation-for="ToLocationCode" class="text-danger"></span>
                         </div>
 
-                        <!-- Optional Fields -->
-                        <div class="col-md-6">
-                            <label for="LotNumber" class="form-label">Número de Lote</label>
+                        <!-- Optional Fields - Lot Number -->
+                        <div class="col-md-6" id="lotFieldContainer">
+                            <label for="LotNumber" class="form-label">
+                                Número de Lote 
+                                <span class="text-muted">(Opcional)</span>
+                            </label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-tag"></i>
                                 </span>
-                                <input asp-for="LotNumber" class="form-control" placeholder="Ingrese el número de lote (opcional)"/>
+                                <input asp-for="LotNumber" 
+                                       id="LotNumber" 
+                                       class="form-control" 
+                                       placeholder="Seleccione un producto primero o escriba un lote"
+                                       autocomplete="off"/>
                             </div>
                             <span asp-validation-for="LotNumber" class="text-danger"></span>
+                            <small class="form-text text-muted" id="lotHelpText">Seleccione un producto para ver los lotes disponibles.</small>
                         </div>
 
                         <div class="col-md-6">
@@ -145,13 +153,51 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/autocomplete.js" asp-append-version="true"></script>
     <script>
+        let itemAutocomplete, fromLocationAutocomplete, toLocationAutocomplete, lotAutocomplete;
+        let currentItemId = null;
+        let lotsCache = [];
+
         function clearForm() {
             $('form')[0].reset();
+            currentItemId = null;
+            lotsCache = [];
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+                lotAutocomplete = null;
+            }
+            $('#LotNumber').val('').prop('disabled', false);
+            $('#lotHelpText').html('Seleccione un producto para ver los lotes disponibles.');
             $('#ItemSku').focus();
         }
 
         $(document).ready(function() {
+            // Initialize autocomplete for ItemSku
+            itemAutocomplete = initAutocomplete('#ItemSku', {
+                apiUrl: '/api/api/items/search',
+                minLength: 2,
+                debounceMs: 400,
+                onSelect: function(result) {
+                    currentItemId = result.id;
+                    setupLotField(result.id);
+                }
+            });
+
+            // Initialize autocomplete for FromLocationCode
+            fromLocationAutocomplete = initAutocomplete('#FromLocationCode', {
+                apiUrl: '/api/api/locations/search',
+                minLength: 2,
+                debounceMs: 400
+            });
+
+            // Initialize autocomplete for ToLocationCode
+            toLocationAutocomplete = initAutocomplete('#ToLocationCode', {
+                apiUrl: '/api/api/locations/search',
+                minLength: 2,
+                debounceMs: 400
+            });
+
             // Focus on SKU input after successful submission
             @if (TempData["SuccessMessage"] != null)
             {
@@ -176,5 +222,70 @@
                 }
             });
         });
+
+        function setupLotField(itemId) {
+            $('#LotNumber').prop('disabled', false).val('');
+            $('#lotHelpText').html('<i class="bi bi-hourglass-split"></i> Cargando lotes...');
+            
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+                lotAutocomplete = null;
+            }
+            
+            loadLotsForItem(itemId).then(() => {
+                setupLotAutocomplete(itemId);
+            }).catch(error => {
+                console.error('Error in setupLotField:', error);
+                $('#lotHelpText').html('<i class="bi bi-exclamation-triangle"></i> Error al cargar lotes. Puede escribir el número de lote manualmente.');
+                $('#LotNumber').prop('disabled', false);
+            });
+        }
+
+        function loadLotsForItem(itemId) {
+            return fetch(`/api/api/lots/by-item/${itemId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    lotsCache = Array.isArray(data) ? data : [];
+                    if (lotsCache.length > 0) {
+                        $('#lotHelpText').html(`<i class="bi bi-check-circle text-success"></i> ${lotsCache.length} lote(s) disponible(s). Haga clic en el campo para ver la lista o escriba uno nuevo.`);
+                    } else {
+                        $('#lotHelpText').html(`<i class="bi bi-info-circle"></i> No hay lotes registrados para este producto. Puede escribir el número de lote manualmente.`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading lots:', error);
+                    lotsCache = [];
+                    $('#lotHelpText').html(`<i class="bi bi-exclamation-triangle text-warning"></i> Error al cargar lotes. Puede escribir el número de lote manualmente.`);
+                });
+        }
+
+        function setupLotAutocomplete(itemId) {
+            const lotInput = document.getElementById('LotNumber');
+            if (!lotInput) return;
+
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+                lotAutocomplete = null;
+            }
+
+            lotAutocomplete = initAutocomplete('#LotNumber', {
+                apiUrl: '/api/api/lots/search',
+                itemId: itemId,
+                minLength: 0,
+                debounceMs: 200,
+                maxResults: 50
+            });
+
+            if (!lotAutocomplete) {
+                $('#lotHelpText').html('<i class="bi bi-exclamation-triangle text-warning"></i> No se pudo inicializar el autocomplete. Puede escribir el lote manualmente.');
+            } else if (lotsCache.length > 0) {
+                $('#lotHelpText').html(`<i class="bi bi-check-circle text-success"></i> ${lotsCache.length} lote(s) disponible(s). Haga clic en el campo para ver la lista o escriba uno nuevo.`);
+            }
+        }
     </script>
 }

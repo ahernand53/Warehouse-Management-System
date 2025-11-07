@@ -6,6 +6,7 @@ using Serilog;
 using Wms.Application.UseCases.Inventory;
 using Wms.Application.UseCases.Items;
 using Wms.Application.UseCases.Locations;
+using Wms.Application.UseCases.Lots;
 using Wms.Application.UseCases.Picking;
 using Wms.Application.UseCases.Receiving;
 using Wms.Application.UseCases.Reports;
@@ -114,6 +115,9 @@ internal static class Program
 
                 // Application Services - Reports
                 services.AddScoped<IMovementReportUseCase, MovementReportUseCase>();
+
+                // Application Services - Lots
+                services.AddScoped<IGetLotsUseCase, GetLotsUseCase>();
 
                 // Forms - Main Navigation
                 services.AddTransient<MainForm>();

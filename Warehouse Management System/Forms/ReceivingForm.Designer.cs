@@ -1,6 +1,7 @@
 // Wms.WinForms/Forms/ReceivingForm.Designer.cs
 
 using Wms.WinForms.Common;
+using Wms.WinForms.Controls;
 
 namespace Wms.WinForms.Forms
 {
@@ -12,15 +13,15 @@ namespace Wms.WinForms.Forms
         private Panel pnlMain;
         private Panel pnlItemInfo;
         private Label lblBarcodeTitle;
-        private TextBox txtBarcode;
+        private AutoCompleteTextBox txtBarcode;
         private Label lblItemInfo;
         private Panel pnlReceivingDetails;
         private Label lblLocationTitle;
-        private TextBox txtLocationCode;
+        private AutoCompleteTextBox txtLocationCode;
         private Label lblQuantityTitle;
         private TextBox txtQuantity;
         private Label lblLotNumber;
-        private TextBox txtLotNumber;
+        private AutoCompleteTextBox txtLotNumber;
         private Label lblExpiryDate;
         private DateTimePicker dtpExpiryDate;
         private Label lblReferenceTitle;
@@ -54,15 +55,15 @@ namespace Wms.WinForms.Forms
             lblReferenceTitle = new Label();
             dtpExpiryDate = new DateTimePicker();
             lblExpiryDate = new Label();
-            txtLotNumber = new TextBox();
+            txtLotNumber = new AutoCompleteTextBox();
             lblLotNumber = new Label();
             txtQuantity = new TextBox();
             lblQuantityTitle = new Label();
-            txtLocationCode = new TextBox();
+            txtLocationCode = new AutoCompleteTextBox();
             lblLocationTitle = new Label();
             pnlItemInfo = new Panel();
             lblItemInfo = new Label();
-            txtBarcode = new TextBox();
+            txtBarcode = new AutoCompleteTextBox();
             lblBarcodeTitle = new Label();
             pnlActions = new Panel();
             btnClear = new Button();
@@ -196,6 +197,7 @@ namespace Wms.WinForms.Forms
             // 
             // txtLotNumber
             // 
+            txtLotNumber = new AutoCompleteTextBox();
             txtLotNumber.Location = new Point(20, 115);
             txtLotNumber.Name = "txtLotNumber";
             txtLotNumber.Size = new Size(200, 23);
@@ -234,6 +236,7 @@ namespace Wms.WinForms.Forms
             // 
             // txtLocationCode
             // 
+            txtLocationCode = new AutoCompleteTextBox();
             txtLocationCode.Location = new Point(20, 45);
             txtLocationCode.Name = "txtLocationCode";
             txtLocationCode.Size = new Size(200, 23);
@@ -279,6 +282,7 @@ namespace Wms.WinForms.Forms
             // 
             // txtBarcode
             // 
+            txtBarcode = new AutoCompleteTextBox();
             txtBarcode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtBarcode.Font = new Font("Segoe UI", 12F);
             txtBarcode.Location = new Point(20, 50);

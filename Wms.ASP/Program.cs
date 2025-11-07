@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Wms.Application.UseCases.Inventory;
 using Wms.Application.UseCases.Items;
 using Wms.Application.UseCases.Locations;
+using Wms.Application.UseCases.Lots;
 using Wms.Application.UseCases.Picking;
 using Wms.Application.UseCases.Receiving;
 using Wms.Application.UseCases.Reports;
@@ -112,6 +113,7 @@ public class Program
         builder.Services.AddScoped<IPutawayUseCase, PutawayUseCase>();
         builder.Services.AddScoped<IPickOrderUseCase, PickOrderUseCase>();
         builder.Services.AddScoped<IMovementReportUseCase, MovementReportUseCase>();
+        builder.Services.AddScoped<IGetLotsUseCase, GetLotsUseCase>();
 
         var app = builder.Build();
 

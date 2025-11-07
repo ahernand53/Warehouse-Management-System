@@ -56,14 +56,15 @@ public class ReceiveItemUseCase : IReceiveItemUseCase
 
             // Handle lot creation if required
             int? lotId = null;
-            if (item.RequiresLot && !string.IsNullOrWhiteSpace(request.LotNumber))
+            if (!string.IsNullOrWhiteSpace(request.LotNumber))
             {
                 var existingLot = await GetOrCreateLotAsync(item.Id, request.LotNumber,
                     request.ExpiryDate, request.ManufacturedDate, cancellationToken);
-                lotId = existingLot.Id;
                 
                 // Save the lot first to ensure it has an ID before creating the movement
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
+                
+                lotId = existingLot.Id;
             }
             else if (item.RequiresLot)
             {
@@ -120,8 +121,6 @@ public class ReceiveItemUseCase : IReceiveItemUseCase
 
         // Create new lot
         var lot = new Lot(lotNumber, itemId, expiryDate, manufacturedDate);
-        await _unitOfWork.Lots.AddAsync(lot, cancellationToken);
-        
-        return lot;
+        return await _unitOfWork.Lots.AddAsync(lot, cancellationToken);
     }
 }

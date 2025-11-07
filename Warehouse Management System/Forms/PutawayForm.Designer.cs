@@ -1,6 +1,7 @@
 // Wms.WinForms/Forms/PutawayForm.Designer.cs
 
 using Wms.WinForms.Common;
+using Wms.WinForms.Controls;
 
 namespace Wms.WinForms.Forms
 {
@@ -12,13 +13,13 @@ namespace Wms.WinForms.Forms
         private Panel pnlMain;
         private Panel pnlItemInfo;
         private Label lblBarcodeTitle;
-        private TextBox txtBarcode;
+        private AutoCompleteTextBox txtBarcode;
         private Label lblItemInfo;
         private Panel pnlPutawayDetails;
         private Label lblFromLocationTitle;
-        private TextBox txtFromLocation;
+        private AutoCompleteTextBox txtFromLocation;
         private Label lblToLocationTitle;
-        private TextBox txtToLocation;
+        private AutoCompleteTextBox txtToLocation;
         private Label lblQuantityTitle;
         private TextBox txtQuantity;
         private Label lblNotesTitle;
@@ -48,13 +49,13 @@ namespace Wms.WinForms.Forms
             lblNotesTitle = new Label();
             txtQuantity = new TextBox();
             lblQuantityTitle = new Label();
-            txtToLocation = new TextBox();
+            txtToLocation = new AutoCompleteTextBox();
             lblToLocationTitle = new Label();
-            txtFromLocation = new TextBox();
+            txtFromLocation = new AutoCompleteTextBox();
             lblFromLocationTitle = new Label();
             pnlItemInfo = new Panel();
             lblItemInfo = new Label();
-            txtBarcode = new TextBox();
+            txtBarcode = new AutoCompleteTextBox();
             lblBarcodeTitle = new Label();
             pnlActions = new Panel();
             btnClear = new Button();
