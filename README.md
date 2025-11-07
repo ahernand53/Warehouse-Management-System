@@ -474,7 +474,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**RADE Studio S.A.S**
+**Ahmed Osama** (RealAhmedOsama)
+
+**Co-desarrollado por:** RADE Studio S.A.S
 
 ## 🙏 Acknowledgments
 
