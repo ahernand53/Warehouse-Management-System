@@ -41,7 +41,7 @@ public class GetStockUseCase : IGetStockUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving all stock");
-            return Result.Failure<IEnumerable<StockDto>>($"Error retrieving stock: {ex.Message}");
+            return Result.Failure<IEnumerable<StockDto>>($"Error al obtener el stock: {ex.Message}");
         }
     }
 
@@ -57,7 +57,7 @@ public class GetStockUseCase : IGetStockUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving stock for item {ItemId}", itemId);
-            return Result.Failure<IEnumerable<StockDto>>($"Error retrieving stock: {ex.Message}");
+            return Result.Failure<IEnumerable<StockDto>>($"Error al obtener el stock: {ex.Message}");
         }
     }
 
@@ -73,7 +73,7 @@ public class GetStockUseCase : IGetStockUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving stock for location {LocationId}", locationId);
-            return Result.Failure<IEnumerable<StockDto>>($"Error retrieving stock: {ex.Message}");
+            return Result.Failure<IEnumerable<StockDto>>($"Error al obtener el stock: {ex.Message}");
         }
     }
 
@@ -102,7 +102,7 @@ public class GetStockUseCase : IGetStockUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving stock summary");
-            return Result.Failure<IEnumerable<StockSummaryDto>>($"Error retrieving stock summary: {ex.Message}");
+            return Result.Failure<IEnumerable<StockSummaryDto>>($"Error al obtener el resumen de stock: {ex.Message}");
         }
     }
 

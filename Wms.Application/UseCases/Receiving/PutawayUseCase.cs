@@ -37,23 +37,23 @@ public class PutawayUseCase : IPutawayUseCase
             // Validate item exists
             var item = await _unitOfWork.Items.GetBySkuAsync(request.ItemSku, cancellationToken);
             if (item == null)
-                return Result.Failure<ReceiptResultDto>($"Item with SKU '{request.ItemSku}' not found");
+                return Result.Failure<ReceiptResultDto>($"No se encontró el artículo con SKU '{request.ItemSku}'");
 
             // Validate from location
             var fromLocation = await _unitOfWork.Locations.GetByCodeAsync(request.FromLocationCode, cancellationToken);
             if (fromLocation == null)
-                return Result.Failure<ReceiptResultDto>($"From location '{request.FromLocationCode}' not found");
+                return Result.Failure<ReceiptResultDto>($"No se encontró la ubicación origen '{request.FromLocationCode}'");
 
             // Validate to location
             var toLocation = await _unitOfWork.Locations.GetByCodeAsync(request.ToLocationCode, cancellationToken);
             if (toLocation == null)
-                return Result.Failure<ReceiptResultDto>($"To location '{request.ToLocationCode}' not found");
+                return Result.Failure<ReceiptResultDto>($"No se encontró la ubicación destino '{request.ToLocationCode}'");
 
             if (!toLocation.IsReceivable)
-                return Result.Failure<ReceiptResultDto>($"Location '{request.ToLocationCode}' is not receivable");
+                return Result.Failure<ReceiptResultDto>($"La ubicación '{request.ToLocationCode}' no es recibible");
 
             if (!toLocation.IsActive)
-                return Result.Failure<ReceiptResultDto>($"Location '{request.ToLocationCode}' is inactive");
+                return Result.Failure<ReceiptResultDto>($"La ubicación '{request.ToLocationCode}' está inactiva");
 
             // Validate stock exists in from location
             var stock = await _unitOfWork.Stock.GetByItemAndLocationAsync(
@@ -61,12 +61,12 @@ public class PutawayUseCase : IPutawayUseCase
 
             if (stock == null)
                 return Result.Failure<ReceiptResultDto>(
-                    $"No stock found for item '{request.ItemSku}' in location '{request.FromLocationCode}'");
+                    $"No se encontró stock para el artículo '{request.ItemSku}' en la ubicación '{request.FromLocationCode}'");
 
             var requestedQuantity = new Quantity(request.Quantity);
             if (stock.GetAvailableQuantity() < requestedQuantity)
                 return Result.Failure<ReceiptResultDto>(
-                    $"Insufficient stock. Available: {stock.GetAvailableQuantity()}, Requested: {requestedQuantity}");
+                    $"Stock insuficiente. Disponible: {stock.GetAvailableQuantity()}, Solicitado: {requestedQuantity}");
 
             // Create the putaway movement
             var movement = await _stockMovementService.PutawayAsync(
@@ -90,7 +90,7 @@ public class PutawayUseCase : IPutawayUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during putaway for item {ItemSku}", request.ItemSku);
-            return Result.Failure<ReceiptResultDto>($"Error during putaway: {ex.Message}");
+            return Result.Failure<ReceiptResultDto>($"Error durante el almacenamiento: {ex.Message}");
         }
     }
 }

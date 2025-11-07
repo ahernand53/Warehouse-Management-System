@@ -55,21 +55,21 @@ public class PickOrderUseCase : IPickOrderUseCase
             // Validate item exists
             var item = await _unitOfWork.Items.GetBySkuAsync(request.ItemSku, cancellationToken);
             if (item == null)
-                return Result.Failure<PickResultDto>($"Item with SKU '{request.ItemSku}' not found");
+                return Result.Failure<PickResultDto>($"No se encontró el artículo con SKU '{request.ItemSku}'");
 
             if (!item.IsActive)
-                return Result.Failure<PickResultDto>($"Item '{request.ItemSku}' is inactive");
+                return Result.Failure<PickResultDto>($"El artículo '{request.ItemSku}' está inactivo");
 
             // Validate location exists and is pickable
             var location = await _unitOfWork.Locations.GetByCodeAsync(request.FromLocationCode, cancellationToken);
             if (location == null)
-                return Result.Failure<PickResultDto>($"Location '{request.FromLocationCode}' not found");
+                return Result.Failure<PickResultDto>($"No se encontró la ubicación '{request.FromLocationCode}'");
 
             if (!location.IsPickable)
-                return Result.Failure<PickResultDto>($"Location '{request.FromLocationCode}' is not pickable");
+                return Result.Failure<PickResultDto>($"La ubicación '{request.FromLocationCode}' no es despachable");
 
             if (!location.IsActive)
-                return Result.Failure<PickResultDto>($"Location '{request.FromLocationCode}' is inactive");
+                return Result.Failure<PickResultDto>($"La ubicación '{request.FromLocationCode}' está inactiva");
 
             // Validate stock availability
             var stock = await _unitOfWork.Stock.GetByItemAndLocationAsync(
@@ -77,12 +77,12 @@ public class PickOrderUseCase : IPickOrderUseCase
 
             if (stock == null)
                 return Result.Failure<PickResultDto>(
-                    $"No stock found for item '{request.ItemSku}' in location '{request.FromLocationCode}'");
+                    $"No se encontró stock para el artículo '{request.ItemSku}' en la ubicación '{request.FromLocationCode}'");
 
             var requestedQuantity = new Quantity(request.Quantity);
             if (stock.GetAvailableQuantity() < requestedQuantity)
                 return Result.Failure<PickResultDto>(
-                    $"Insufficient stock. Available: {stock.GetAvailableQuantity()}, Requested: {requestedQuantity}");
+                    $"Stock insuficiente. Disponible: {stock.GetAvailableQuantity()}, Solicitado: {requestedQuantity}");
 
             // Create the pick movement
             var movement = await _stockMovementService.PickAsync(
@@ -107,7 +107,7 @@ public class PickOrderUseCase : IPickOrderUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error picking item {ItemSku}", request.ItemSku);
-            return Result.Failure<PickResultDto>($"Error picking item: {ex.Message}");
+            return Result.Failure<PickResultDto>($"Error al despachar el artículo: {ex.Message}");
         }
     }
 }

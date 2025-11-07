@@ -45,7 +45,7 @@ public class GetItemsUseCase : IGetItemsUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving items");
-            return Result.Failure<IEnumerable<ItemDto>>($"Error retrieving items: {ex.Message}");
+            return Result.Failure<IEnumerable<ItemDto>>($"Error al obtener los artículos: {ex.Message}");
         }
     }
 
@@ -55,14 +55,14 @@ public class GetItemsUseCase : IGetItemsUseCase
         {
             var item = await _unitOfWork.Items.GetByIdAsync(id, cancellationToken);
             if (item == null)
-                return Result.Failure<ItemDto>($"Item with ID {id} not found");
+                return Result.Failure<ItemDto>($"No se encontró el artículo con ID {id}");
 
             return Result.Success(MapToDto(item));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving item {ItemId}", id);
-            return Result.Failure<ItemDto>($"Error retrieving item: {ex.Message}");
+            return Result.Failure<ItemDto>($"Error al obtener el artículo: {ex.Message}");
         }
     }
 
@@ -72,14 +72,14 @@ public class GetItemsUseCase : IGetItemsUseCase
         {
             var item = await _unitOfWork.Items.GetBySkuAsync(sku, cancellationToken);
             if (item == null)
-                return Result.Failure<ItemDto>($"Item with SKU '{sku}' not found");
+                return Result.Failure<ItemDto>($"No se encontró el artículo con SKU '{sku}'");
 
             return Result.Success(MapToDto(item));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving item {ItemSku}", sku);
-            return Result.Failure<ItemDto>($"Error retrieving item: {ex.Message}");
+            return Result.Failure<ItemDto>($"Error al obtener el artículo: {ex.Message}");
         }
     }
 
@@ -89,14 +89,14 @@ public class GetItemsUseCase : IGetItemsUseCase
         {
             var item = await _unitOfWork.Items.GetByBarcodeAsync(new Barcode(barcode), cancellationToken);
             if (item == null)
-                return Result.Failure<ItemDto>($"Item with barcode '{barcode}' not found");
+                return Result.Failure<ItemDto>($"No se encontró el artículo con código de barras '{barcode}'");
 
             return Result.Success(MapToDto(item));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving item by barcode {Barcode}", barcode);
-            return Result.Failure<ItemDto>($"Error retrieving item: {ex.Message}");
+            return Result.Failure<ItemDto>($"Error al obtener el artículo: {ex.Message}");
         }
     }
 

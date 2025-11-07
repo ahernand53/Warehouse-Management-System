@@ -46,19 +46,19 @@ public class StockAdjustmentUseCase : IStockAdjustmentUseCase
             // Validate item exists
             var item = await _unitOfWork.Items.GetBySkuAsync(request.ItemSku, cancellationToken);
             if (item == null)
-                return Result.Failure<ReceiptResultDto>($"Item with SKU '{request.ItemSku}' not found");
+                return Result.Failure<ReceiptResultDto>($"No se encontró el artículo con SKU '{request.ItemSku}'");
 
             // Validate location exists
             var location = await _unitOfWork.Locations.GetByCodeAsync(request.LocationCode, cancellationToken);
             if (location == null)
-                return Result.Failure<ReceiptResultDto>($"Location '{request.LocationCode}' not found");
+                return Result.Failure<ReceiptResultDto>($"No se encontró la ubicación '{request.LocationCode}'");
 
             if (!location.IsActive)
-                return Result.Failure<ReceiptResultDto>($"Location '{request.LocationCode}' is inactive");
+                return Result.Failure<ReceiptResultDto>($"La ubicación '{request.LocationCode}' está inactiva");
 
             // Validate reason is provided
             if (string.IsNullOrWhiteSpace(request.Reason))
-                return Result.Failure<ReceiptResultDto>("Adjustment reason is required");
+                return Result.Failure<ReceiptResultDto>("Se requiere una razón para el ajuste");
 
             // Create the adjustment
             var newQuantity = new Quantity(request.NewQuantity);
@@ -84,7 +84,7 @@ public class StockAdjustmentUseCase : IStockAdjustmentUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error adjusting stock for item {ItemSku}", request.ItemSku);
-            return Result.Failure<ReceiptResultDto>($"Error adjusting stock: {ex.Message}");
+            return Result.Failure<ReceiptResultDto>($"Error al ajustar el stock: {ex.Message}");
         }
     }
 }

@@ -43,7 +43,7 @@ public class GetLotsUseCase : IGetLotsUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error searching lots with term {SearchTerm}", searchTerm);
-            return Result.Failure<IEnumerable<LotDto>>($"Error searching lots: {ex.Message}");
+            return Result.Failure<IEnumerable<LotDto>>($"Error al buscar lotes: {ex.Message}");
         }
     }
 
@@ -58,7 +58,7 @@ public class GetLotsUseCase : IGetLotsUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving lots for item {ItemId}", itemId);
-            return Result.Failure<IEnumerable<LotDto>>($"Error retrieving lots: {ex.Message}");
+            return Result.Failure<IEnumerable<LotDto>>($"Error al obtener lotes: {ex.Message}");
         }
     }
 

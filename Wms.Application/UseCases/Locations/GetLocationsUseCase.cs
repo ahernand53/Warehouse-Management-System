@@ -45,7 +45,7 @@ public class GetLocationsUseCase : IGetLocationsUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving locations");
-            return Result.Failure<IEnumerable<LocationDto>>($"Error retrieving locations: {ex.Message}");
+            return Result.Failure<IEnumerable<LocationDto>>($"Error al obtener las ubicaciones: {ex.Message}");
         }
     }
 
@@ -60,7 +60,7 @@ public class GetLocationsUseCase : IGetLocationsUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving locations");
-            return Result.Failure<IEnumerable<LocationDto>>($"Error retrieving locations: {ex.Message}");
+            return Result.Failure<IEnumerable<LocationDto>>($"Error al obtener las ubicaciones: {ex.Message}");
         }
     }
 
@@ -102,14 +102,14 @@ public class GetLocationsUseCase : IGetLocationsUseCase
         {
             var location = await _unitOfWork.Locations.GetByCodeAsync(code, cancellationToken);
             if (location == null)
-                return Result.Failure<LocationDto>($"Location with code '{code}' not found");
+                return Result.Failure<LocationDto>($"No se encontró la ubicación con código '{code}'");
 
             return Result.Success(MapToDto(location));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving location {LocationCode}", code);
-            return Result.Failure<LocationDto>($"Error retrieving location: {ex.Message}");
+            return Result.Failure<LocationDto>($"Error al obtener la ubicación: {ex.Message}");
         }
     }
 

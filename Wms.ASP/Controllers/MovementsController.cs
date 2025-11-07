@@ -104,7 +104,7 @@ public class MovementsController : Controller
         {
             MovementType.Receipt => "Recepción",
             MovementType.Putaway => "Almacenamiento",
-            MovementType.Pick => "Picking",
+            MovementType.Pick => "Despacho",
             MovementType.Adjustment => "Ajuste",
             _ => type.ToString()
         };
