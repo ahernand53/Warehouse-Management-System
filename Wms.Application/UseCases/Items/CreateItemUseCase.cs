@@ -21,14 +21,7 @@ public record CreateItemDto(
     List<string> Barcodes = null!
 );
 
-public record UpdateItemDto(
-    int Id,
-    string Name,
-    string Description,
-    int ShelfLifeDays = 0,
-    decimal? Price = null,
-    List<string> Barcodes = null!
-);
+// UpdateItemDto is defined in Wms.Application.DTOs.ItemDto namespace
 
 public interface ICreateItemUseCase
 {
@@ -161,6 +154,10 @@ public class UpdateItemUseCase : IUpdateItemUseCase
 
             if (request.Price.HasValue || request.Price == null)
                 item.SetPrice(request.Price);
+
+            // Update tracking requirements
+            item.SetRequiresLot(request.RequiresLot);
+            item.SetRequiresSerial(request.RequiresSerial);
 
             // Update barcodes (simplified - remove all and add new ones)
             var currentBarcodes = item.Barcodes.ToList();

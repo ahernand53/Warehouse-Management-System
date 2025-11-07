@@ -125,12 +125,37 @@ public class ApiController : ControllerBase
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(term) || term.Length < 2)
+            if (!itemId.HasValue)
             {
                 return Ok(Array.Empty<object>());
             }
 
-            if (!itemId.HasValue)
+            // If term is empty or null, get all lots for the item
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                var allLotsResult = await _getLotsUseCase.GetByItemIdAsync(itemId.Value, cancellationToken);
+                
+                if (allLotsResult.IsFailure)
+                {
+                    return BadRequest(new { error = allLotsResult.Error });
+                }
+
+                var allLots = allLotsResult.Value.Select(lot => new
+                {
+                    id = lot.Id,
+                    number = lot.Number,
+                    expiryDate = lot.ExpiryDate?.ToString("dd/MM/yyyy"),
+                    displayText = lot.ExpiryDate.HasValue
+                        ? $"{lot.Number} (Vence: {lot.ExpiryDate.Value:dd/MM/yyyy})"
+                        : lot.Number,
+                    value = lot.Number
+                });
+
+                return Ok(allLots);
+            }
+
+            // If term is provided and has at least 2 characters, search
+            if (term.Length < 2)
             {
                 return Ok(Array.Empty<object>());
             }
@@ -142,7 +167,7 @@ public class ApiController : ControllerBase
                 return BadRequest(new { error = result.Error });
             }
 
-            var lots = result.Value.Take(20).Select(lot => new
+            var lots = result.Value.Take(50).Select(lot => new
             {
                 id = lot.Id,
                 number = lot.Number,
@@ -159,6 +184,38 @@ public class ApiController : ControllerBase
         {
             _logger.LogError(ex, "Error searching lots");
             return StatusCode(500, new { error = "Error al buscar lotes" });
+        }
+    }
+
+    [HttpGet("lots/by-item/{itemId}")]
+    public async Task<IActionResult> GetLotsByItem(int itemId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var result = await _getLotsUseCase.GetByItemIdAsync(itemId, cancellationToken);
+            
+            if (result.IsFailure)
+            {
+                return BadRequest(new { error = result.Error });
+            }
+
+            var lots = result.Value.Select(lot => new
+            {
+                id = lot.Id,
+                number = lot.Number,
+                expiryDate = lot.ExpiryDate?.ToString("dd/MM/yyyy"),
+                displayText = lot.ExpiryDate.HasValue
+                    ? $"{lot.Number} (Vence: {lot.ExpiryDate.Value:dd/MM/yyyy})"
+                    : lot.Number,
+                value = lot.Number
+            });
+
+            return Ok(lots);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving lots for item {ItemId}", itemId);
+            return StatusCode(500, new { error = "Error al obtener lotes" });
         }
     }
 }

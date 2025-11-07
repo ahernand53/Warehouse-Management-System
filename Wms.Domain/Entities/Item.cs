@@ -100,4 +100,16 @@ public class Item : Entity
         Price = price;
         SetUpdatedAt();
     }
+
+    public void SetRequiresLot(bool requiresLot)
+    {
+        RequiresLot = requiresLot;
+        SetUpdatedAt();
+    }
+
+    public void SetRequiresSerial(bool requiresSerial)
+    {
+        RequiresSerial = requiresSerial;
+        SetUpdatedAt();
+    }
 }

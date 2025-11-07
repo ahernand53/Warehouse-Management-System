@@ -12,6 +12,7 @@ public interface IGetLotsUseCase
 {
     Task<Result<IEnumerable<LotDto>>> SearchAsync(string searchTerm, int? itemId = null,
         CancellationToken cancellationToken = default);
+    Task<Result<IEnumerable<LotDto>>> GetByItemIdAsync(int itemId, CancellationToken cancellationToken = default);
 }
 
 public class GetLotsUseCase : IGetLotsUseCase
@@ -43,6 +44,21 @@ public class GetLotsUseCase : IGetLotsUseCase
         {
             _logger.LogError(ex, "Error searching lots with term {SearchTerm}", searchTerm);
             return Result.Failure<IEnumerable<LotDto>>($"Error searching lots: {ex.Message}");
+        }
+    }
+
+    public async Task<Result<IEnumerable<LotDto>>> GetByItemIdAsync(int itemId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var lots = await _unitOfWork.Lots.GetByItemIdAsync(itemId, cancellationToken);
+            var lotDtos = lots.Select(MapToDto);
+            return Result.Success(lotDtos);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving lots for item {ItemId}", itemId);
+            return Result.Failure<IEnumerable<LotDto>>($"Error retrieving lots: {ex.Message}");
         }
     }
 

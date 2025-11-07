@@ -5,7 +5,7 @@ using Wms.Application.DTOs;
 using Wms.Application.UseCases.Items;
 using Wms.WinForms.Common;
 using CreateItemDto = Wms.Application.UseCases.Items.CreateItemDto;
-using UpdateItemDto = Wms.Application.UseCases.Items.UpdateItemDto;
+using UpdateItemDto = Wms.Application.DTOs.UpdateItemDto;
 
 namespace Wms.WinForms.Forms;
 
@@ -162,6 +162,8 @@ public partial class ItemEditDialog : Form
                     txtDescription.Text.Trim(),
                     (int)numShelfLifeDays.Value,
                     numPrice.Value > 0 ? (decimal?)numPrice.Value : null,
+                    chkRequiresLot.Checked,
+                    chkRequiresSerial.Checked,
                     barcodes
                 );
 

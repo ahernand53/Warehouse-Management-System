@@ -23,6 +23,7 @@ public class LotRepository : Repository<Lot>, ILotRepository
     public async Task<IEnumerable<Lot>> GetByItemIdAsync(int itemId, CancellationToken cancellationToken = default)
     {
         return await _dbSet
+            .Include(l => l.Item)
             .Where(l => l.ItemId == itemId && l.IsActive)
             .OrderBy(l => l.Number)
             .ToListAsync(cancellationToken);

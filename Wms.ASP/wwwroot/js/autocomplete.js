@@ -42,8 +42,18 @@
             this.input.addEventListener('keydown', (e) => this.handleKeyDown(e));
             this.input.addEventListener('blur', () => this.handleBlur());
             this.input.addEventListener('focus', () => {
-                if (this.input.value.length >= this.options.minLength) {
+                // If minLength is 0, show all results on focus
+                if (this.options.minLength === 0 && !this.input.value) {
+                    this.search('');
+                } else if (this.input.value.length >= this.options.minLength) {
                     this.search(this.input.value);
+                }
+            });
+            
+            // Also trigger on click to show dropdown immediately
+            this.input.addEventListener('click', () => {
+                if (this.options.minLength === 0 && !this.input.value && !this.isOpen) {
+                    this.search('');
                 }
             });
 
@@ -115,7 +125,14 @@
             }
 
             if (value.length < this.options.minLength) {
-                this.close();
+                // If minLength is 0 and value is empty, show all results
+                if (this.options.minLength === 0 && value.length === 0) {
+                    this.debounceTimer = setTimeout(() => {
+                        this.search('');
+                    }, this.options.debounceMs);
+                } else {
+                    this.close();
+                }
                 return;
             }
 
@@ -126,10 +143,14 @@
         }
 
         async search(term) {
-            if (!term || term.length < this.options.minLength) {
+            // Allow empty term if minLength is 0
+            if (this.options.minLength > 0 && (!term || term.length < this.options.minLength)) {
                 this.close();
                 return;
             }
+            
+            // Normalize term (empty string is allowed if minLength is 0)
+            const searchTerm = term || '';
 
             try {
                 // Cancel previous request
@@ -138,7 +159,7 @@
                 }
                 this.abortController = new AbortController();
 
-                const url = this.buildSearchUrl(term);
+                const url = this.buildSearchUrl(searchTerm);
                 const response = await fetch(url, {
                     signal: this.abortController.signal,
                     headers: {
@@ -155,7 +176,7 @@
                 // Apply custom filter if provided
                 let results = Array.isArray(data) ? data : [];
                 if (this.options.filterResults) {
-                    results = this.options.filterResults(results, term);
+                    results = this.options.filterResults(results, searchTerm);
                 }
 
                 this.results = results.slice(0, this.options.maxResults);
@@ -169,11 +190,14 @@
         }
 
         buildSearchUrl(term) {
-            // Normalize search term (trim and ensure case-insensitive search is handled by backend)
-            const normalizedTerm = term.trim();
+            // Normalize search term (trim, empty string is allowed if minLength is 0)
+            const normalizedTerm = term ? term.trim() : '';
             
             const url = new URL(this.options.apiUrl, window.location.origin);
-            url.searchParams.set('term', normalizedTerm);
+            // Only set term parameter if it's not empty (to allow backend to return all results)
+            if (normalizedTerm) {
+                url.searchParams.set('term', normalizedTerm);
+            }
             
             // Add additional params from options
             if (this.options.itemId) {

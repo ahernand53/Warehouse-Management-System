@@ -1,12 +1,12 @@
 @model PickingViewModel
 @{
-    ViewData["Title"] = "Operaciones de Picking";
+    ViewData["Title"] = "Operaciones de Despacho";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">
         <i class="bi bi-box-arrow-up me-2 text-primary"></i>
-        Operaciones de Picking
+        Operaciones de Despacho
     </h2>
 </div>
 
@@ -16,7 +16,7 @@
             <div class="card-header bg-primary bg-opacity-10 border-bottom">
                 <h5 class="card-title mb-0 text-primary">
                     <i class="bi bi-box-arrow-up me-2"></i>
-                    Seleccionar Artículos para Pedidos
+                    Seleccionar Artículos para Despacho
                 </h5>
             </div>
             <div class="card-body">
@@ -32,7 +32,7 @@
                                 <input asp-for="OrderNumber" class="form-control" placeholder="Ingrese el número de orden" required autofocus/>
                             </div>
                             <span asp-validation-for="OrderNumber" class="text-danger"></span>
-                            <div class="form-text">Ingrese el número de orden o referencia para este picking</div>
+                            <div class="form-text">Ingrese el número de orden o referencia para este despacho</div>
                         </div>
 
                         <!-- Item Information -->
@@ -69,16 +69,24 @@
                             <span asp-validation-for="LocationCode" class="text-danger"></span>
                         </div>
 
-                        <!-- Optional Fields -->
-                        <div class="col-md-6">
-                            <label for="LotNumber" class="form-label">Número de Lote</label>
+                        <!-- Optional Fields - Lot Number -->
+                        <div class="col-md-6" id="lotFieldContainer">
+                            <label for="LotNumber" class="form-label">
+                                Número de Lote 
+                                <span class="text-muted">(Opcional)</span>
+                            </label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-tag"></i>
                                 </span>
-                                <input asp-for="LotNumber" class="form-control" placeholder="Ingrese el número de lote (si se requiere)"/>
+                                <input asp-for="LotNumber" 
+                                       id="LotNumber" 
+                                       class="form-control" 
+                                       placeholder="Seleccione un producto primero o escriba un lote"
+                                       autocomplete="off"/>
                             </div>
                             <span asp-validation-for="LotNumber" class="text-danger"></span>
+                            <small class="form-text text-muted" id="lotHelpText">Seleccione un producto para ver los lotes disponibles.</small>
                         </div>
 
                         <div class="col-md-6">
@@ -94,7 +102,7 @@
 
                         <div class="col-12">
                             <label for="Notes" class="form-label">Notas</label>
-                            <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Ingrese cualquier nota sobre esta operación de picking (opcional)"></textarea>
+                            <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Ingrese cualquier nota sobre esta operación de despacho (opcional)"></textarea>
                             <span asp-validation-for="Notes" class="text-danger"></span>
                         </div>
 
@@ -107,7 +115,7 @@
                                 </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-check-circle me-1"></i>
-                                    Completar Picking
+                                    Completar Despacho
                                 </button>
                             </div>
                         </div>
@@ -148,10 +156,20 @@
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script src="~/js/autocomplete.js" asp-append-version="true"></script>
     <script>
-        let itemAutocomplete, locationAutocomplete;
+        let itemAutocomplete, locationAutocomplete, lotAutocomplete;
+        let currentItemId = null;
+        let lotsCache = [];
 
         function clearForm() {
             $('form')[0].reset();
+            currentItemId = null;
+            lotsCache = [];
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+                lotAutocomplete = null;
+            }
+            $('#LotNumber').val('').prop('disabled', false);
+            $('#lotHelpText').html('Seleccione un producto para ver los lotes disponibles.');
             $('#OrderNumber').focus();
         }
 
@@ -160,7 +178,11 @@
             itemAutocomplete = initAutocomplete('#ItemSku', {
                 apiUrl: '/api/api/items/search',
                 minLength: 2,
-                debounceMs: 400
+                debounceMs: 400,
+                onSelect: function(result) {
+                    currentItemId = result.id;
+                    setupLotField(result.id);
+                }
             });
 
             // Initialize autocomplete for LocationCode (pickable locations)
@@ -195,5 +217,70 @@
                 }
             });
         });
+
+        function setupLotField(itemId) {
+            $('#LotNumber').prop('disabled', false).val('');
+            $('#lotHelpText').html('<i class="bi bi-hourglass-split"></i> Cargando lotes...');
+            
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+                lotAutocomplete = null;
+            }
+            
+            loadLotsForItem(itemId).then(() => {
+                setupLotAutocomplete(itemId);
+            }).catch(error => {
+                console.error('Error in setupLotField:', error);
+                $('#lotHelpText').html('<i class="bi bi-exclamation-triangle"></i> Error al cargar lotes. Puede escribir el número de lote manualmente.');
+                $('#LotNumber').prop('disabled', false);
+            });
+        }
+
+        function loadLotsForItem(itemId) {
+            return fetch(`/api/api/lots/by-item/${itemId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    lotsCache = Array.isArray(data) ? data : [];
+                    if (lotsCache.length > 0) {
+                        $('#lotHelpText').html(`<i class="bi bi-check-circle text-success"></i> ${lotsCache.length} lote(s) disponible(s). Haga clic en el campo para ver la lista o escriba uno nuevo.`);
+                    } else {
+                        $('#lotHelpText').html(`<i class="bi bi-info-circle"></i> No hay lotes registrados para este producto. Puede escribir el número de lote manualmente.`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading lots:', error);
+                    lotsCache = [];
+                    $('#lotHelpText').html(`<i class="bi bi-exclamation-triangle text-warning"></i> Error al cargar lotes. Puede escribir el número de lote manualmente.`);
+                });
+        }
+
+        function setupLotAutocomplete(itemId) {
+            const lotInput = document.getElementById('LotNumber');
+            if (!lotInput) return;
+
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+                lotAutocomplete = null;
+            }
+
+            lotAutocomplete = initAutocomplete('#LotNumber', {
+                apiUrl: '/api/api/lots/search',
+                itemId: itemId,
+                minLength: 0,
+                debounceMs: 200,
+                maxResults: 50
+            });
+
+            if (!lotAutocomplete) {
+                $('#lotHelpText').html('<i class="bi bi-exclamation-triangle text-warning"></i> No se pudo inicializar el autocomplete. Puede escribir el lote manualmente.');
+            } else if (lotsCache.length > 0) {
+                $('#lotHelpText').html(`<i class="bi bi-check-circle text-success"></i> ${lotsCache.length} lote(s) disponible(s). Haga clic en el campo para ver la lista o escriba uno nuevo.`);
+            }
+        }
     </script>
 }
