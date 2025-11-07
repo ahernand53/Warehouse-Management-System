@@ -38,21 +38,21 @@ public class ReceiveItemUseCase : IReceiveItemUseCase
             // Validate item exists
             var item = await _unitOfWork.Items.GetBySkuAsync(request.ItemSku, cancellationToken);
             if (item == null)
-                return Result.Failure<ReceiptResultDto>($"Item with SKU '{request.ItemSku}' not found");
+                return Result.Failure<ReceiptResultDto>($"No se encontró el artículo con SKU '{request.ItemSku}'");
 
             if (!item.IsActive)
-                return Result.Failure<ReceiptResultDto>($"Item '{request.ItemSku}' is inactive");
+                return Result.Failure<ReceiptResultDto>($"El artículo '{request.ItemSku}' está inactivo");
 
             // Validate location exists and is receivable
             var location = await _unitOfWork.Locations.GetByCodeAsync(request.LocationCode, cancellationToken);
             if (location == null)
-                return Result.Failure<ReceiptResultDto>($"Location '{request.LocationCode}' not found");
+                return Result.Failure<ReceiptResultDto>($"No se encontró la ubicación '{request.LocationCode}'");
 
             if (!location.IsReceivable)
-                return Result.Failure<ReceiptResultDto>($"Location '{request.LocationCode}' is not receivable");
+                return Result.Failure<ReceiptResultDto>($"La ubicación '{request.LocationCode}' no es recibible");
 
             if (!location.IsActive)
-                return Result.Failure<ReceiptResultDto>($"Location '{request.LocationCode}' is inactive");
+                return Result.Failure<ReceiptResultDto>($"La ubicación '{request.LocationCode}' está inactiva");
 
             // Handle lot creation if required
             int? lotId = null;
@@ -68,12 +68,12 @@ public class ReceiveItemUseCase : IReceiveItemUseCase
             }
             else if (item.RequiresLot)
             {
-                return Result.Failure<ReceiptResultDto>($"Item '{request.ItemSku}' requires a lot number");
+                return Result.Failure<ReceiptResultDto>($"El artículo '{request.ItemSku}' requiere un número de lote");
             }
 
             // Validate serial number requirement
             if (item.RequiresSerial && string.IsNullOrWhiteSpace(request.SerialNumber))
-                return Result.Failure<ReceiptResultDto>($"Item '{request.ItemSku}' requires a serial number");
+                return Result.Failure<ReceiptResultDto>($"El artículo '{request.ItemSku}' requiere un número de serie");
 
             // Create the receipt movement
             var quantity = new Quantity(request.Quantity);
@@ -98,7 +98,7 @@ public class ReceiveItemUseCase : IReceiveItemUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error receiving item {ItemSku}", request.ItemSku);
-            return Result.Failure<ReceiptResultDto>($"Error receiving item: {ex.Message}");
+            return Result.Failure<ReceiptResultDto>($"Error al recibir el artículo: {ex.Message}");
         }
     }
 

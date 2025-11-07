@@ -63,7 +63,7 @@ public class CreateLocationUseCase : ICreateLocationUseCase
             // Check if code already exists
             var existingLocation = await _unitOfWork.Locations.GetByCodeAsync(request.Code, cancellationToken);
             if (existingLocation != null)
-                return Result.Failure<LocationDto>($"Location with code '{request.Code}' already exists");
+                return Result.Failure<LocationDto>($"Ya existe una ubicación con el código '{request.Code}'");
 
             // Validate parent location if specified
             if (request.ParentLocationId.HasValue)
@@ -71,7 +71,7 @@ public class CreateLocationUseCase : ICreateLocationUseCase
                 var parentLocation =
                     await _unitOfWork.Locations.GetByIdAsync(request.ParentLocationId.Value, cancellationToken);
                 if (parentLocation == null)
-                    return Result.Failure<LocationDto>($"Parent location with ID {request.ParentLocationId} not found");
+                    return Result.Failure<LocationDto>($"No se encontró la ubicación padre con ID {request.ParentLocationId}");
             }
 
             // Create new location
@@ -97,7 +97,7 @@ public class CreateLocationUseCase : ICreateLocationUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error creating location {LocationCode}", request.Code);
-            return Result.Failure<LocationDto>($"Error creating location: {ex.Message}");
+            return Result.Failure<LocationDto>($"Error al crear la ubicación: {ex.Message}");
         }
     }
 
@@ -138,7 +138,7 @@ public class UpdateLocationUseCase : IUpdateLocationUseCase
         {
             var location = await _unitOfWork.Locations.GetByIdAsync(request.Id, cancellationToken);
             if (location == null)
-                return Result.Failure<LocationDto>($"Location with ID {request.Id} not found");
+                return Result.Failure<LocationDto>($"No se encontró la ubicación con ID {request.Id}");
 
             // Update location details
             location.UpdateDetails(request.Name);
@@ -158,7 +158,7 @@ public class UpdateLocationUseCase : IUpdateLocationUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating location {LocationId}", request.Id);
-            return Result.Failure<LocationDto>($"Error updating location: {ex.Message}");
+            return Result.Failure<LocationDto>($"Error al actualizar la ubicación: {ex.Message}");
         }
     }
 
@@ -199,13 +199,13 @@ public class DeleteLocationUseCase : IDeleteLocationUseCase
         {
             var location = await _unitOfWork.Locations.GetByIdAsync(locationId, cancellationToken);
             if (location == null)
-                return Result.Failure($"Location with ID {locationId} not found");
+                return Result.Failure($"No se encontró la ubicación con ID {locationId}");
 
             // Check if location has stock before deleting
             var stockItems = await _unitOfWork.Stock.GetByLocationIdAsync(locationId, cancellationToken);
             if (stockItems.Any(s => s.QuantityAvailable.Value > 0))
             {
-                return Result.Failure("Cannot delete location with existing stock. Please move stock first.");
+                return Result.Failure("No se puede eliminar una ubicación con stock existente. Por favor, mueva el stock primero.");
             }
 
             // Check if location has child locations
@@ -213,7 +213,7 @@ public class DeleteLocationUseCase : IDeleteLocationUseCase
             if (childLocations.Any())
             {
                 return Result.Failure(
-                    "Cannot delete location with child locations. Please delete child locations first.");
+                    "No se puede eliminar una ubicación con ubicaciones hijas. Por favor, elimine las ubicaciones hijas primero.");
             }
 
             // Soft delete by deactivating
@@ -228,7 +228,7 @@ public class DeleteLocationUseCase : IDeleteLocationUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error deleting location {LocationId}", locationId);
-            return Result.Failure($"Error deleting location: {ex.Message}");
+            return Result.Failure($"Error al eliminar la ubicación: {ex.Message}");
         }
     }
 }

@@ -60,7 +60,7 @@ public class CreateItemUseCase : ICreateItemUseCase
             // Check if SKU already exists
             var existingItem = await _unitOfWork.Items.GetBySkuAsync(request.Sku, cancellationToken);
             if (existingItem != null)
-                return Result.Failure<ItemDto>($"Item with SKU '{request.Sku}' already exists");
+                return Result.Failure<ItemDto>($"Ya existe un artículo con el SKU '{request.Sku}'");
 
             // Create new item
             var item = new Item(
@@ -102,7 +102,7 @@ public class CreateItemUseCase : ICreateItemUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error creating item {ItemSku}", request.Sku);
-            return Result.Failure<ItemDto>($"Error creating item: {ex.Message}");
+            return Result.Failure<ItemDto>($"Error al crear el artículo: {ex.Message}");
         }
     }
 
@@ -144,7 +144,7 @@ public class UpdateItemUseCase : IUpdateItemUseCase
         {
             var item = await _unitOfWork.Items.GetByIdAsync(request.Id, cancellationToken);
             if (item == null)
-                return Result.Failure<ItemDto>($"Item with ID {request.Id} not found");
+                return Result.Failure<ItemDto>($"No se encontró el artículo con ID {request.Id}");
 
             // Update item details
             item.UpdateDetails(request.Name, request.Description);
@@ -188,7 +188,7 @@ public class UpdateItemUseCase : IUpdateItemUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating item {ItemId}", request.Id);
-            return Result.Failure<ItemDto>($"Error updating item: {ex.Message}");
+            return Result.Failure<ItemDto>($"Error al actualizar el artículo: {ex.Message}");
         }
     }
 
@@ -230,13 +230,13 @@ public class DeleteItemUseCase : IDeleteItemUseCase
         {
             var item = await _unitOfWork.Items.GetByIdAsync(itemId, cancellationToken);
             if (item == null)
-                return Result.Failure($"Item with ID {itemId} not found");
+                return Result.Failure($"No se encontró el artículo con ID {itemId}");
 
             // Check if item has stock before deleting
             var stockItems = await _unitOfWork.Stock.GetByItemIdAsync(itemId, cancellationToken);
             if (stockItems.Any(s => s.QuantityAvailable.Value > 0))
             {
-                return Result.Failure("Cannot delete item with existing stock. Please adjust stock to zero first.");
+                return Result.Failure("No se puede eliminar un artículo con stock existente. Por favor, ajuste el stock a cero primero.");
             }
 
             // Soft delete by deactivating
@@ -251,7 +251,7 @@ public class DeleteItemUseCase : IDeleteItemUseCase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error deleting item {ItemId}", itemId);
-            return Result.Failure($"Error deleting item: {ex.Message}");
+            return Result.Failure($"Error al eliminar el artículo: {ex.Message}");
         }
     }
 }
