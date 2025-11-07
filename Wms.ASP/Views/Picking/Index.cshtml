@@ -146,13 +146,31 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/autocomplete.js" asp-append-version="true"></script>
     <script>
+        let itemAutocomplete, locationAutocomplete;
+
         function clearForm() {
             $('form')[0].reset();
             $('#OrderNumber').focus();
         }
 
         $(document).ready(function() {
+            // Initialize autocomplete for ItemSku
+            itemAutocomplete = initAutocomplete('#ItemSku', {
+                apiUrl: '/api/api/items/search',
+                minLength: 2,
+                debounceMs: 400
+            });
+
+            // Initialize autocomplete for LocationCode (pickable locations)
+            locationAutocomplete = initAutocomplete('#LocationCode', {
+                apiUrl: '/api/api/locations/search',
+                type: 'pickable',
+                minLength: 2,
+                debounceMs: 400
+            });
+
             // Focus on order number input after successful submission
             @if (TempData["SuccessMessage"] != null)
             {

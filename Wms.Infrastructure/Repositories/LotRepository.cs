@@ -34,5 +34,23 @@ public class LotRepository : Repository<Lot>, ILotRepository
         return await _dbSet
             .AnyAsync(l => l.ItemId == itemId && l.Number == normalizedLotNumber, cancellationToken);
     }
+
+    public async Task<IEnumerable<Lot>> SearchAsync(string searchTerm, int? itemId = null, CancellationToken cancellationToken = default)
+    {
+        var term = searchTerm.Trim().ToUpperInvariant();
+        var query = _dbSet
+            .Include(l => l.Item)
+            .Where(l => l.Number.Contains(term) && l.IsActive);
+
+        if (itemId.HasValue)
+        {
+            query = query.Where(l => l.ItemId == itemId.Value);
+        }
+
+        return await query
+            .OrderBy(l => l.Number)
+            .Take(20)
+            .ToListAsync(cancellationToken);
+    }
 }
 

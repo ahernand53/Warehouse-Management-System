@@ -145,13 +145,37 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/autocomplete.js" asp-append-version="true"></script>
     <script>
+        let itemAutocomplete, fromLocationAutocomplete, toLocationAutocomplete;
+
         function clearForm() {
             $('form')[0].reset();
             $('#ItemSku').focus();
         }
 
         $(document).ready(function() {
+            // Initialize autocomplete for ItemSku
+            itemAutocomplete = initAutocomplete('#ItemSku', {
+                apiUrl: '/api/api/items/search',
+                minLength: 2,
+                debounceMs: 400
+            });
+
+            // Initialize autocomplete for FromLocationCode
+            fromLocationAutocomplete = initAutocomplete('#FromLocationCode', {
+                apiUrl: '/api/api/locations/search',
+                minLength: 2,
+                debounceMs: 400
+            });
+
+            // Initialize autocomplete for ToLocationCode
+            toLocationAutocomplete = initAutocomplete('#ToLocationCode', {
+                apiUrl: '/api/api/locations/search',
+                minLength: 2,
+                debounceMs: 400
+            });
+
             // Focus on SKU input after successful submission
             @if (TempData["SuccessMessage"] != null)
             {

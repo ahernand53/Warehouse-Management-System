@@ -127,13 +127,47 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/autocomplete.js" asp-append-version="true"></script>
     <script>
+        let itemAutocomplete, locationAutocomplete, lotAutocomplete;
+        let currentItemId = null;
+
         function clearForm() {
             $('form')[0].reset();
+            currentItemId = null;
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+                lotAutocomplete = null;
+            }
             $('#ItemSku').focus();
         }
 
         $(document).ready(function() {
+            // Initialize autocomplete for ItemSku
+            itemAutocomplete = initAutocomplete('#ItemSku', {
+                apiUrl: '/api/api/items/search',
+                minLength: 2,
+                debounceMs: 400,
+                onSelect: function(result) {
+                    // When item is selected, we can optionally fetch item details
+                    // For now, just set the value
+                    currentItemId = result.id;
+                    
+                    // If lot field exists and item requires lot, enable lot autocomplete
+                    if ($('#LotNumber').length && result.requiresLot) {
+                        setupLotAutocomplete(result.id);
+                    }
+                }
+            });
+
+            // Initialize autocomplete for LocationCode (receivable locations)
+            locationAutocomplete = initAutocomplete('#LocationCode', {
+                apiUrl: '/api/api/locations/search',
+                type: 'receivable',
+                minLength: 2,
+                debounceMs: 400
+            });
+
             // Focus on SKU input after successful submission
             @if (TempData["SuccessMessage"] != null)
             {
@@ -158,5 +192,18 @@
                 }
             });
         });
+
+        function setupLotAutocomplete(itemId) {
+            if (lotAutocomplete) {
+                lotAutocomplete.destroy();
+            }
+            
+            lotAutocomplete = initAutocomplete('#LotNumber', {
+                apiUrl: '/api/api/lots/search',
+                itemId: itemId,
+                minLength: 2,
+                debounceMs: 400
+            });
+        }
     </script>
 }

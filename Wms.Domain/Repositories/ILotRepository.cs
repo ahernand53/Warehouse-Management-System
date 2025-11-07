@@ -9,5 +9,6 @@ public interface ILotRepository : IRepository<Lot>
     Task<Lot?> GetByNumberAndItemAsync(string lotNumber, int itemId, CancellationToken cancellationToken = default);
     Task<IEnumerable<Lot>> GetByItemIdAsync(int itemId, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(string lotNumber, int itemId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Lot>> SearchAsync(string searchTerm, int? itemId = null, CancellationToken cancellationToken = default);
 }
 
